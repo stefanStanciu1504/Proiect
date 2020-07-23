@@ -15,12 +15,22 @@ import pro.xstore.api.streaming.StreamingListener;
 import pro.xstore.api.sync.ServerData.ServerEnum;
 
 public class Example {
+	private LoginResponse loginResponse;
+	private SyncAPIConnector connector;
+
+	public LoginResponse getLoginResponse() {
+		return loginResponse;
+	}
+
+	public SyncAPIConnector getConnector() {
+		return connector;
+	}
+
 	public void runExample(ServerEnum server, Credentials credentials) throws Exception {
 		try {
-			SyncAPIConnector connector = new SyncAPIConnector(server);
-			LoginResponse loginResponse = APICommandFactory.executeLoginCommand(connector, credentials);
-			System.out.println(loginResponse);
-			if (loginResponse != null && loginResponse.getStatus())
+			connector = new SyncAPIConnector(server);
+			loginResponse = APICommandFactory.executeLoginCommand(connector, credentials);
+			if (loginResponse.getStatus())
 			{
 				StreamingListener sl = new StreamingListener() {
 					@Override
@@ -31,11 +41,6 @@ public class Example {
 					@Override
 					public void receiveTickRecord(STickRecord tickRecord) {
 						System.out.print("Stream tick record: " + tickRecord);
-					}
-
-					@Override
-					public void receiveBalanceRecord(SBalanceRecord balanceRecord) {
-						System.out.println("CEVA: " + balanceRecord);
 					}
 				};
 //				try {

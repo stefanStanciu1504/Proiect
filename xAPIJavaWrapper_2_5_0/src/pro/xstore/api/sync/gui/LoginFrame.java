@@ -1,12 +1,18 @@
 package pro.xstore.api.sync.gui;
 
+import pro.xstore.api.message.response.LoginResponse;
 import pro.xstore.api.sync.Credentials;
 import pro.xstore.api.sync.Example;
 import pro.xstore.api.sync.ServerData.ServerEnum;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import javax.print.DocFlavor;
 import javax.swing.*;
+
 
 public class LoginFrame extends JFrame implements ActionListener {
     static JTextField username;
@@ -69,6 +75,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         f.show();
 
     }
+
     // if the button is pressed
     public void actionPerformed(ActionEvent e)
     {
@@ -85,6 +92,17 @@ public class LoginFrame extends JFrame implements ActionListener {
                     ex.runExample(ServerEnum.DEMO, credentials);
                 } catch (Exception exception) {
                     exception.printStackTrace();
+                }
+                if (ex.getLoginResponse() == null) {
+                    notify.setText("Incorrect authentication!");
+                } else {
+                    TradeFrame tradeFrame = new TradeFrame(ex.getConnector());
+                    try {
+                        tradeFrame.run();
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                    f.dispose();
                 }
             }
             username.setText("");
