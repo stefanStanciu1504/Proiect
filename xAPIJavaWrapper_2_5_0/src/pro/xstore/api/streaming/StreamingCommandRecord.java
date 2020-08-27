@@ -26,7 +26,7 @@ public abstract class StreamingCommandRecord {
 
         String streamSessionId = getStreamSessionId();
         if (!streamSessionId.equals("")) {
-        	obj.put("streamSessionId", streamSessionId);
+            obj.put("streamSessionId", streamSessionId);
         }
         return obj.toJSONString();
     }

@@ -230,6 +230,7 @@ public class SyncAPIConnector extends StreamingConnector {
 			throw new APICommunicationException(ex.getMessage());
 		}
 		messageString = sb.toString();
+
 		return messageString;
 	}
 

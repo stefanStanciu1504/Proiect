@@ -13,17 +13,17 @@ public class StreamingListener implements StreamingListenerInterface {
 
 	@Override
 	public void receiveTradeRecord(STradeRecord tradeRecord) {
-		throw new UnsupportedOperationException("listener method not implemented for receiveTradeRecord(tradeRecord)");
+		System.out.println(tradeRecord);
 	}
 
 	@Override
-	public void receiveTickRecord(STickRecord tickRecord) {
-		throw new UnsupportedOperationException("listener method not implemented for receiveTickRecord(tickRecord)");
+	public STickRecord receiveTickRecord(STickRecord tickRecord) {
+		return tickRecord;
 	}
 
 	@Override
-	public void receiveBalanceRecord(SBalanceRecord balanceRecord) {
-		throw new UnsupportedOperationException("listener method not implemented for receiveBalanceRecord(balanceRecord)");
+	public SBalanceRecord receiveBalanceRecord(SBalanceRecord balanceRecord) {
+		return balanceRecord;
 	}
 
 	@Override

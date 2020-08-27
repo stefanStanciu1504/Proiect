@@ -48,6 +48,8 @@ public class StreamingConnector extends Connector {
 	protected Thread streamReaderThread;
 	protected String streamSessionId;
 	protected StreamingListener sl;
+	private static SBalanceRecord balance;
+	private static STickRecord tickRecord;
 	
 	public void connectStream(StreamingListener strl) throws UnknownHostException, IOException, APICommunicationException {
 		if (this.streamSessionId == null) {
@@ -149,6 +151,10 @@ public class StreamingConnector extends Connector {
 		writeMessageToStream(tps.toJSONString());
 	}
 
+	public STickRecord getTickRecord() {
+		return tickRecord;
+	}
+
 	/**
 	 * Unsubscribes prices of given symbols
 	 */
@@ -212,6 +218,10 @@ public class StreamingConnector extends Connector {
 	public void subscribeBalance() throws APICommunicationException {
 		BalanceSubscribe brs = new BalanceSubscribe(streamSessionId);
 		writeMessageToStream(brs.toJSONString());
+	}
+
+	public SBalanceRecord getBalanceRecord() {
+		return balance;
 	}
 	
 	/**
@@ -342,7 +352,9 @@ public class StreamingConnector extends Connector {
 		if (command != null) {
 			if (command.equals("tickPrices")) result = new STickRecord();
 			else if (command.equals("trade")) result = new STradeRecord();
-			else if (command.equals("balance")) result = new SBalanceRecord();
+			else if (command.equals("balance")) {
+				result = new SBalanceRecord();
+			}
 			else if (command.equals("tradeStatus")) result = new STradeStatusRecord();
 			else if (command.equals("profit")) result = new SProfitRecord();
 			else if (command.equals("news")) result = new SNewsRecord();
@@ -354,9 +366,11 @@ public class StreamingConnector extends Connector {
 
 	private void invokeListener(String command, BaseResponseRecord brr) {
 		if (command != null) {
-			if (command.equals("tickPrices")) sl.receiveTickRecord((STickRecord) brr);
+			if (command.equals("tickPrices")) {
+				tickRecord = sl.receiveTickRecord((STickRecord) brr);
+			}
 			else if (command.equals("trade")) sl.receiveTradeRecord((STradeRecord) brr);
-			else if (command.equals("balance")) sl.receiveBalanceRecord((SBalanceRecord) brr);
+			else if (command.equals("balance")) balance = sl.receiveBalanceRecord((SBalanceRecord) brr);
 			else if (command.equals("tradeStatus")) sl.receiveTradeStatusRecord((STradeStatusRecord) brr);
 			else if (command.equals("profit")) sl.receiveProfitRecord((SProfitRecord) brr);
 			else if (command.equals("news")) sl.receiveNewsRecord((SNewsRecord) brr);
@@ -371,15 +385,17 @@ public class StreamingConnector extends Connector {
 		String messageString = null;
 		boolean readDone = false;
 		boolean sockOK = true;
+
 		try {
 			while (streamConnected
 					&& !readDone
 					&& (sockOK = this.checkSocketStateStream(APISocketOperation.READ))
 					&& ((newline = streamReader.readLine()) != null)) {
-				
+
 				newline = newline.trim();
 				
 				if ("\n".equals(newline) || "".equals(newline)) {
+
 					messageString = sb.toString();
 					readDone = true;
 				} else {

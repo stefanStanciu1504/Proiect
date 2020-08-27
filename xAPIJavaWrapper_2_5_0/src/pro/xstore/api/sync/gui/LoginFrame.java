@@ -1,16 +1,15 @@
 package pro.xstore.api.sync.gui;
 
-import pro.xstore.api.message.response.LoginResponse;
 import pro.xstore.api.sync.Credentials;
 import pro.xstore.api.sync.Example;
 import pro.xstore.api.sync.ServerData.ServerEnum;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import javax.print.DocFlavor;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 import javax.swing.*;
 
 
@@ -22,6 +21,8 @@ public class LoginFrame extends JFrame implements ActionListener {
     static JButton b;
     static Box box = new Box(BoxLayout.Y_AXIS);
     static JPanel p = new JPanel();
+    static File credentials;
+    static boolean saveCredentials = false;
 
     public LoginFrame()
     {
@@ -59,9 +60,28 @@ public class LoginFrame extends JFrame implements ActionListener {
 
         p.add(Box.createRigidArea(new Dimension(0, 10)));
         b.setAlignmentX(Component.CENTER_ALIGNMENT);
+        try {
+            credentials = new File("./src/Saves/Creds/credentials.txt");
+            if (!credentials.createNewFile()) {
+                Scanner myReader = new Scanner(credentials);
+                while (myReader.hasNextLine()) {
+                    username.setText(myReader.nextLine());
+                    password.setText(myReader.nextLine());
+                }
+                myReader.close();
+            }
+        } catch (IOException ignored) {
+        }
 
+        JCheckBox checkBox = new JCheckBox("Save credentials");
+        checkBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        checkBox.addItemListener(e -> {
+            if(e.getStateChange() == ItemEvent.SELECTED) {
+                saveCredentials = true;
+            }
+        });
+        p.add(checkBox);
         p.add(b);
-        b.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         p.setBorder(BorderFactory.createTitledBorder("Login"));
 
@@ -71,8 +91,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
         f.add(box);
         f.setSize(480, 480);
-
-        f.show();
+        f.setVisible(true);
 
     }
 
@@ -96,6 +115,16 @@ public class LoginFrame extends JFrame implements ActionListener {
                 if (ex.getLoginResponse() == null) {
                     notify.setText("Incorrect authentication!");
                 } else {
+                    if (saveCredentials) {
+                        try {
+                            FileWriter myFile = new FileWriter("./src/Saves/Creds/credentials.txt");
+                            myFile.write(username.getText() + "\n");
+                            myFile.write(password.getText() + "\n");
+                            myFile.close();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
                     TradeFrame tradeFrame = new TradeFrame(ex.getConnector());
                     try {
                         tradeFrame.run();
