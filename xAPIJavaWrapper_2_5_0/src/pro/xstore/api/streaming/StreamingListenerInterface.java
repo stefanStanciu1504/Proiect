@@ -10,7 +10,8 @@ import pro.xstore.api.message.records.STradeRecord;
 import pro.xstore.api.message.records.STradeStatusRecord;
 
 public interface StreamingListenerInterface {
-    public void receiveTradeRecord(STradeRecord tradeRecord);
+    public STradeRecord receiveTradeRecord(STradeRecord tradeRecord);
+//    public void receiveTradeRecord(STradeRecord tradeRecord);
     public STickRecord receiveTickRecord(STickRecord tickRecord);
     public SBalanceRecord receiveBalanceRecord(SBalanceRecord balanceRecord);
     public void receiveNewsRecord(SNewsRecord newsRecord);

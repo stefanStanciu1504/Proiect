@@ -18,7 +18,6 @@ public class TradeRecord extends WrapperTradeRecord {
 		super.close_time = (Long) ob.get("close_time");
 		super.expiration = (Long) ob.get("expiration");
 		super.position = (Long) ob.get("position");
-		super.profit = Double.parseDouble(ob.get("profit").toString());
 		super.sl = Double.parseDouble(ob.get("sl").toString());
 		super.tp = Double.parseDouble(ob.get("tp").toString());
 	}

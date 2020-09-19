@@ -1,5 +1,7 @@
 package pro.xstore.api.sync.gui;
 
+import pro.xstore.api.message.records.TradeTransInfoRecord;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,15 +19,26 @@ public class LoadFrame extends JFrame {
     private static JFrame f;
     private static JComboBox<String> comboBox;
     private static JComboBox<String> tradeBox;
-    private static JTextField tradeDiff;
-    private static JTextField tradeTime;
-    private static JTextField tradeVolume;
+    private static JTextField TD;
+    private static JTextField tradeT;
+    private static JTextField tradeV;
+    private static JTextField SL;
+    private static JTextField TP;
+    private static JTextField maxT;
+    private static JTextField TS;
+    private static JTextField timeT;
 
-    public LoadFrame(JComboBox<String> new_comboBox, JTextField new_diff, JTextField new_time, JTextField new_volume) {
+    public LoadFrame(JComboBox<String> new_comboBox, JTextField new_diff, JTextField new_time,
+                     JTextField new_volume, JTextField new_SL, JTextField new_TP, JTextField new_maxT, JTextField new_TS, JTextField new_timeT) {
         tradeBox = new_comboBox;
-        tradeDiff = new_diff;
-        tradeTime = new_time;
-        tradeVolume = new_volume;
+        TD = new_diff;
+        tradeT = new_time;
+        tradeV = new_volume;
+        SL = new_SL;
+        TP = new_TP;
+        maxT = new_maxT;
+        TS = new_TS;
+        timeT = new_timeT;
     }
 
     public LinkedList<String> listFiles(String dir) throws IOException {
@@ -60,19 +73,25 @@ public class LoadFrame extends JFrame {
             Scanner myReader = null;
             try {
                 myReader = new Scanner(file);
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
+                while (myReader.hasNextLine()) {
+                    tradeBox.getEditor().setItem(myReader.nextLine());
+                    TD.setText(myReader.nextLine());
+                    tradeT.setText(myReader.nextLine());
+                    tradeV.setText(myReader.nextLine());
+                    if (myReader.hasNextLine()) {
+                        SL.setText(myReader.nextLine());
+                        TP.setText(myReader.nextLine());
+                        maxT.setText(myReader.nextLine());
+                        TS.setText(myReader.nextLine());
+                        timeT.setText(myReader.nextLine());
+                    }
+                }
+                myReader.close();
+                f.dispose();
+            } catch (Exception ignore) {
+                notify.setText("Please select a valid save");
             }
-            while (true) {
-                assert myReader != null;
-                if (!myReader.hasNextLine()) break;
-                tradeBox.getEditor().setItem(myReader.nextLine());
-                tradeDiff.setText(myReader.nextLine());
-                tradeTime.setText(myReader.nextLine());
-                tradeVolume.setText(myReader.nextLine());
-            }
-            myReader.close();
-            f.dispose();
+
         });
 
         LinkedList<String> loadOptions = new LinkedList<>();
@@ -99,5 +118,6 @@ public class LoadFrame extends JFrame {
         f.add(notify, BorderLayout.PAGE_START);
         f.setVisible(true);
         f.setSize(240, 90);
+        f.setLocationRelativeTo(null);
     }
 }

@@ -12,9 +12,13 @@ import pro.xstore.api.message.records.STradeStatusRecord;
 public class StreamingListener implements StreamingListenerInterface {
 
 	@Override
-	public void receiveTradeRecord(STradeRecord tradeRecord) {
-		System.out.println(tradeRecord);
+	public STradeRecord receiveTradeRecord(STradeRecord tradeRecord) {
+		return tradeRecord;
 	}
+//	@Override
+//	public void receiveTradeRecord(STradeRecord tradeRecord) {
+//		System.out.println(tradeRecord);
+//	}
 
 	@Override
 	public STickRecord receiveTickRecord(STickRecord tickRecord) {

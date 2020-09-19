@@ -50,6 +50,7 @@ public class StreamingConnector extends Connector {
 	protected StreamingListener sl;
 	private static SBalanceRecord balance;
 	private static STickRecord tickRecord;
+	private static STradeRecord tradeRecord;
 	
 	public void connectStream(StreamingListener strl) throws UnknownHostException, IOException, APICommunicationException {
 		if (this.streamSessionId == null) {
@@ -170,6 +171,10 @@ public class StreamingConnector extends Connector {
 	public void subscribeTrades() throws APICommunicationException {
 		TradeRecordsSubscribe trs = new TradeRecordsSubscribe(streamSessionId);
 		writeMessageToStream(trs.toJSONString());
+	}
+
+	public STradeRecord getTradeRecord() {
+		return tradeRecord;
 	}
 
 	/**
@@ -352,9 +357,7 @@ public class StreamingConnector extends Connector {
 		if (command != null) {
 			if (command.equals("tickPrices")) result = new STickRecord();
 			else if (command.equals("trade")) result = new STradeRecord();
-			else if (command.equals("balance")) {
-				result = new SBalanceRecord();
-			}
+			else if (command.equals("balance")) result = new SBalanceRecord();
 			else if (command.equals("tradeStatus")) result = new STradeStatusRecord();
 			else if (command.equals("profit")) result = new SProfitRecord();
 			else if (command.equals("news")) result = new SNewsRecord();
@@ -366,10 +369,8 @@ public class StreamingConnector extends Connector {
 
 	private void invokeListener(String command, BaseResponseRecord brr) {
 		if (command != null) {
-			if (command.equals("tickPrices")) {
-				tickRecord = sl.receiveTickRecord((STickRecord) brr);
-			}
-			else if (command.equals("trade")) sl.receiveTradeRecord((STradeRecord) brr);
+			if (command.equals("tickPrices")) tickRecord = sl.receiveTickRecord((STickRecord) brr);
+			else if (command.equals("trade")) tradeRecord = sl.receiveTradeRecord((STradeRecord) brr);
 			else if (command.equals("balance")) balance = sl.receiveBalanceRecord((SBalanceRecord) brr);
 			else if (command.equals("tradeStatus")) sl.receiveTradeStatusRecord((STradeStatusRecord) brr);
 			else if (command.equals("profit")) sl.receiveProfitRecord((SProfitRecord) brr);

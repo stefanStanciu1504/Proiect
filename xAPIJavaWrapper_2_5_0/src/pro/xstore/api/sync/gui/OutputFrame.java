@@ -4,13 +4,15 @@ import pro.xstore.api.message.records.STickRecord;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 
 public class OutputFrame extends JFrame {
-    private static JTextArea chatBox;
-    private static JFrame frame;
-    private static boolean pauseUpdate = false;
-    private static boolean filterUpdates = false;
+    private JTextArea chatBox;
+    private JFrame frame;
+    private boolean pauseUpdate = false;
+    private boolean filterUpdates = true;
 
     public OutputFrame() {
     }
@@ -19,15 +21,21 @@ public class OutputFrame extends JFrame {
         if (!pauseUpdate) {
             if (filterUpdates) {
                 if (!(obj instanceof STickRecord)) {
-                    chatBox.append(obj.toString());
+                    chatBox.append(obj.toString() + "\n");
                     chatBox.setCaretPosition(chatBox.getDocument().getLength() - 1);
                 }
             } else {
-                chatBox.append(obj.toString());
+                chatBox.append(obj.toString() + "\n");
                 chatBox.setCaretPosition(chatBox.getDocument().getLength() - 1);
             }
-
         }
+    }
+
+    public void reset() {
+        pauseUpdate = false;
+        filterUpdates = true;
+        if (chatBox != null)
+            chatBox.setText("");
     }
 
     public void run() {
@@ -36,8 +44,30 @@ public class OutputFrame extends JFrame {
         southPanel.setLayout(new GridBagLayout());
 
         JButton closeFrame = new JButton("Close");
-        JButton pause = new JButton("Pause");
-        JButton filter = new JButton("Filter Updates");
+        JToggleButton pause = new JToggleButton("Pause");
+        ItemListener itemListener = itemEvent -> {
+            int state = itemEvent.getStateChange();
+            if (state == ItemEvent.SELECTED) {
+                pause.setText("Continue");
+            } else {
+                pause.setText("Pause");
+            }
+            pauseUpdate = !pauseUpdate;
+        };
+        pause.addItemListener(itemListener);
+
+        JToggleButton filter = new JToggleButton("Show Price Updates");
+        ItemListener itemListener2 = itemEvent -> {
+            int state = itemEvent.getStateChange();
+            if (state == ItemEvent.SELECTED) {
+                filter.setText("Hide Price Updates");
+            } else {
+                filter.setText("Show Price Updates");
+            }
+            filterUpdates = !filterUpdates;
+        };
+        filter.addItemListener(itemListener2);
+
         chatBox = new JTextArea();
         chatBox.setEditable(false);
         JScrollPane scroll = new JScrollPane(chatBox);
@@ -61,13 +91,16 @@ public class OutputFrame extends JFrame {
         southPanel.add(closeFrame, right);
         
         closeFrame.addActionListener(e -> frame.dispose());
-        filter.addActionListener(e -> filterUpdates = !filterUpdates);
-        pause.addActionListener(e -> pauseUpdate = !pauseUpdate);
 
         frame.add(southPanel, BorderLayout.PAGE_END);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
-        frame.setSize(1320, 560);
+        frame.setSize(560, 560);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Point mid = new Point(screenSize.width / 2, screenSize.height / 2);
+        Point newLocation = new Point(mid.x + (frame.getWidth() / 2),
+                mid.y - (frame.getHeight() / 2));
+        frame.setLocation(newLocation);
     }
 
 }
