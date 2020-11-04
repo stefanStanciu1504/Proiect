@@ -30,6 +30,7 @@ public class Connector {
 				throw new APICommunicationException("Write error.");
 			}
 		} else {
+
 			throw new APICommunicationException("Write error. Socket state invalid.");
 		}
 	}

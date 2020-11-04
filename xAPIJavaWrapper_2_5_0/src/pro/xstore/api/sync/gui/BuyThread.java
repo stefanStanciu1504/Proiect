@@ -15,36 +15,43 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class BuyAlgh implements Runnable {
+public class BuyThread implements Runnable {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private static OutputFrame outputFrame;
-    private final SyncAPIConnector connector;
+    private SyncAPIConnector connector;
     private static PriceUpdates updates;
     private static final HashMap<Double, Long> buyPrices = new HashMap<>();
     private static final Set<Double> deleteBuyPrices = new HashSet<>();
-    private final double time;
-    private final double diff;
-    private static boolean bigMoneyTime;
-    private final double tradeVolume;
+    private double time;
+    private double diff;
+    private double tradeVolume;
     private double stopLoss;
     private double takeProfit;
     private static double delay = 0.25;
 
-    public BuyAlgh(SyncAPIConnector new_connector, OutputFrame new_outFrame, PriceUpdates new_updates,
-                   double new_time, double new_diff, boolean new_bigMoneyTime, double new_tradeVolume) {
+    public BuyThread() {
+    }
+
+    public void setMandatoryValues(SyncAPIConnector new_connector, OutputFrame new_outFrame, PriceUpdates new_updates,
+                   double new_time, double new_diff, double new_tradeVolume) {
         connector = new_connector;
         outputFrame = new_outFrame;
         updates = new_updates;
         time = new_time;
         diff = new_diff;
-        bigMoneyTime = new_bigMoneyTime;
         tradeVolume = new_tradeVolume;
     }
 
-    public void setOptional(double new_stopLoss, double new_takeProfit, double new_delay) {
+    public void setOptionals(double new_stopLoss, double new_takeProfit, double new_delay) {
         stopLoss = new_stopLoss;
         takeProfit = new_takeProfit;
         delay = new_delay;
+    }
+
+    public void setOptionalToDefault() {
+        stopLoss = 0.0;
+        takeProfit = 0.0;
+        delay = 0.25;
     }
 
     public void start() {
@@ -58,7 +65,7 @@ public class BuyAlgh implements Runnable {
 
     public TradeTransInfoRecord makeBuyInfo(STickRecord aux, long value) {
         TradeTransInfoRecord info;
-        if (!bigMoneyTime) {
+        if (!MainThread.bigMoneyTime.get()) {
             info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.BUY, TRADE_TRANSACTION_TYPE.OPEN,
                     aux.getAsk(), 0.0, 0.0, aux.getSymbol(), tradeVolume, (long)0.0, "", value);
         } else {
@@ -84,44 +91,45 @@ public class BuyAlgh implements Runnable {
                 for (HashMap.Entry<Double, Long> entry : buyPrices.entrySet()) {
                     double key = entry.getKey();
                     long value = entry.getValue();
-                    if (System.currentTimeMillis() >= TradeThread.atomicDelay.get()) {
-                        if (aux.getAsk() - key >= diff) {
-                            synchronized (this) {
-                                TradeTransInfoRecord info = makeBuyInfo(aux, value);
-                                TradeTransactionResponse tradeResponse = null;
-                                try {
-                                    tradeResponse = APICommandFactory.executeTradeTransactionCommand(connector, info);
-                                } catch (Exception ignore) {
-                                }
-                                if (tradeResponse != null) {
-                                    TradeTransactionStatusResponse tradeStatus = null;
+                    if (!MainThread.blockTransactions.get()) {
+                        if (System.currentTimeMillis() >= MainThread.atomicDelay.get()) {
+                            if (aux.getAsk() - key >= diff) {
+                                boolean isLockAcquired = MainThread.lock.tryLock();
+                                if (isLockAcquired) {
                                     try {
-                                        tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
-                                                tradeResponse.getOrder());
-                                    } catch (Exception ignore) {
-                                    }
-                                    assert tradeStatus != null;
-                                    if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.REJECTED)) {
-                                        if (tradeStatus.getMessage().equals("Not enough money")) {
-                                            outputFrame.updateOutput("No funds left.");
-                                            this.stop();
-                                            break;
-                                        } else {
-                                            deleteBuyPrices.add(key);
-                                            continue;
+                                        TradeTransInfoRecord info = makeBuyInfo(aux, value);
+                                        TradeTransactionResponse tradeResponse = null;
+                                        try {
+                                            tradeResponse = APICommandFactory.executeTradeTransactionCommand(connector, info);
+                                        } catch (Exception ignore) {
                                         }
-                                    } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
-                                        outputFrame.updateOutput(tradeStatus);
+                                        deleteBuyPrices.add(key);
+                                        if (tradeResponse != null) {
+                                            TradeTransactionStatusResponse tradeStatus = null;
+                                            try {
+                                                tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
+                                                        tradeResponse.getOrder());
+                                            } catch (Exception ignore) {
+                                            }
+                                            if (tradeStatus != null) {
+                                                if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.REJECTED)) {
+                                                    if (tradeStatus.getMessage().equals("Not enough money")) {
+                                                        outputFrame.updateOutput("No funds left.");
+                                                        MainThread.stopTransactions();
+                                                        break;
+                                                    }
+                                                } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
+                                                    outputFrame.updateOutput(tradeStatus);
+                                                    long curr_t = System.currentTimeMillis();
+                                                    MainThread.atomicDelay.set((long) (curr_t + (delay * 1000)));
+                                                }
+                                            }
+                                        }
+                                    } finally {
+                                        MainThread.lock.unlock();
                                     }
-
-                                    deleteBuyPrices.add(key);
-
-                                    long curr_t = System.currentTimeMillis();
-                                    TradeThread.atomicDelay.set((long) (curr_t + (delay * 1000)));
-                                    System.out.println(TradeThread.atomicDelay.get());
                                 }
                             }
-
                         }
                     }
                     if (value <= System.currentTimeMillis()) {

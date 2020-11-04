@@ -1,10 +1,8 @@
 package pro.xstore.api.sync.gui;
 
-import pro.xstore.api.message.records.TradeTransInfoRecord;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -68,9 +66,9 @@ public class LoadFrame extends JFrame {
 
         close.addActionListener(e -> f.dispose());
         load.addActionListener(e -> {
-            String aux = "./src/Saves/" + comboBox.getEditor().getItem() + ".txt";
+            String aux = "../../../src/Saves/" + comboBox.getEditor().getItem() + ".txt";
             File file = new File(aux);
-            Scanner myReader = null;
+            Scanner myReader;
             try {
                 myReader = new Scanner(file);
                 while (myReader.hasNextLine()) {
@@ -96,7 +94,7 @@ public class LoadFrame extends JFrame {
 
         LinkedList<String> loadOptions = new LinkedList<>();
         loadOptions.add("");
-        loadOptions.addAll(listFiles("./src/Saves"));
+        loadOptions.addAll(listFiles("../../../src/Saves"));
         comboBox = new JComboBox<>(loadOptions.toArray(new String[0]));
         comboBox.setMaximumRowCount(10);
         comboBox.setPreferredSize(comboBox.getPreferredSize());

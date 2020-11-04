@@ -15,7 +15,7 @@ public class SaveFrame extends JFrame {
     private final double diff;
     private final double time;
     private final double volume;
-    private boolean bigDickToggle = false;
+    private boolean optionalToggle = false;
     private double SL = Double.MIN_VALUE;
     private double TP = Double.MIN_VALUE;
     private double maxT = Double.MIN_VALUE;
@@ -30,12 +30,42 @@ public class SaveFrame extends JFrame {
     }
 
     public void saveBigDickOptions(double new_SL, double new_TP, double new_maxT, double new_TS, double new_timeT) {
-        bigDickToggle = !bigDickToggle;
+        optionalToggle = !optionalToggle;
         SL = new_SL;
         TP = new_TP;
         maxT = new_maxT;
         TS =  new_TS;
         timeT = new_timeT;
+    }
+
+    public void writeOptionals(FileWriter myFile, DecimalFormat df) throws IOException {
+        if (optionalToggle) {
+            if (SL != Double.MIN_VALUE) {
+                myFile.write(df.format(SL) + "\n");
+            } else {
+                myFile.write("\n");
+            }
+            if (TP != Double.MIN_VALUE) {
+                myFile.write(df.format(TP) + "\n");
+            } else {
+                myFile.write("\n");
+            }
+            if (maxT != Double.MIN_VALUE) {
+                myFile.write(df.format(maxT) + "\n");
+            } else {
+                myFile.write("\n");
+            }
+            if (TS != Double.MIN_VALUE) {
+                myFile.write(df.format(TS) + "\n");
+            } else {
+                myFile.write("\n");
+            }
+            if (timeT != Double.MIN_VALUE) {
+                myFile.write(df.format(timeT) + "\n");
+            } else {
+                myFile.write("\n");
+            }
+        }
     }
 
     public void run() {
@@ -55,7 +85,7 @@ public class SaveFrame extends JFrame {
         save.addActionListener(e -> {
             if (!fileName.getText().equals("")) {
                 try {
-                    String aux = "./src/Saves/" + fileName.getText() + ".txt";
+                    String aux = "../../../src/Saves/" + fileName.getText() + ".txt";
                     file = new File(aux);
                     file.createNewFile();
                     FileWriter myFile = new FileWriter(file);
@@ -65,13 +95,7 @@ public class SaveFrame extends JFrame {
                     myFile.write(df.format(diff) + "\n");
                     myFile.write(df.format(time) + "\n");
                     myFile.write(df.format(volume) + "\n");
-                    if (bigDickToggle) {
-                        myFile.write(df.format(SL) + "\n");
-                        myFile.write(df.format(TP) + "\n");
-                        myFile.write(df.format(maxT) + "\n");
-                        myFile.write(df.format(TS) + "\n");
-                        myFile.write(df.format(timeT) + "\n");
-                    }
+                    writeOptionals(myFile, df);
                     myFile.close();
             } catch(IOException ignored){
             }

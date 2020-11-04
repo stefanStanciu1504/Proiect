@@ -38,19 +38,23 @@ public class OutputFrame extends JFrame {
             chatBox.setText("");
     }
 
+    public void closeFrame() {
+        frame.dispose();
+    }
+
     public void run() {
         frame = new JFrame("Output");
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new GridBagLayout());
 
         JButton closeFrame = new JButton("Close");
-        JToggleButton pause = new JToggleButton("Pause");
+        JToggleButton pause = new JToggleButton("Pause Output");
         ItemListener itemListener = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
-                pause.setText("Continue");
+                pause.setText("Resume Output");
             } else {
-                pause.setText("Pause");
+                pause.setText("Pause Output");
             }
             pauseUpdate = !pauseUpdate;
         };

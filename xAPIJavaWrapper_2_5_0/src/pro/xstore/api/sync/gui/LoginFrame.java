@@ -61,7 +61,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         p.add(Box.createRigidArea(new Dimension(0, 10)));
         b.setAlignmentX(Component.CENTER_ALIGNMENT);
         try {
-            credentials = new File("./src/Saves/Creds/credentials.txt");
+            credentials = new File("../../../src/Saves/Creds/credentials.txt");
             if (!credentials.createNewFile()) {
                 Scanner myReader = new Scanner(credentials);
                 while (myReader.hasNextLine()) {
@@ -117,7 +117,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                 } else {
                     if (saveCredentials) {
                         try {
-                            FileWriter myFile = new FileWriter("./src/Saves/Creds/credentials.txt");
+                            FileWriter myFile = new FileWriter("../../../src/Saves/Creds/credentials.txt");
                             myFile.write(username.getText() + "\n");
                             myFile.write(password.getText() + "\n");
                             myFile.close();

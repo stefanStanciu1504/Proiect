@@ -33,8 +33,6 @@ public class Example {
 				connector.subscribeBalance();
 				Thread.sleep(250);
 				SBalanceRecord balance = connector.getBalanceRecord();
-				if (balance != null)
-					System.out.println(balance.getBalance());
 				connector.unsubscribeBalance();
 			}
 		} catch (Exception ex) {

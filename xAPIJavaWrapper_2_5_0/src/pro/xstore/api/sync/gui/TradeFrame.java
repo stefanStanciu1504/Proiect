@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 
 public class TradeFrame extends JFrame {
     private final SyncAPIConnector connector;
@@ -52,7 +49,7 @@ public class TradeFrame extends JFrame {
     private double maxTransactions_value = Double.MIN_VALUE;
     private double trailingStop_value = Double.MIN_VALUE;
     private double timeTransaction_value = Double.MIN_VALUE;
-    private static final TradeThread trader = new TradeThread();
+    private static final MainThread trader = new MainThread();
     private static String aux = null;
 
     public TradeFrame(SyncAPIConnector aux_connector) {
@@ -61,28 +58,70 @@ public class TradeFrame extends JFrame {
 
     public void setValues(JTextField text) {
         if(text.equals(priceDiff)) {
-            priceDiff_value = Double.parseDouble(text.getText());
+            try {
+                priceDiff_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                priceDiff_value = Double.MIN_VALUE;
+                priceDiff_label.setText("Insert a number");
+                priceDiff_label.setForeground(Color.red);
+            }
         } else if (text.equals(timeInterval)) {
-            timeInterval_value = Double.parseDouble(text.getText());
+            try {
+                timeInterval_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                timeInterval_value = Double.MIN_VALUE;
+                timeInterval_label.setText("Insert a number");
+                timeInterval_label.setForeground(Color.red);
+            }
         } else if (text.equals(tradeVolume)) {
-            tradeVolume_value = Double.parseDouble(text.getText());
+            try {
+                tradeVolume_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                tradeVolume_value = Double.MIN_VALUE;
+                tradeVolume_label.setText("Insert a number");
+                tradeVolume_label.setForeground(Color.red);
+            }
         } else if (text.equals(stopLoss)) {
-            stopLoss_value = Double.parseDouble(text.getText());
+            try {
+                stopLoss_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                stopLoss_value = Double.MIN_VALUE;
+                stopLoss_label.setText("Insert a number");
+                stopLoss_label.setForeground(Color.red);
+            }
         } else if (text.equals(takeProfit)) {
-            takeProfit_value = Double.parseDouble(text.getText());
+            try {
+                takeProfit_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                takeProfit_value = Double.MIN_VALUE;
+                takeProfit_label.setText("Insert a number");
+                takeProfit_label.setForeground(Color.red);
+            }
         } else if (text.equals(maxTransactions)) {
-            maxTransactions_value = Double.parseDouble(text.getText());
+            try {
+                maxTransactions_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                maxTransactions_value = Double.MIN_VALUE;
+                maxTransactions_label.setText("Insert a number");
+                maxTransactions_label.setForeground(Color.red);
+            }
         } else if (text.equals(trailingStop)) {
-            trailingStop_value = Double.parseDouble(text.getText());
+            try {
+                trailingStop_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                trailingStop_value = Double.MIN_VALUE;
+                trailingStop_label.setText("Insert a number");
+                trailingStop_label.setForeground(Color.red);
+            }
         } else if (text.equals(timeTransaction)) {
-            timeTransaction_value = Double.parseDouble(text.getText());
+            try {
+                timeTransaction_value = Double.parseDouble(text.getText());
+            } catch (Exception e) {
+                timeTransaction_value = Double.MIN_VALUE;
+                timeTransaction_label.setText("Insert a number");
+                timeTransaction_label.setForeground(Color.red);
+            }
         }
-    }
-
-    public boolean checkBigDick() {
-        return stopLoss_value != Double.MIN_VALUE && takeProfit_value != Double.MIN_VALUE &&
-                maxTransactions_value != Double.MIN_VALUE && trailingStop_value != Double.MIN_VALUE &&
-                timeTransaction_value != Double.MIN_VALUE;
     }
 
     public void setMarket() {
@@ -175,60 +214,70 @@ public class TradeFrame extends JFrame {
         timeTransaction.setEditable(true);
     }
 
-
-    public void addListener(JTextField field, JLabel label) {
-        field.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                warn();
-            }
-            public void removeUpdate(DocumentEvent e) {
-                warn();
-            }
-            public void insertUpdate(DocumentEvent e) {
-                warn();
-            }
-
-            public void warn() {
-                if (field.equals(tradeVolume)) {
-                    takeTransaction(field, label);
-                }
-                else {
-                    takeValue(field, label);
-                }
-            }
-        });
+    public boolean getOptionalValues() {
+        setValues(stopLoss);
+        setValues(takeProfit);
+        setValues(maxTransactions);
+        setValues(trailingStop);
+        setValues(timeTransaction);
+        return stopLoss_value != Double.MIN_VALUE && takeProfit_value != Double.MIN_VALUE
+                && maxTransactions_value != Double.MIN_VALUE && trailingStop_value != Double.MIN_VALUE
+                && timeTransaction_value != Double.MIN_VALUE;
     }
 
-    public void takeTransaction(JTextField text, JLabel label) {
-        try {
-            setValues(text);
-//            if (tradeVolume_value > accountBalance_value) {
-//                label.setText("Not Enough Funds");
-//                label.setForeground(Color.red);
-//            } else {
-//                tradeVolume_label.setForeground(Color.darkGray);
-//                tradeVolume_label.setText("Trade volume");
-//            }
-            checkValues();
-        } catch (Exception ex) {
-            label.setText("Insert a number");
-            label.setForeground(Color.red);
-        }
-    }
-
-    public void takeValue(JTextField text, JLabel label) {
-        try {
-            setValues(text);
-            checkValues();
-        } catch (Exception ex) {
-            label.setText("Insert a number");
-            label.setForeground(Color.red);
-        }
-    }
-
-    public boolean checkNecessaryValues() {
-        return (!(market_value.equals("")) || (marketList.contains(market_value))) && priceDiff_value != Double.MIN_VALUE
+    public boolean getNecessaryValues() {
+        setValues(priceDiff);
+        setValues(timeInterval);
+        setValues(tradeVolume);
+        return (!(market_value.equals("")) && (marketList.contains(market_value))) && priceDiff_value != Double.MIN_VALUE
                 && timeInterval_value != Double.MIN_VALUE && tradeVolume_value != Double.MIN_VALUE;
+    }
+
+    public boolean getSavedOptionals() {
+        boolean allGood = true;
+        if (!stopLoss.getText().equals("")) {
+            setValues(stopLoss);
+            if (stopLoss_value == Double.MIN_VALUE) {
+                allGood = false;
+            }
+        }
+        if (!takeProfit.getText().equals("")) {
+            setValues(takeProfit);
+            if (takeProfit_value == Double.MIN_VALUE) {
+                allGood = false;
+            }
+        }
+        if (!maxTransactions.getText().equals("")) {
+            setValues(maxTransactions);
+            if (maxTransactions_value == Double.MIN_VALUE) {
+                allGood = false;
+            }
+        }
+        if (!trailingStop.getText().equals("")) {
+            setValues(trailingStop);
+            if (trailingStop_value == Double.MIN_VALUE) {
+                allGood = false;
+            }
+        }
+        if (!timeTransaction.getText().equals("")) {
+            setValues(timeTransaction);
+            if (timeTransaction_value == Double.MIN_VALUE) {
+                allGood = false;
+            }
+        }
+        return allGood;
+    }
+
+    public void resetOptions() {
+        stopLoss.setText("");
+        takeProfit.setText("");
+        maxTransactions.setText("");
+        trailingStop.setText("");
+        timeTransaction.setText("");
+        priceDiff.setText("");
+        timeInterval.setText("");
+        tradeVolume.setText("");
+        comboBox.getEditor().setItem("");
     }
 
     public void run() throws Exception {
@@ -240,7 +289,7 @@ public class TradeFrame extends JFrame {
 
         JLabel accountBalance_label;
         if (connector.getBalanceRecord() == null) {
-            accountBalance_label = new JLabel("Account Balance: " + "fucking wanker server");
+            accountBalance_label = new JLabel("Account Balance: " + "no server response");
         } else {
             double accountBalance_value = connector.getBalanceRecord().getBalance();
             accountBalance_label = new JLabel("Account Balance: " + accountBalance_value);
@@ -318,17 +367,6 @@ public class TradeFrame extends JFrame {
         market_panel.add(comboBox);
         simpleOrderPanel.add(market_panel);
 
-        addListener(priceDiff, priceDiff_label);
-        addListener(timeInterval, timeInterval_label);
-        addListener(tradeVolume, tradeVolume_label);
-
-        addListener(stopLoss, stopLoss_label);
-        addListener(takeProfit, takeProfit_label);
-        addListener(maxTransactions, maxTransactions_label);
-        addListener(trailingStop, trailingStop_label);
-        addListener(timeTransaction, timeTransaction_label);
-        
-
         addPanel(priceDiff_panel, priceDiff, priceDiff_label, simpleOrderPanel);
         addPanel(timeInterval_panel, timeInterval, timeInterval_label, simpleOrderPanel);
         addPanel(tradeVolume_panel, tradeVolume, tradeVolume_label, simpleOrderPanel);
@@ -343,13 +381,37 @@ public class TradeFrame extends JFrame {
         JPanel bigMoneyActive = new JPanel();
         JPanel simpleActive = new JPanel();
 
+        JButton resetButton = new JButton("Reset Options");
+        resetButton.addActionListener(e -> {
+            resetOptions();
+        });
+
+        JButton saveButton = new JButton("Save Options");
+        saveButton.addActionListener(e -> {
+            setMarket();
+            SaveFrame saveOption;
+            if (getNecessaryValues()) {
+                checkValues();
+                saveOption = new SaveFrame(market_value, priceDiff_value, timeInterval_value, tradeVolume_value);
+                if (getSavedOptionals()) {
+                    saveOption.saveBigDickOptions(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
+                    saveOption.run();
+                }
+            }
+        });
+
         JToggleButton toggleButton = new JToggleButton("ON");
         ItemListener itemListener = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
                 toggleButton.setText("OFF");
-                disableBigMoneyFields();
-                trader.setBigMoney(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
+                if (getOptionalValues()) {
+                    checkValues();
+                    disableBigMoneyFields();
+                    trader.setBigMoney(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
+                } else {
+                    toggleButton.setSelected(false);
+                }
             } else {
                 enableBigMoneyFields();
                 trader.setToDefault();
@@ -358,13 +420,26 @@ public class TradeFrame extends JFrame {
         };
         toggleButton.addItemListener(itemListener);
 
+        JButton loadButton = new JButton("Load Options");
+        loadButton.addActionListener(e -> {
+            LoadFrame loadOption = new LoadFrame(comboBox, priceDiff, timeInterval, tradeVolume,
+                    stopLoss, takeProfit, maxTransactions, trailingStop, timeTransaction);
+            try {
+                loadOption.run();
+                toggleButton.setSelected(false);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+
         JToggleButton button = new JToggleButton("Place Order");
         ItemListener itemListener2 = itemEvent -> {
             int state = itemEvent.getStateChange();
             trader.setConnector(connector);
             if (state == ItemEvent.SELECTED) {
                 setMarket();
-                if (checkNecessaryValues()) {
+                if (getNecessaryValues()) {
+                    checkValues();
                     aux = marketMap.get(market_value.split(" ")[0]);
                     if (!subscribedMarkets.contains(aux)) {
                         subscribedMarkets.add(aux);
@@ -375,16 +450,20 @@ public class TradeFrame extends JFrame {
                     trader.setEssentials(aux, subscribedMarkets, timeInterval_value, priceDiff_value, tradeVolume_value, outFrame);
                     button.setText("Stop");
                     disableSimpleFields();
+                    loadButton.setEnabled(false);
+                    resetButton.setEnabled(false);
                     trader.start();
                 } else {
                     aux = null;
+                    button.setSelected(false);
                 }
             } else {
                 button.setText("Place Order");
                 enableSimpleFields();
+                loadButton.setEnabled(true);
+                resetButton.setEnabled(true);
                 if (aux != null) {
                     trader.stop();
-                    trader.clearAll();
                     try {
                         connector.unsubscribePrice(aux);
                         connector.unsubscribeTrades();
@@ -397,27 +476,9 @@ public class TradeFrame extends JFrame {
         button.addItemListener(itemListener2);
 
         simpleActive.add(button);
-        JButton saveOptions = new JButton("Save Options");
-        saveOptions.addActionListener(e -> {
-            setMarket();
-            SaveFrame saveOption = new SaveFrame(market_value, priceDiff_value, timeInterval_value, tradeVolume_value);
-            if (checkBigDick()) {
-                saveOption.saveBigDickOptions(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
-            }
-            saveOption.run();
-        });
-        JButton loadOptions = new JButton("Load Options");
-        loadOptions.addActionListener(e -> {
-            LoadFrame loadOption = new LoadFrame(comboBox, priceDiff, timeInterval, tradeVolume,
-                            stopLoss, takeProfit, maxTransactions, trailingStop, timeTransaction);
-            try {
-                loadOption.run();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        simpleActive.add(saveOptions);
-        simpleActive.add(loadOptions);
+        simpleActive.add(saveButton);
+        simpleActive.add(loadButton);
+        simpleActive.add(resetButton);
         bigMoneyActive.add(toggleButton);
 
         mainPanel.add(simpleOrderPanel);
