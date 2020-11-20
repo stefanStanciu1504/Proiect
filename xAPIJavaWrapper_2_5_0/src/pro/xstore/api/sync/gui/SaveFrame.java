@@ -118,7 +118,7 @@ public class SaveFrame extends JFrame {
         f.add(fileName, BorderLayout.CENTER);
         f.add(notify, BorderLayout.PAGE_START);
         f.setVisible(true);
-        f.setSize(240, 90);
+        f.setSize(240, 110);
         f.setLocationRelativeTo(null);
     }
 }
