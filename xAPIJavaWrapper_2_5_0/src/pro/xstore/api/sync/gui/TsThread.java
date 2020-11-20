@@ -87,72 +87,90 @@ public class TsThread implements Runnable {
 
         return info;
     }
-
+                                                
     public void run() {
         running.set(true);
         while (running.get()) {
             STickRecord aux;
             if (System.currentTimeMillis() >= checkDelay) {
                 if (connector != null) {
-                    try {
-                        tds = APICommandFactory.executeTradesCommand(connector, true);
-                        long curr_t1 = System.currentTimeMillis();
-                        checkDelay = (long) (curr_t1 + (0.25 * 1000));
-                    }
-                    catch (Exception ex) {
-                        System.out.println("ceva");
+                    boolean isLockAcquired = MainThread.lock.tryLock();
+                    if (isLockAcquired) {
+                        try {
+                            tds = APICommandFactory.executeTradesCommand(connector, true);
+                        }
+                        catch (Exception ex) {
+                            System.out.println("ceva");
+                        }
+                        finally {
+                            long curr_t1 = System.currentTimeMillis();
+                            checkDelay = (long) (curr_t1 + (0.25 * 1000));
+                            MainThread.lock.unlock();
+                        }
                     }
                 }
             }
 
+            if (MainThread.currTransactions.get() >= maxTransactions && maxTransactions != 0) {
+                if (MainThread.bigMoneyTime.get() && !MainThread.blockTransactions.get()) {
+                    outputFrame.updateOutput("Maximum transactions reached");
+                    MainThread.blockTransactions.set(true);
+                } else if (!MainThread.bigMoneyTime.get() && MainThread.blockTransactions.get()) {
+                    MainThread.blockTransactions.set(false);
+                }
+            } else if (MainThread.currTransactions.get() < maxTransactions && MainThread.blockTransactions.get()) {
+                MainThread.blockTransactions.set(false);
+            }
+
             if (tds != null) {
                 if (tds.getTradeRecords() != null) {
-                    int currTransactions = tds.getTradeRecords().size();
-                    if (currTransactions >= maxTransactions && maxTransactions != 0) {
-                        if (MainThread.bigMoneyTime.get() && !MainThread.blockTransactions.get()) {
-                            outputFrame.updateOutput("Maximum transactions reached");
-                            MainThread.blockTransactions.set(true);
-                        } else if (!MainThread.bigMoneyTime.get() && MainThread.blockTransactions.get()) {
-                            MainThread.blockTransactions.set(false);
-                        }
-                    } else if (currTransactions < maxTransactions && MainThread.blockTransactions.get()) {
-                        MainThread.blockTransactions.set(false);
-                    }
+                    MainThread.currTransactions.set(tds.getTradeRecords().size());
                     for (TradeRecord td : tds.getTradeRecords()) {
                         aux = updates.getRecord();
-                        if (aux != null && td != null) {
-                            TradeTransInfoRecord info = null;
-                            if (td.getCmd() == 0 && MainThread.bigMoneyTime.get()) {
-                                if (aux.getAsk() >= (td.getOpen_price() + takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
-                                    info = makeBuyChange(aux, td.getPosition(), td.getOpen_price());
-
-                                }
-                            } else if (td.getCmd() == 1 && MainThread.bigMoneyTime.get()) {
-                                if (aux.getBid() <= (td.getOpen_price() - takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
-                                    info = makeSellChange(aux, td.getPosition(), td.getOpen_price());
-                                }
-                            }
-                            if (info != null) {
-                                TradeTransactionResponse tradeResponse = null;
-                                try {
-                                    tradeResponse = APICommandFactory.executeTradeTransactionCommand(connector, info);
-                                } catch (Exception ignore) {
-                                }
-                                if (tradeResponse != null) {
-                                    TradeTransactionStatusResponse tradeStatus = null;
+                        if (System.currentTimeMillis() >= checkDelay) {
+                            if (aux != null && td != null) {
+                                boolean isLockAcquired = MainThread.lock.tryLock();
+                                if (isLockAcquired) {
                                     try {
-                                        tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
-                                                tradeResponse.getOrder());
-                                    } catch (Exception ignore) {
-                                    }
-                                    if (tradeStatus != null) {
-                                        if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.REJECTED)) {
-                                            System.out.println("REJECTED : " + tradeStatus);
-                                        } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ERROR)) {
-                                            System.out.println("ERROR : " + tradeStatus);
-                                        } else {
-                                            outputFrame.updateOutput("Order's (" + td.getPosition() + ") SL and TP were modified.");
+                                        TradeTransInfoRecord info = null;
+                                        if (td.getCmd() == 0 && MainThread.bigMoneyTime.get()) {
+                                            if (aux.getAsk() >= (td.getOpen_price() + takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
+                                                info = makeBuyChange(aux, td.getPosition(), td.getOpen_price());
+                                            }
+                                        } else if (td.getCmd() == 1 && MainThread.bigMoneyTime.get()) {
+                                            if (aux.getBid() <= (td.getOpen_price() - takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
+                                                info = makeSellChange(aux, td.getPosition(), td.getOpen_price());
+                                            }
                                         }
+                                        if (info != null) {
+                                            TradeTransactionResponse tradeResponse = null;
+                                            try {
+                                                tradeResponse = APICommandFactory.executeTradeTransactionCommand(connector, info);
+                                            } catch (Exception ignore) {
+                                            }
+                                            if (tradeResponse != null) {
+                                                TradeTransactionStatusResponse tradeStatus = null;
+                                                try {
+                                                    tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
+                                                            tradeResponse.getOrder());
+                                                } catch (Exception ignore) {
+                                                }
+                                                if (tradeStatus != null) {
+                                                    if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.REJECTED)) {
+                                                        System.out.println("REJECTED : " + tradeStatus);
+                                                    } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ERROR)) {
+                                                        System.out.println("ERROR : " + tradeStatus);
+                                                    } else {
+                                                        outputFrame.updateOutput("Order's (" + td.getPosition() + ") SL and TP were modified.");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    finally {
+                                        long curr_t1 = System.currentTimeMillis();
+                                        checkDelay = (long) (curr_t1 + (0.25 * 1000));
+                                        MainThread.lock.unlock();
                                     }
                                 }
                             }

@@ -119,6 +119,8 @@ public class SellThread implements Runnable {
                                                         break;
                                                     }
                                                 } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
+                                                    int temp = MainThread.currTransactions.get();
+                                                    MainThread.currTransactions.set(temp + 1);
                                                     outputFrame.updateOutput(tradeStatus);
                                                     long curr_t = System.currentTimeMillis();
                                                     MainThread.atomicDelay.set((long) (curr_t + (delay * 1000)));

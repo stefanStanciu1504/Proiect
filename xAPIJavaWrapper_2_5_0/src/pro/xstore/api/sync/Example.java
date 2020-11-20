@@ -3,7 +3,6 @@ package pro.xstore.api.sync;
 import java.util.Map;
 
 import pro.xstore.api.message.command.APICommandFactory;
-import pro.xstore.api.message.records.*;
 import pro.xstore.api.message.response.*;
 import pro.xstore.api.streaming.StreamingListener;
 import pro.xstore.api.sync.ServerData.ServerEnum;
@@ -11,7 +10,6 @@ import pro.xstore.api.sync.ServerData.ServerEnum;
 public class Example {
 	private LoginResponse loginResponse;
 	private SyncAPIConnector connector;
-	private StreamingListener sl;
 
 	public LoginResponse getLoginResponse() {
 		return loginResponse;
@@ -27,12 +25,11 @@ public class Example {
 			loginResponse = APICommandFactory.executeLoginCommand(connector, credentials);
 			if (loginResponse.getStatus())
 			{
-				sl = new StreamingListener();
+				StreamingListener sl = new StreamingListener();
 
 				connector.connectStream(sl);
 				connector.subscribeBalance();
 				Thread.sleep(250);
-				SBalanceRecord balance = connector.getBalanceRecord();
 				connector.unsubscribeBalance();
 			}
 		} catch (Exception ex) {

@@ -4,6 +4,7 @@ import pro.xstore.api.sync.SyncAPIConnector;
 
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -13,6 +14,7 @@ public class MainThread implements Runnable {
     public static AtomicBoolean bigMoneyTime = new AtomicBoolean(false);
     public static AtomicLong atomicDelay = new AtomicLong(0);
     public static AtomicBoolean blockTransactions = new AtomicBoolean(false);
+    public static AtomicInteger currTransactions = new AtomicInteger();
     private static OutputFrame outputFrame;
     private static PriceUpdates updates;
     private static final BuyThread buyThread = new BuyThread();
@@ -91,11 +93,11 @@ public class MainThread implements Runnable {
         updates = new PriceUpdates(connector, market, subscribedMarkets, outputFrame);
         updates.start();
 
-//        buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume);
-//        buyThread.start();
-//
-//        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume);
-//        sellThread.start();
+        buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume);
+        buyThread.start();
+
+        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume);
+        sellThread.start();
 
         tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume);
         if (bigMoneyTime.get()) {
