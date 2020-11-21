@@ -60,7 +60,6 @@ public class MainThread implements Runnable {
     }
 
     public static void stopTransactions() {
-        updates.stop();
         buyThread.stop();
         sellThread.stop();
     }
