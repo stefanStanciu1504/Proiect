@@ -23,6 +23,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     static JPanel p = new JPanel();
     static File credentials;
     static boolean saveCredentials = false;
+    static ServerEnum account_state = ServerEnum.REAL;
 
     public LoginFrame()
     {
@@ -33,6 +34,31 @@ public class LoginFrame extends JFrame implements ActionListener {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         b = new JButton("Login");
+
+        JToggleButton selectDemo = new JToggleButton("Demo account");
+        JToggleButton selectReal = new JToggleButton("Real account");
+
+        ItemListener itemListenerDemo = itemEvent -> {
+            int state = itemEvent.getStateChange();
+            if (state == ItemEvent.SELECTED) {
+                account_state = ServerEnum.DEMO;
+                selectReal.setSelected(false);
+            } else {
+                account_state = ServerEnum.REAL;
+            }
+        };
+        selectDemo.addItemListener(itemListenerDemo);
+        selectReal.setSelected(true);
+        ItemListener itemListenerReal = itemEvent -> {
+            int state = itemEvent.getStateChange();
+            if (state == ItemEvent.SELECTED) {
+                account_state = ServerEnum.REAL;
+                selectDemo.setSelected(false);
+            } else {
+                account_state = ServerEnum.DEMO;
+            }
+        };
+        selectReal.addItemListener(itemListenerReal);
 
         LoginFrame te = new LoginFrame();
 
@@ -83,6 +109,12 @@ public class LoginFrame extends JFrame implements ActionListener {
         p.add(checkBox);
         p.add(b);
 
+        JPanel accountPanel = new JPanel();
+        accountPanel.setLayout(new FlowLayout());
+        accountPanel.add(selectDemo);
+        accountPanel.add(selectReal);
+        p.add(accountPanel);
+
         p.setBorder(BorderFactory.createTitledBorder("Login"));
 
         box.add(Box.createVerticalGlue());
@@ -96,8 +128,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     }
 
     // if the button is pressed
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
         if (s.equals("Login")) {
             if (username.getText().equals("")) {
@@ -108,7 +139,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                 Credentials credentials = new Credentials(username.getText(), password.getText(), null, null);
                 Example ex = new Example();
                 try {
-                    ex.runExample(ServerEnum.DEMO, credentials);
+                    ex.runExample(account_state, credentials);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }

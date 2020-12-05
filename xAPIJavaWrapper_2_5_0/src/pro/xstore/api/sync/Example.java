@@ -1,7 +1,4 @@
 package pro.xstore.api.sync;
-
-import java.util.Map;
-
 import pro.xstore.api.message.command.APICommandFactory;
 import pro.xstore.api.message.response.*;
 import pro.xstore.api.streaming.StreamingListener;
@@ -35,9 +32,5 @@ public class Example {
 		} catch (Exception ex) {
 			System.err.println(ex);
 		}
-	}
-
-	protected Map<String,Server> getAvailableServers() {
-		return ServerData.getProductionServers();
 	}
 }
