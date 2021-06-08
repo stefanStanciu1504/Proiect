@@ -14,11 +14,11 @@ import pro.xstore.api.sync.SyncAPIConnector;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class TsThread implements Runnable {
+public class TsThread implements Runnable, Observer {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private static OutputFrame outputFrame;
     private SyncAPIConnector connector;
-    private static PriceUpdates updates;
+    private PriceUpdates updates;
     private double time;
     private static long checkDelay = 0;
     private static double maxTransactions = 0.0;
@@ -27,8 +27,22 @@ public class TsThread implements Runnable {
     private double stopLoss;
     private double takeProfit;
     private static TradesResponse tds;
+    private STickRecord currentPrice = null;
 
     public TsThread() {
+    }
+
+    @Override
+    public void update() {
+        STickRecord tempPrice = (STickRecord) updates.getUpdate(this);
+        if (tempPrice != null) {
+            this.currentPrice = tempPrice;
+        }
+    }
+
+    @Override
+    public void setSubject(Subject sub)  {
+        this.updates = (PriceUpdates) sub;
     }
 
     public void setMandatoryValues(SyncAPIConnector new_connector, OutputFrame new_outFrame, PriceUpdates new_updates,
@@ -91,7 +105,6 @@ public class TsThread implements Runnable {
     public void run() {
         running.set(true);
         while (running.get()) {
-            STickRecord aux;
             if (System.currentTimeMillis() >= checkDelay) {
                 if (connector != null) {
                     boolean isLockAcquired = MainThread.lock.tryLock();
@@ -126,20 +139,20 @@ public class TsThread implements Runnable {
                 if (tds.getTradeRecords() != null) {
                     MainThread.currTransactions.set(tds.getTradeRecords().size());
                     for (TradeRecord td : tds.getTradeRecords()) {
-                        aux = updates.getRecord();
+                        update();
                         if (System.currentTimeMillis() >= checkDelay) {
-                            if (aux != null && td != null) {
+                            if (this.currentPrice != null && td != null) {
                                 boolean isLockAcquired = MainThread.lock.tryLock();
                                 if (isLockAcquired) {
                                     try {
                                         TradeTransInfoRecord info = null;
                                         if (td.getCmd() == 0 && MainThread.bigMoneyTime.get()) {
-                                            if (aux.getAsk() >= (td.getOpen_price() + takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
-                                                info = makeBuyChange(aux, td.getPosition(), td.getOpen_price());
+                                            if (this.currentPrice.getAsk() >= (td.getOpen_price() + takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
+                                                info = makeBuyChange(this.currentPrice, td.getPosition(), td.getOpen_price());
                                             }
                                         } else if (td.getCmd() == 1 && MainThread.bigMoneyTime.get()) {
-                                            if (aux.getBid() <= (td.getOpen_price() - takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
-                                                info = makeSellChange(aux, td.getPosition(), td.getOpen_price());
+                                            if (this.currentPrice.getBid() <= (td.getOpen_price() - takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
+                                                info = makeSellChange(this.currentPrice, td.getPosition(), td.getOpen_price());
                                             }
                                         }
                                         if (info != null) {

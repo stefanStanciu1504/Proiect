@@ -66,7 +66,7 @@ public class LoadFrame extends JFrame {
 
         close.addActionListener(e -> f.dispose());
         load.addActionListener(e -> {
-            String aux = "../../../src/Saves/" + comboBox.getEditor().getItem() + ".txt";
+            String aux = "./src/Saves/" + comboBox.getEditor().getItem() + ".txt";
             File file = new File(aux);
             Scanner myReader;
             try {
@@ -94,7 +94,7 @@ public class LoadFrame extends JFrame {
 
         LinkedList<String> loadOptions = new LinkedList<>();
         loadOptions.add("");
-        loadOptions.addAll(listFiles("../../../src/Saves"));
+        loadOptions.addAll(listFiles("./src/Saves"));
         comboBox = new JComboBox<>(loadOptions.toArray(new String[0]));
         comboBox.setMaximumRowCount(10);
         comboBox.setPreferredSize(comboBox.getPreferredSize());

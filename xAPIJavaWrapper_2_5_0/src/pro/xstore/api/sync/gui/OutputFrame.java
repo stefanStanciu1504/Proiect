@@ -1,7 +1,11 @@
 package pro.xstore.api.sync.gui;
 
+import com.sun.tools.javac.Main;
 import pro.xstore.api.message.records.STickRecord;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;

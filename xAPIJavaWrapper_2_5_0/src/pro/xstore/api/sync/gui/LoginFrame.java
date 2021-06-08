@@ -9,6 +9,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import javax.swing.*;
 
@@ -23,7 +25,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     static JPanel p = new JPanel();
     static File credentials;
     static boolean saveCredentials = false;
-    static ServerEnum account_state = ServerEnum.REAL;
+    static ServerEnum accountType = ServerEnum.REAL;
 
     public LoginFrame()
     {
@@ -41,10 +43,10 @@ public class LoginFrame extends JFrame implements ActionListener {
         ItemListener itemListenerDemo = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
-                account_state = ServerEnum.DEMO;
+                accountType = ServerEnum.DEMO;
                 selectReal.setSelected(false);
             } else {
-                account_state = ServerEnum.REAL;
+                accountType = ServerEnum.REAL;
             }
         };
         selectDemo.addItemListener(itemListenerDemo);
@@ -52,10 +54,10 @@ public class LoginFrame extends JFrame implements ActionListener {
         ItemListener itemListenerReal = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
-                account_state = ServerEnum.REAL;
+                accountType = ServerEnum.REAL;
                 selectDemo.setSelected(false);
             } else {
-                account_state = ServerEnum.DEMO;
+                accountType = ServerEnum.DEMO;
             }
         };
         selectReal.addItemListener(itemListenerReal);
@@ -87,7 +89,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         p.add(Box.createRigidArea(new Dimension(0, 10)));
         b.setAlignmentX(Component.CENTER_ALIGNMENT);
         try {
-            credentials = new File("../../../src/Saves/Creds/credentials.txt");
+            credentials = new File("./src/Saves/Creds/credentials.txt");
             if (!credentials.createNewFile()) {
                 Scanner myReader = new Scanner(credentials);
                 while (myReader.hasNextLine()) {
@@ -96,7 +98,8 @@ public class LoginFrame extends JFrame implements ActionListener {
                 }
                 myReader.close();
             }
-        } catch (IOException ignored) {
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
 
         JCheckBox checkBox = new JCheckBox("Save credentials");
@@ -139,7 +142,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                 Credentials credentials = new Credentials(username.getText(), password.getText(), null, null);
                 Example ex = new Example();
                 try {
-                    ex.runExample(account_state, credentials);
+                    ex.runExample(accountType, credentials);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -148,7 +151,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                 } else {
                     if (saveCredentials) {
                         try {
-                            FileWriter myFile = new FileWriter("../../../src/Saves/Creds/credentials.txt");
+                            FileWriter myFile = new FileWriter("./src/Saves/Creds/credentials.txt");
                             myFile.write(username.getText() + "\n");
                             myFile.write(password.getText() + "\n");
                             myFile.close();

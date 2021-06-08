@@ -51,6 +51,8 @@ public class TradeFrame extends JFrame {
     private double timeTransaction_value = Double.MIN_VALUE;
     private static final MainThread trader = new MainThread();
     private static String aux = null;
+    private static JTabbedPane tabs;
+
 
     public TradeFrame(SyncAPIConnector aux_connector) {
         connector = aux_connector;
@@ -382,9 +384,7 @@ public class TradeFrame extends JFrame {
         JPanel simpleActive = new JPanel();
 
         JButton resetButton = new JButton("Reset Options");
-        resetButton.addActionListener(e -> {
-            resetOptions();
-        });
+        resetButton.addActionListener(e -> resetOptions());
 
         JButton saveButton = new JButton("Save Options");
         saveButton.addActionListener(e -> {
@@ -485,10 +485,12 @@ public class TradeFrame extends JFrame {
         mainPanel.add(simpleActive);
         mainPanel.add(bigMoneyPanel);
         mainPanel.add(bigMoneyActive);
+        Image icon = Toolkit.getDefaultToolkit().getImage("../src/Media/mario.png");
+        frame.setIconImage(icon);
+
 
         frame.getContentPane().add(mainPanel);
         frame.setSize(780, 480);
         frame.setVisible(true);
-
     }
 }

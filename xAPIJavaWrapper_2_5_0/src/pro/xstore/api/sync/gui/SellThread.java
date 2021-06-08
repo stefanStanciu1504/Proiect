@@ -15,11 +15,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SellThread implements Runnable {
+public class SellThread implements Runnable, Observer {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private static OutputFrame outputFrame;
     private SyncAPIConnector connector;
-    private static PriceUpdates updates;
+    private PriceUpdates updates;
     private static final HashMap<Double, Long> sellPrices = new HashMap<>();
     private static final Set<Double> deleteSellPrices = new HashSet<>();
     private double time;
@@ -28,8 +28,22 @@ public class SellThread implements Runnable {
     private double stopLoss;
     private double takeProfit;
     private static double delay = 0.25;
+    private STickRecord currentPrice = null;
 
     public SellThread() {
+    }
+
+    @Override
+    public void update() {
+        STickRecord tempPrice = (STickRecord) updates.getUpdate(this);
+        if (tempPrice != null) {
+            this.currentPrice = tempPrice;
+        }
+    }
+
+    @Override
+    public void setSubject(Subject sub)  {
+        this.updates = (PriceUpdates) sub;
     }
 
     public void setMandatoryValues(SyncAPIConnector new_connector, OutputFrame new_outFrame, PriceUpdates new_updates,
@@ -62,16 +76,16 @@ public class SellThread implements Runnable {
     public void stop() {
         running.set(false);
     }
-    public TradeTransInfoRecord makeSellInfo(STickRecord aux, long value) {
+    public TradeTransInfoRecord makeSellInfo(long value) {
         TradeTransInfoRecord info;
         if (!MainThread.bigMoneyTime.get()) {
             info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
-                    aux.getBid(), 0.0, 0.0, aux.getSymbol(), tradeVolume, (long)0.0, "", value);
+                    this.currentPrice.getBid(), 0.0, 0.0, this.currentPrice.getSymbol(), tradeVolume, (long)0.0, "", value);
         } else {
-            double sl = aux.getBid() + stopLoss;
-            double tp = aux.getBid() - takeProfit;
+            double sl = this.currentPrice.getBid() + stopLoss;
+            double tp = this.currentPrice.getBid() - takeProfit;
             info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
-                    aux.getBid(), sl, tp, aux.getSymbol(), tradeVolume, (long)0.0, "", value);
+                    this.currentPrice.getBid(), sl, tp, this.currentPrice.getSymbol(), tradeVolume, (long)0.0, "", value);
         }
         return info;
     }
@@ -79,12 +93,12 @@ public class SellThread implements Runnable {
     public void run() {
         running.set(true);
         while (running.get()) {
-            STickRecord aux = updates.getRecord();
-            if (aux != null) {
-                if (!sellPrices.containsKey(aux.getBid())) {
+            update();
+            if (this.currentPrice != null) {
+                if (!sellPrices.containsKey(this.currentPrice.getBid())) {
                     long curr_t = System.currentTimeMillis();
                     long end = (long) (curr_t + (time * 1000));
-                    sellPrices.put(aux.getBid(), end);
+                    sellPrices.put(this.currentPrice.getBid(), end);
                 }
 
                 for (HashMap.Entry<Double, Long> entry : sellPrices.entrySet()) {
@@ -92,18 +106,17 @@ public class SellThread implements Runnable {
                     long value = entry.getValue();
                     if (!MainThread.blockTransactions.get()) {
                         if (System.currentTimeMillis() >= MainThread.atomicDelay.get()) {
-                            if (key - aux.getBid() >= diff) {
+                            if (key - this.currentPrice.getBid() >= diff) {
                                 boolean isLockAcquired = MainThread.lock.tryLock();
                                 if (isLockAcquired) {
                                     try {
-                                        /* sell order */
-                                        TradeTransInfoRecord info = makeSellInfo(aux, value);
+                                        deleteSellPrices.add(key);
+                                        TradeTransInfoRecord info = makeSellInfo(value);
                                         TradeTransactionResponse tradeResponse = null;
                                         try {
                                             tradeResponse = APICommandFactory.executeTradeTransactionCommand(connector, info);
                                         } catch (Exception ignore) {
                                         }
-                                        deleteSellPrices.add(key);
                                         if (tradeResponse != null) {
                                             TradeTransactionStatusResponse tradeStatus = null;
                                             try {
@@ -117,17 +130,34 @@ public class SellThread implements Runnable {
                                                         outputFrame.updateOutput("No funds left.");
                                                         MainThread.stopTransactions();
                                                         break;
+                                                    } else {
+                                                        long curr_t = System.currentTimeMillis();
+                                                        MainThread.atomicDelay.set((long) (curr_t + (delay * 1000)));
                                                     }
                                                 } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
                                                     int temp = MainThread.currTransactions.get();
                                                     MainThread.currTransactions.set(temp + 1);
-                                                    outputFrame.updateOutput(tradeStatus);
+                                                    String transactionInfo = (temp + 1) + ". A sell position was opened with the number " + tradeStatus.getOrder();
+                                                    outputFrame.updateOutput(transactionInfo);
                                                     long curr_t = System.currentTimeMillis();
                                                     MainThread.atomicDelay.set((long) (curr_t + (delay * 1000)));
+                                                } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.PENDING)) {
+                                                    try {
+                                                        tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
+                                                                tradeResponse.getOrder());
+                                                    } catch (Exception ignore) {
+                                                    }
+                                                    int temp = MainThread.currTransactions.get();
+                                                    MainThread.currTransactions.set(temp + 1);
+                                                    String transactionInfo = (temp + 1) + ". A sell position was opened with the number " + tradeStatus.getOrder();
+                                                    outputFrame.updateOutput(transactionInfo);
+
                                                 }
                                             }
                                         }
                                     } finally {
+                                        long curr_t = System.currentTimeMillis();
+                                        MainThread.atomicDelay.set((long) (curr_t + (delay * 1000)));
                                         MainThread.lock.unlock();
                                     }
                                 }

@@ -85,7 +85,7 @@ public class SaveFrame extends JFrame {
         save.addActionListener(e -> {
             if (!fileName.getText().equals("")) {
                 try {
-                    String aux = "../../../src/Saves/" + fileName.getText() + ".txt";
+                    String aux = "./src/Saves/" + fileName.getText() + ".txt";
                     file = new File(aux);
                     file.createNewFile();
                     FileWriter myFile = new FileWriter(file);
