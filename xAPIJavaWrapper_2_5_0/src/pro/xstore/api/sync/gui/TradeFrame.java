@@ -485,7 +485,7 @@ public class TradeFrame extends JFrame {
         mainPanel.add(simpleActive);
         mainPanel.add(bigMoneyPanel);
         mainPanel.add(bigMoneyActive);
-        Image icon = Toolkit.getDefaultToolkit().getImage("../src/Media/mario.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/mario.png");
         frame.setIconImage(icon);
 
 
