@@ -103,12 +103,10 @@ public class OutputFrame extends JFrame {
         frame.add(southPanel, BorderLayout.PAGE_END);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
         frame.setSize(560, 560);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Point mid = new Point(screenSize.width / 2, screenSize.height / 2);
-        Point newLocation = new Point(mid.x + (frame.getWidth() / 2),
-                mid.y - (frame.getHeight() / 2));
-        frame.setLocation(newLocation);
+
+
     }
 
 }

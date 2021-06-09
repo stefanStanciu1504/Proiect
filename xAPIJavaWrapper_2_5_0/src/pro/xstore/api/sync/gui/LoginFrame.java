@@ -126,6 +126,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
         f.add(box);
         f.setSize(480, 480);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
 
     }

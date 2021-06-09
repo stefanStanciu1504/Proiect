@@ -1,17 +1,23 @@
 package pro.xstore.api.sync.gui;
 import pro.xstore.api.message.command.APICommandFactory;
+import pro.xstore.api.message.error.APICommandConstructionException;
 import pro.xstore.api.message.error.APICommunicationException;
+import pro.xstore.api.message.error.APIReplyParseException;
 import pro.xstore.api.message.records.SymbolRecord;
+import pro.xstore.api.message.response.APIErrorResponse;
 import pro.xstore.api.message.response.AllSymbolsResponse;
 import pro.xstore.api.message.response.LogoutResponse;
 import pro.xstore.api.sync.SyncAPIConnector;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class TradeFrame extends JFrame {
     private final SyncAPIConnector connector;
@@ -37,7 +43,7 @@ public class TradeFrame extends JFrame {
     private static JLabel trailingStop_label;
     private static JLabel timeTransaction_label;
     private static final JPanel simpleOrderPanel = new JPanel();
-    private static final JPanel mainPanel = new JPanel();
+//    private static final JPanel mainPanel = new JPanel();
     private static final JPanel bigMoneyPanel = new JPanel();
     private static final JPanel balancePanel = new JPanel();
     private static String market_value = "";
@@ -51,7 +57,7 @@ public class TradeFrame extends JFrame {
     private double timeTransaction_value = Double.MIN_VALUE;
     private static final MainThread trader = new MainThread();
     private static String aux = null;
-    private static JTabbedPane tabs;
+    private JTabbedPane tabs = new JTabbedPane();
 
 
     public TradeFrame(SyncAPIConnector aux_connector) {
@@ -282,12 +288,38 @@ public class TradeFrame extends JFrame {
         comboBox.getEditor().setItem("");
     }
 
-    public void run() throws Exception {
-        JFrame frame = new JFrame("TradeFrame");
+    static public Object deepCopy(Object oldObj) throws Exception {
+        ObjectOutputStream oos = null;
+        ObjectInputStream ois = null;
+        try {
+            ByteArrayOutputStream bos =
+                    new ByteArrayOutputStream(); // A
+            oos = new ObjectOutputStream(bos); // B
+            oos.writeObject(oldObj);   // C
+            oos.flush();               // D
+            ByteArrayInputStream bin =
+                    new ByteArrayInputStream(bos.toByteArray()); // E
+            ois = new ObjectInputStream(bin);                  // F
+            return ois.readObject(); // G
+        } catch (Exception e) {
+            System.out.println("Exception in ObjectCloner = " + e);
+            throw (e);
+        } finally {
+            oos.close();
+            ois.close();
+        }
+    }
+
+    public JPanel buildMainPanel() throws APIErrorResponse, APICommunicationException, APIReplyParseException, APICommandConstructionException {
+        JPanel mainPanel = new JPanel();
+        ImageIcon logo = new ImageIcon(new ImageIcon("./src/Media/logo.jpeg").getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH));
+        JLabel label = new JLabel(logo);
         simpleOrderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
         bigMoneyPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        balancePanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 20));
+
+        balancePanel.setLayout(new BorderLayout());
+        balancePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JLabel accountBalance_label;
         if (connector.getBalanceRecord() == null) {
@@ -296,24 +328,13 @@ public class TradeFrame extends JFrame {
             double accountBalance_value = connector.getBalanceRecord().getBalance();
             accountBalance_label = new JLabel("Account Balance: " + accountBalance_value);
         }
-        balancePanel.setPreferredSize(accountBalance_label.getPreferredSize());
-        balancePanel.add(accountBalance_label, BorderLayout.LINE_END);
-        mainPanel.add(balancePanel);
 
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                try {
-                    LogoutResponse logout = APICommandFactory.executeLogoutCommand(connector);
-                    if (logout.getStatus()) {
-                        frame.dispose();
-                        connector.close();
-                        System.exit(0);
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+        balancePanel.add(label, BorderLayout.LINE_START);
+        balancePanel.add(accountBalance_label, BorderLayout.LINE_END);
+        balancePanel.setBackground(Color.white);
+
+        mainPanel.add(balancePanel);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         AllSymbolsResponse allSymbols = APICommandFactory.executeAllSymbolsCommand(connector);
         marketList.add("");
@@ -378,7 +399,6 @@ public class TradeFrame extends JFrame {
         addPanel(maxTransactions_panel, maxTransactions, maxTransactions_label, bigMoneyPanel);
         addPanel(trailingStop_panel, trailingStop, trailingStop_label, bigMoneyPanel);
         addPanel(timeTransaction_panel, timeTransaction, timeTransaction_label, bigMoneyPanel);
-
 
         JPanel bigMoneyActive = new JPanel();
         JPanel simpleActive = new JPanel();
@@ -485,12 +505,64 @@ public class TradeFrame extends JFrame {
         mainPanel.add(simpleActive);
         mainPanel.add(bigMoneyPanel);
         mainPanel.add(bigMoneyActive);
-        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/mario.png");
+
+        return mainPanel;
+    }
+
+    public void run() throws Exception {
+        JFrame frame = new JFrame("TradeFrame");
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                try {
+                    LogoutResponse logout = APICommandFactory.executeLogoutCommand(connector);
+                    if (logout.getStatus()) {
+                        frame.dispose();
+                        connector.close();
+                        System.exit(0);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/log.jpeg");
         frame.setIconImage(icon);
 
 
-        frame.getContentPane().add(mainPanel);
-        frame.setSize(780, 480);
+        JPanel aux = buildMainPanel();
+        this.tabs.addTab("Tab 0", null, aux, null);
+        this.tabs.addTab(" + ", null, new JPanel(), null);
+
+
+        this.tabs.addChangeListener(new ChangeListener()
+        {
+            public void stateChanged(ChangeEvent evt)
+            {
+                JTabbedPane tabbedPane = (JTabbedPane)evt.getSource();
+
+                if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(" + "))
+                {
+                    int index = tabbedPane.getSelectedIndex();
+                    try {
+                        JPanel newPanel = buildMainPanel();
+                        tabbedPane.remove(index);
+                        tabbedPane.addTab("Tab " + index, null, newPanel, null);
+                        tabbedPane.setSelectedIndex(index);
+                        tabbedPane.addTab(" + ", null, new JPanel(), null);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+        frame.getContentPane().add(this.tabs);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }
