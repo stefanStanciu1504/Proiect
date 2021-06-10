@@ -44,7 +44,7 @@ public class OutputFrame extends JFrame {
 
     public void run() {
         frame = new JFrame("Output");
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
         frame.setIconImage(icon);
         JPanel panel = new JPanel();
         panel.setBackground(Color.white);

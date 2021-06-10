@@ -70,8 +70,8 @@ public class MainThread implements Runnable {
     public void setBigMoney(double stopLoss, double takeProfit,
                             double maxTransactions, double trailingStop, double delay) {
         bigMoneyTime.set(true);
-        buyThread.setOptionals(stopLoss, takeProfit, delay);
-        sellThread.setOptionals(stopLoss, takeProfit, delay);
+        buyThread.setOptionals(stopLoss, takeProfit, maxTransactions, delay);
+        sellThread.setOptionals(stopLoss, takeProfit, maxTransactions, delay);
         tsThread.setOptionals(stopLoss, takeProfit, maxTransactions, trailingStop);
         if (running.get()) {
             tsThread.start();

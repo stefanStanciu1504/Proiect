@@ -12,6 +12,7 @@ import java.io.IOException;
 import org.jdesktop.swingx.border.DropShadowBorder;
 import java.util.Scanner;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.plaf.metal.MetalToggleButtonUI;
 
 
@@ -34,7 +35,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         frame = new JFrame("Login");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
         frame.setIconImage(icon);
         button = new JButton("Login");
         ImageIcon lower_left = new ImageIcon(new ImageIcon("./src/Media/circlesDown.png").getImage().getScaledInstance(63, 60, Image.SCALE_SMOOTH));
@@ -122,8 +123,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        panel.setPreferredSize(new Dimension(360, 300));
-        panel.setMaximumSize(new Dimension(360, 300));
+        panel.setPreferredSize(new Dimension(350, 360));
+        panel.setMaximumSize(new Dimension(350, 360));
 
         panel.add(Box.createRigidArea(new Dimension(5, 16)));
         JPanel notifyPanel = new JPanel();
@@ -177,7 +178,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         accountPanel.setBackground(Color.white);
         panel.add(Box.createRigidArea(new Dimension(5, 6)));
         panel.add(accountPanel);
-
+        panel.add(Box.createRigidArea(new Dimension(5, 30)));
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -188,14 +189,22 @@ public class LoginFrame extends JFrame implements ActionListener {
         box.add(panel);
         box.add(Box.createVerticalGlue());
 
+
+
         DropShadowBorder shadow = new DropShadowBorder();
+        Border border = BorderFactory.createMatteBorder(
+                1, 1, 1, 1, Color.LIGHT_GRAY);
+
         shadow.setShadowColor(Color.BLACK);
-        shadow.setShowLeftShadow(true);
+        shadow.setShowLeftShadow(false);
         shadow.setShowRightShadow(true);
         shadow.setShowBottomShadow(true);
-        shadow.setShowTopShadow(true);
-        panel.setBorder(shadow);
+        shadow.setShowTopShadow(false);
+        shadow.setShadowSize(10);
+        shadow.setShadowOpacity(0.3f);
 
+        Border compound = BorderFactory.createCompoundBorder(shadow, border);
+        panel.setBorder(compound);
         panel.setBackground(Color.white);
         box.setBackground(Color.white);
 
@@ -208,7 +217,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         frame.getContentPane().setBackground(Color.white);
         frame.getContentPane().add(box);
 
-        frame.setSize(480, 480);
+        frame.setSize(480, 520);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

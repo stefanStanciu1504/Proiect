@@ -71,7 +71,7 @@ public class SaveFrame extends JFrame {
     public void run() {
         frame = new JFrame("Save file");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
         frame.setIconImage(icon);
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);

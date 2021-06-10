@@ -48,7 +48,7 @@ public class TradeFrame extends JFrame {
         });
 
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
         frame.setIconImage(icon);
 
         MainPanel defaultTab = new MainPanel(connector);

@@ -41,6 +41,7 @@ public class MainPanel {
     private JLabel maxTransactions_label;
     private JLabel trailingStop_label;
     private JLabel timeTransaction_label;
+    private JLabel subtitle;
     private final JPanel simpleOrderPanel = new JPanel();
     private final JPanel mainPanel = new JPanel();
     private final JPanel bigMoneyPanel = new JPanel();
@@ -89,44 +90,55 @@ public class MainPanel {
                 tradeVolume_label.setForeground(Color.red);
             }
         } else if (text.equals(stopLoss)) {
-            try {
-                stopLoss_value = Double.parseDouble(text.getText());
-            } catch (Exception e) {
-                stopLoss_value = Double.MIN_VALUE;
-                stopLoss_label.setText("Insert a number");
-                stopLoss_label.setForeground(Color.red);
+            if (!text.getText().equals("")) {
+                try {
+                    stopLoss_value = Double.parseDouble(text.getText());
+                } catch (Exception e) {
+                    stopLoss_value = Double.MIN_VALUE;
+                    stopLoss_label.setText("Insert a number");
+                    stopLoss_label.setForeground(Color.red);
+                }
             }
         } else if (text.equals(takeProfit)) {
-            try {
-                takeProfit_value = Double.parseDouble(text.getText());
-            } catch (Exception e) {
-                takeProfit_value = Double.MIN_VALUE;
-                takeProfit_label.setText("Insert a number");
-                takeProfit_label.setForeground(Color.red);
+            if (!text.getText().equals("")) {
+                try {
+                    takeProfit_value = Double.parseDouble(text.getText());
+                } catch (Exception e) {
+                    takeProfit_value = Double.MIN_VALUE;
+                    takeProfit_label.setText("Insert a number");
+                    takeProfit_label.setForeground(Color.red);
+                }
             }
         } else if (text.equals(maxTransactions)) {
-            try {
-                maxTransactions_value = Double.parseDouble(text.getText());
-            } catch (Exception e) {
-                maxTransactions_value = Double.MIN_VALUE;
-                maxTransactions_label.setText("Insert a number");
-                maxTransactions_label.setForeground(Color.red);
+            if (!text.getText().equals("")) {
+                try {
+                    maxTransactions_value = Double.parseDouble(text.getText());
+                } catch (Exception e) {
+                    maxTransactions_value = Double.MIN_VALUE;
+                    maxTransactions_label.setText("Insert a number");
+                    maxTransactions_label.setForeground(Color.red);
+                }
             }
         } else if (text.equals(trailingStop)) {
-            try {
-                trailingStop_value = Double.parseDouble(text.getText());
-            } catch (Exception e) {
-                trailingStop_value = Double.MIN_VALUE;
-                trailingStop_label.setText("Insert a number");
-                trailingStop_label.setForeground(Color.red);
+            if (!text.getText().equals("")) {
+                try {
+                    trailingStop_value = Double.parseDouble(text.getText());
+
+                } catch (Exception e) {
+                    trailingStop_value = Double.MIN_VALUE;
+                    trailingStop_label.setText("Insert a number");
+                    trailingStop_label.setForeground(Color.red);
+                }
             }
         } else if (text.equals(timeTransaction)) {
-            try {
-                timeTransaction_value = Double.parseDouble(text.getText());
-            } catch (Exception e) {
-                timeTransaction_value = Double.MIN_VALUE;
-                timeTransaction_label.setText("Insert a number");
-                timeTransaction_label.setForeground(Color.red);
+            if (!text.getText().equals("")) {
+                try {
+                    timeTransaction_value = Double.parseDouble(text.getText());
+                } catch (Exception e) {
+                    timeTransaction_value = Double.MIN_VALUE;
+                    timeTransaction_label.setText("Insert a number");
+                    timeTransaction_label.setForeground(Color.red);
+                }
             }
         }
     }
@@ -143,11 +155,12 @@ public class MainPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(label);
         text.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        text.setColumns(4);
         panel.add(text);
         masterPanel.add(panel);
     }
 
-    public void checkValues() {
+    public void checkMandatoryValues() {
         if (market_label.getText().equals("Choose a valid market!")) {
             market_label.setForeground(Color.darkGray);
             market_label.setText("Market");
@@ -167,31 +180,37 @@ public class MainPanel {
             tradeVolume_label.setForeground(Color.darkGray);
             tradeVolume_label.setText("Trade volume");
         }
-        if ((stopLoss_value == Double.MIN_VALUE) ||
-                (stopLoss_label.getText().equals("Insert a number"))) {
+    }
+
+    private void defaultOptionalLabels() {
+        if (stopLoss_label.getText().equals("Insert a number")) {
             stopLoss_label.setForeground(Color.darkGray);
             stopLoss_label.setText("Stop Loss");
         }
-        if ((takeProfit_value == Double.MIN_VALUE) ||
-                (takeProfit_label.getText().equals("Insert a number"))) {
+        if (takeProfit_label.getText().equals("Insert a number")) {
             takeProfit_label.setForeground(Color.darkGray);
             takeProfit_label.setText("Take Profit");
         }
-        if ((maxTransactions_value == Double.MIN_VALUE) ||
-                (maxTransactions_label.getText().equals("Insert a number"))) {
+        if (maxTransactions_label.getText().equals("Insert a number")) {
             maxTransactions_label.setForeground(Color.darkGray);
             maxTransactions_label.setText("Max Transactions");
         }
-        if ((trailingStop_value == Double.MIN_VALUE) ||
-                (trailingStop_label.getText().equals("Insert a number"))) {
+        if (trailingStop_label.getText().equals("Insert a number")) {
             trailingStop_label.setForeground(Color.darkGray);
             trailingStop_label.setText("Trailing Stop(%)");
         }
-        if ((timeTransaction_value == Double.MIN_VALUE) ||
-                (timeTransaction_label.getText().equals("Insert a number"))) {
+        if (timeTransaction_label.getText().equals("Insert a number")) {
             timeTransaction_label.setForeground(Color.darkGray);
             timeTransaction_label.setText("Time/Transactions");
         }
+    }
+
+    private boolean checkOptionalValues() {
+        return (stopLoss_value != Double.MIN_VALUE) ||
+                (takeProfit_value != Double.MIN_VALUE) ||
+                (maxTransactions_value != Double.MIN_VALUE) ||
+                (trailingStop_value != Double.MIN_VALUE) ||
+                (timeTransaction_value != Double.MIN_VALUE);
     }
 
     public void disableSimpleFields() {
@@ -228,9 +247,10 @@ public class MainPanel {
         setValues(maxTransactions);
         setValues(trailingStop);
         setValues(timeTransaction);
-        return stopLoss_value != Double.MIN_VALUE && takeProfit_value != Double.MIN_VALUE
-                && maxTransactions_value != Double.MIN_VALUE && trailingStop_value != Double.MIN_VALUE
-                && timeTransaction_value != Double.MIN_VALUE;
+        if (trailingStop_value != Double.MIN_VALUE) {
+            return stopLoss_value != Double.MIN_VALUE || takeProfit_value != Double.MIN_VALUE;
+        }
+        return true;
     }
 
     public boolean getNecessaryValues() {
@@ -289,7 +309,7 @@ public class MainPanel {
     }
 
     public JPanel buildMainPanel() throws APIErrorResponse, APICommunicationException, APIReplyParseException, APICommandConstructionException {
-        ImageIcon logo = new ImageIcon(new ImageIcon("./src/Media/logo.jpeg").getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH));
+        ImageIcon logo = new ImageIcon(new ImageIcon("./src/Media/logo.png").getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH));
         ImageIcon info = new ImageIcon(new ImageIcon("./src/Media/info.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
         JLabel label = new JLabel(logo);
         simpleOrderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 80, 20));
@@ -331,9 +351,6 @@ public class MainPanel {
         }
 
         comboBox = new JComboBox<>(marketList.toArray(new String[0]));
-        comboBox.setMaximumRowCount(10);
-        comboBox.setPreferredSize(comboBox.getPreferredSize());
-        comboBox.setMaximumSize(comboBox.getPreferredSize());
         comboBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
         JComboBoxDecorator.decorate(comboBox, true, marketList);
@@ -341,53 +358,54 @@ public class MainPanel {
         market_label = new JLabel("*Market", info, JLabel.CENTER);
         market_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         market_label.setHorizontalTextPosition(JLabel.LEFT);
-        market_label.setToolTipText("Dropdown with all the markets from which to choose one market on which transactions will be made.");
+        market_label.setToolTipText("<html><p>Market</p>Dropdown with all the markets from which to choose one market " +
+                                    "on which transactions will be made.</html>");
 
         priceDiff_label = new JLabel("*Price Difference", info, JLabel.CENTER);
         priceDiff_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         priceDiff_label.setHorizontalTextPosition(JLabel.LEFT);
-        priceDiff_label.setToolTipText("The price difference for which to look out for at each market's price change.");
-
+        priceDiff_label.setToolTipText("<html><p>Price Difference</p>The price difference for which to look out for at " +
+                                        "each market's price change.</html>");
 
         timeInterval_label = new JLabel("*Time Interval", info, JLabel.CENTER);
         timeInterval_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         timeInterval_label.setHorizontalTextPosition(JLabel.LEFT);
-        timeInterval_label.setToolTipText("The interval of time in which to look out for the price difference at each market's price change.");
-
+        timeInterval_label.setToolTipText("<html><p>Time Interval</p>The interval of time in which to look out for " +
+                                            "the price difference at each market's price change.</html>");
 
         tradeVolume_label = new JLabel("*Trade volume", info, JLabel.CENTER);
         tradeVolume_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         tradeVolume_label.setHorizontalTextPosition(JLabel.LEFT);
-        tradeVolume_label.setToolTipText("The volume of currency that will be used for each transaction.");
+        tradeVolume_label.setToolTipText("<html><p>Trade Volume</p>The volume of currency that will be used for each transaction.</html>");
 
         stopLoss_label = new JLabel("Stop Loss", info, JLabel.CENTER);
         stopLoss_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         stopLoss_label.setHorizontalTextPosition(JLabel.LEFT);
-        stopLoss_label.setToolTipText("<html>A subtraction, to the price of each future transaction, that when it's reached<br/>" +
+        stopLoss_label.setToolTipText("<html><p>Stop Loss</p>A subtraction, to the price of each future transaction, that when it's reached<br/>" +
                                         "by the market's price, the transaction will automatically be closed.</html>");
 
         takeProfit_label = new JLabel("Take Profit", info, JLabel.CENTER);
         takeProfit_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         takeProfit_label.setHorizontalTextPosition(JLabel.LEFT);
-        takeProfit_label.setToolTipText("<html>An addition, to the price of each future transaction, that when it's reached<br/>" +
+        takeProfit_label.setToolTipText("<html><p>Take Profit</p>An addition, to the price of each future transaction, that when it's reached<br/>" +
                                         "by the market's price, the transaction will automatically be closed.</html>");
 
         maxTransactions_label = new JLabel("Max Transactions", info, JLabel.CENTER);
         maxTransactions_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         maxTransactions_label.setHorizontalTextPosition(JLabel.LEFT);
-        maxTransactions_label.setToolTipText("The number of maximum transactions that will made.");
+        maxTransactions_label.setToolTipText("<html><p>Max Transactions</p>The number of maximum transactions that will made.</html>");
 
 
         trailingStop_label = new JLabel("Trailing Stop(%)", info, JLabel.CENTER);
         trailingStop_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         trailingStop_label.setHorizontalTextPosition(JLabel.LEFT);
-        trailingStop_label.setToolTipText("<html>If the market's price moves towards the Take Profit that was set with the percentage provided<br/>" +
-                                            "then the values Stop Loss and Take Profit are updated for the opened transactions.<html>");
+        trailingStop_label.setToolTipText("<html><p>Trailing Stop(%)</p>If the market's price moves towards the Take Profit that was set with the percentage provided<br/>" +
+                                            "then the values Stop Loss and Take Profit are updated for the opened transactions.</html>");
 
         timeTransaction_label = new JLabel("Time/Transactions", info, JLabel.CENTER);
         timeTransaction_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         timeTransaction_label.setHorizontalTextPosition(JLabel.LEFT);
-        timeTransaction_label.setToolTipText("The time between each future transactions.");
+        timeTransaction_label.setToolTipText("<html><p>Time/Transactions</p>The time between each future transactions.</html>");
 
         JPanel market_panel = new JPanel();
         market_panel.setBackground(Color.white);
@@ -411,6 +429,9 @@ public class MainPanel {
         market_panel.setLayout(new BoxLayout(market_panel, BoxLayout.PAGE_AXIS));
         market_panel.add(market_label);
         comboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+        comboBox.setPreferredSize(new Dimension(170, 25));
+        comboBox.setSize(new Dimension(170, 25));
+        comboBox.setMaximumSize(new Dimension(170, 25));
         market_panel.add(comboBox);
         simpleOrderPanel.add(market_panel);
 
@@ -440,7 +461,7 @@ public class MainPanel {
             setMarket();
             SaveFrame saveOption;
             if (getNecessaryValues()) {
-                checkValues();
+                checkMandatoryValues();
                 saveOption = new SaveFrame(market_value, priceDiff_value, timeInterval_value, tradeVolume_value);
                 if (getSavedOptionals()) {
                     saveOption.saveBigDickOptions(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
@@ -456,12 +477,23 @@ public class MainPanel {
         ItemListener itemListener = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
-                toggleButton.setText("OFF");
+                toggleButton.setText("Deactivate additional fields");
                 if (getOptionalValues()) {
-                    checkValues();
-                    disableBigMoneyFields();
-                    trader.setBigMoney(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
+                    if (checkOptionalValues()) {
+                        if (!subtitle.getText().equals("Optional Values")) {
+                            subtitle.setText("Optional Values");
+                            subtitle.setForeground(Color.black);
+                        }
+                        disableBigMoneyFields();
+                        trader.setBigMoney(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
+                    } else {
+                        subtitle.setText("No fields were filled out!");
+                        subtitle.setForeground(Color.red);
+                        toggleButton.setSelected(false);
+                    }
                 } else {
+                    subtitle.setText("A Stop Loss and a Take Profit are needed for the Trailing Stop field!");
+                    subtitle.setForeground(Color.red);
                     toggleButton.setSelected(false);
                 }
             } else {
@@ -473,6 +505,7 @@ public class MainPanel {
         toggleButton.addItemListener(itemListener);
 
         JButton loadButton = new JButton("Load Options");
+        loadButton.setToolTipText("Loads saved options.");
         loadButton.setFocusPainted(false);
         loadButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         loadButton.addActionListener(e -> {
@@ -487,6 +520,7 @@ public class MainPanel {
         });
 
         JToggleButton button = new JToggleButton("Place Order");
+        button.setToolTipText("Starts making transactions with the chosen options.");
         button.setFocusPainted(false);
         button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         ItemListener itemListener2 = itemEvent -> {
@@ -495,7 +529,7 @@ public class MainPanel {
             if (state == ItemEvent.SELECTED) {
                 setMarket();
                 if (getNecessaryValues()) {
-                    checkValues();
+                    checkMandatoryValues();
                     aux = marketMap.get(market_value.split(" ")[0]);
                     if (!subscribedMarkets.contains(aux)) {
                         subscribedMarkets.add(aux);
@@ -550,6 +584,12 @@ public class MainPanel {
         header.setBackground(Color.white);
 
         mainPanel.add(header);
+        JPanel information = new JPanel();
+        JLabel importantFields = new JLabel("Mandatory values");
+        importantFields.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        information.add(importantFields);
+        information.setBackground(Color.white);
+        mainPanel.add(information);
 
         toggleButton.setBackground(new Color(0,104,55));
         toggleButton.setForeground(Color.white);
@@ -572,22 +612,21 @@ public class MainPanel {
         simpleOrderPanel.setBackground(Color.white);
         bigMoneyPanel.setBackground(Color.white);
 
-        JPanel information = new JPanel();
-        JLabel importantFields = new JLabel("All the fields marked with * are mandatory!", info, JLabel.CENTER);
-        importantFields.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        information.add(importantFields);
-        information.setBackground(Color.white);
 
         mainPanel.add(new JSeparator(), "cell 1 0,growx");
+        JPanel subtitlePanel = new JPanel();
+        subtitlePanel.setBackground(Color.white);
+        subtitle = new JLabel("Optional values");
+        subtitle.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        subtitlePanel.add(subtitle);
+        mainPanel.add(subtitlePanel);
         mainPanel.add(bigMoneyPanel);
         mainPanel.add(bigMoneyActive);
-        mainPanel.add(information);
         mainPanel.setBackground(Color.white);
 
         JLabel copyright = new JLabel("Developed using xAPI from XTB Platform");
         copyright.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        copyright.setForeground(Color.white);
-        footer.add(copyright, BorderLayout.LINE_START);
+        footer.add(copyright, BorderLayout.CENTER);
         footer.setBackground(Color.black);
         mainPanel.add(footer);
 

@@ -55,7 +55,7 @@ public class LoadFrame extends JFrame {
 
     public void run() throws IOException {
         frame = new JFrame("Load file");
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
         frame.setIconImage(icon);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel();
