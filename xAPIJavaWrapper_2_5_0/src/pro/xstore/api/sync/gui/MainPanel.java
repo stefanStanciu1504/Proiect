@@ -11,6 +11,7 @@ import pro.xstore.api.sync.SyncAPIConnector;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.metal.MetalToggleButtonUI;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -141,6 +142,7 @@ public class MainPanel {
     public void addPanel(JPanel panel, JTextField text, JLabel label, JPanel masterPanel) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(label);
+        text.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         panel.add(text);
         masterPanel.add(panel);
     }
@@ -287,24 +289,23 @@ public class MainPanel {
     }
 
     public JPanel buildMainPanel() throws APIErrorResponse, APICommunicationException, APIReplyParseException, APICommandConstructionException {
-        ImageIcon logo = new ImageIcon(new ImageIcon("./src/Media/logo.jpeg").getImage().getScaledInstance(100, 60, Image.SCALE_DEFAULT));
-        ImageIcon info = new ImageIcon(new ImageIcon("./src/Media/info.png").getImage().getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+        ImageIcon logo = new ImageIcon(new ImageIcon("./src/Media/logo.jpeg").getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH));
+        ImageIcon info = new ImageIcon(new ImageIcon("./src/Media/info.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
         JLabel label = new JLabel(logo);
-        simpleOrderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 70, 20));
+        simpleOrderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 80, 20));
         bigMoneyPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 55, 20));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         header.setLayout(new BorderLayout());
         header.setBorder(new EmptyBorder(10, 10, 10, 10));
-        header.setPreferredSize(new Dimension(900, 100));
-        header.setMaximumSize(new Dimension(900, 100));
+        header.setPreferredSize(new Dimension(1100, 100));
+        header.setMaximumSize(new Dimension(1100, 100));
 
 
         footer.setLayout(new BorderLayout());
         footer.setBorder(new EmptyBorder(0, 10, 0, 0));
-        footer.setPreferredSize(new Dimension(900, 100));
-        footer.setMaximumSize(new Dimension(900, 100));
-
+        footer.setPreferredSize(new Dimension(1100, 100));
+        footer.setMaximumSize(new Dimension(1100, 100));
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -333,32 +334,79 @@ public class MainPanel {
         comboBox.setMaximumRowCount(10);
         comboBox.setPreferredSize(comboBox.getPreferredSize());
         comboBox.setMaximumSize(comboBox.getPreferredSize());
+        comboBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
         JComboBoxDecorator.decorate(comboBox, true, marketList);
 
-        market_label = new JLabel("Market", info, JLabel.CENTER);
+        market_label = new JLabel("*Market", info, JLabel.CENTER);
+        market_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         market_label.setHorizontalTextPosition(JLabel.LEFT);
+        market_label.setToolTipText("Dropdown with all the markets from which to choose one market on which transactions will be made.");
 
-        market_label.setToolTipText("Choose the desired marketplace");
+        priceDiff_label = new JLabel("*Price Difference", info, JLabel.CENTER);
+        priceDiff_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        priceDiff_label.setHorizontalTextPosition(JLabel.LEFT);
+        priceDiff_label.setToolTipText("The price difference for which to look out for at each market's price change.");
 
-        priceDiff_label = new JLabel("Price Difference");
-        timeInterval_label = new JLabel("Time Interval");
-        tradeVolume_label = new JLabel("Trade volume");
-        stopLoss_label = new JLabel("Stop Loss");
-        takeProfit_label = new JLabel("Take Profit");
-        maxTransactions_label = new JLabel("Max Transactions");
-        trailingStop_label = new JLabel("Trailing Stop(%)");
-        timeTransaction_label = new JLabel("Time/Transactions");
+
+        timeInterval_label = new JLabel("*Time Interval", info, JLabel.CENTER);
+        timeInterval_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        timeInterval_label.setHorizontalTextPosition(JLabel.LEFT);
+        timeInterval_label.setToolTipText("The interval of time in which to look out for the price difference at each market's price change.");
+
+
+        tradeVolume_label = new JLabel("*Trade volume", info, JLabel.CENTER);
+        tradeVolume_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        tradeVolume_label.setHorizontalTextPosition(JLabel.LEFT);
+        tradeVolume_label.setToolTipText("The volume of currency that will be used for each transaction.");
+
+        stopLoss_label = new JLabel("Stop Loss", info, JLabel.CENTER);
+        stopLoss_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        stopLoss_label.setHorizontalTextPosition(JLabel.LEFT);
+        stopLoss_label.setToolTipText("<html>A subtraction, to the price of each future transaction, that when it's reached<br/>" +
+                                        "by the market's price, the transaction will automatically be closed.</html>");
+
+        takeProfit_label = new JLabel("Take Profit", info, JLabel.CENTER);
+        takeProfit_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        takeProfit_label.setHorizontalTextPosition(JLabel.LEFT);
+        takeProfit_label.setToolTipText("<html>An addition, to the price of each future transaction, that when it's reached<br/>" +
+                                        "by the market's price, the transaction will automatically be closed.</html>");
+
+        maxTransactions_label = new JLabel("Max Transactions", info, JLabel.CENTER);
+        maxTransactions_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        maxTransactions_label.setHorizontalTextPosition(JLabel.LEFT);
+        maxTransactions_label.setToolTipText("The number of maximum transactions that will made.");
+
+
+        trailingStop_label = new JLabel("Trailing Stop(%)", info, JLabel.CENTER);
+        trailingStop_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        trailingStop_label.setHorizontalTextPosition(JLabel.LEFT);
+        trailingStop_label.setToolTipText("<html>If the market's price moves towards the Take Profit that was set with the percentage provided<br/>" +
+                                            "then the values Stop Loss and Take Profit are updated for the opened transactions.<html>");
+
+        timeTransaction_label = new JLabel("Time/Transactions", info, JLabel.CENTER);
+        timeTransaction_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        timeTransaction_label.setHorizontalTextPosition(JLabel.LEFT);
+        timeTransaction_label.setToolTipText("The time between each future transactions.");
 
         JPanel market_panel = new JPanel();
+        market_panel.setBackground(Color.white);
         JPanel priceDiff_panel = new JPanel();
+        priceDiff_panel.setBackground(Color.white);
         JPanel timeInterval_panel = new JPanel();
+        timeInterval_panel.setBackground(Color.white);
         JPanel tradeVolume_panel = new JPanel();
+        tradeVolume_panel.setBackground(Color.white);
         JPanel stopLoss_panel = new JPanel();
+        stopLoss_panel.setBackground(Color.white);
         JPanel takeProfit_panel = new JPanel();
+        takeProfit_panel.setBackground(Color.white);
         JPanel maxTransactions_panel = new JPanel();
+        maxTransactions_panel.setBackground(Color.white);
         JPanel trailingStop_panel = new JPanel();
+        trailingStop_panel.setBackground(Color.white);
         JPanel timeTransaction_panel = new JPanel();
+        timeTransaction_panel.setBackground(Color.white);
 
         market_panel.setLayout(new BoxLayout(market_panel, BoxLayout.PAGE_AXIS));
         market_panel.add(market_label);
@@ -378,11 +426,16 @@ public class MainPanel {
 
         JPanel bigMoneyActive = new JPanel();
         JPanel simpleActive = new JPanel();
+        simpleActive.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 0));
 
         JButton resetButton = new JButton("Reset Options");
+        resetButton.setFocusPainted(false);
+        resetButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         resetButton.addActionListener(e -> resetOptions());
 
         JButton saveButton = new JButton("Save Options");
+        saveButton.setFocusPainted(false);
+        saveButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         saveButton.addActionListener(e -> {
             setMarket();
             SaveFrame saveOption;
@@ -396,8 +449,10 @@ public class MainPanel {
             }
         });
 
-        JToggleButton toggleButton = new JToggleButton("Activate aditional fields");
-        toggleButton.setToolTipText("Activate ");
+        JToggleButton toggleButton = new JToggleButton("Activate additional fields");
+        toggleButton.setFocusPainted(false);
+        toggleButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        toggleButton.setToolTipText("While this is active, it adds the additional fields to all the next transactions.");
         ItemListener itemListener = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
@@ -412,12 +467,14 @@ public class MainPanel {
             } else {
                 enableBigMoneyFields();
                 trader.setToDefault();
-                toggleButton.setText("ON");
+                toggleButton.setText("Activate additional fields");
             }
         };
         toggleButton.addItemListener(itemListener);
 
         JButton loadButton = new JButton("Load Options");
+        loadButton.setFocusPainted(false);
+        loadButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         loadButton.addActionListener(e -> {
             LoadFrame loadOption = new LoadFrame(comboBox, priceDiff, timeInterval, tradeVolume,
                     stopLoss, takeProfit, maxTransactions, trailingStop, timeTransaction);
@@ -430,6 +487,8 @@ public class MainPanel {
         });
 
         JToggleButton button = new JToggleButton("Place Order");
+        button.setFocusPainted(false);
+        button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         ItemListener itemListener2 = itemEvent -> {
             int state = itemEvent.getStateChange();
             trader.setConnector(connector);
@@ -473,9 +532,18 @@ public class MainPanel {
         button.addItemListener(itemListener2);
 
         simpleActive.add(Box.createRigidArea(new Dimension(10, 75)));
+        saveButton.setBackground(new Color(0,104,55));
+        saveButton.setForeground(Color.white);
         simpleActive.add(saveButton);
+
+        loadButton.setBackground(new Color(0,104,55));
+        loadButton.setForeground(Color.white);
         simpleActive.add(loadButton);
+
+        resetButton.setBackground(new Color(0,104,55));
+        resetButton.setForeground(Color.white);
         simpleActive.add(resetButton);
+
         simpleActive.setBackground(Color.white);
         header.add(label, BorderLayout.LINE_START);
         header.add(simpleActive, BorderLayout.LINE_END);
@@ -483,22 +551,42 @@ public class MainPanel {
 
         mainPanel.add(header);
 
+        toggleButton.setBackground(new Color(0,104,55));
+        toggleButton.setForeground(Color.white);
+        toggleButton.setUI(new MetalToggleButtonUI() {
+            @Override
+            protected Color getSelectColor() {
+                return new Color(0,104,55).brighter();
+            }
+        });
         bigMoneyActive.add(toggleButton);
+
         bigMoneyActive.setBackground(Color.white);
         mainPanel.add(simpleOrderPanel);
         JPanel placeOrderPanel = new JPanel();
+        button.setBackground(new Color(0,104,55));
+        button.setForeground(Color.white);
         placeOrderPanel.add(button);
         placeOrderPanel.setBackground(Color.white);
         mainPanel.add(placeOrderPanel);
         simpleOrderPanel.setBackground(Color.white);
         bigMoneyPanel.setBackground(Color.white);
 
+        JPanel information = new JPanel();
+        JLabel importantFields = new JLabel("All the fields marked with * are mandatory!", info, JLabel.CENTER);
+        importantFields.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        information.add(importantFields);
+        information.setBackground(Color.white);
+
         mainPanel.add(new JSeparator(), "cell 1 0,growx");
         mainPanel.add(bigMoneyPanel);
         mainPanel.add(bigMoneyActive);
+        mainPanel.add(information);
         mainPanel.setBackground(Color.white);
 
         JLabel copyright = new JLabel("Developed using xAPI from XTB Platform");
+        copyright.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        copyright.setForeground(Color.white);
         footer.add(copyright, BorderLayout.LINE_START);
         footer.setBackground(Color.black);
         mainPanel.add(footer);

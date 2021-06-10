@@ -26,5 +26,6 @@
     <orderEntry type="library" name="appframework-1.0.3" level="application" />
     <orderEntry type="library" name="swing-worker-1.1" level="application" />
     <orderEntry type="library" name="swingx-1.6.1" level="application" />
+    <orderEntry type="library" name="appframework-1.0.3" level="application" />
   </component>
 </module>

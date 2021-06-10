@@ -26,7 +26,6 @@ public class Example {
 
 				connector.connectStream(sl);
 				connector.subscribeBalance();
-				Thread.sleep(250);
 				connector.unsubscribeBalance();
 			}
 		} catch (Exception ex) {

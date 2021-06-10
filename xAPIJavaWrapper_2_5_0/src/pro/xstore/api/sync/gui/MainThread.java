@@ -106,8 +106,8 @@ public class MainThread implements Runnable {
 //        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
 //        tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume);
 
-        buyThread.start();
-        sellThread.start();
+//        buyThread.start();
+//        sellThread.start();
         if (bigMoneyTime.get()) {
             tsThread.start();
         }

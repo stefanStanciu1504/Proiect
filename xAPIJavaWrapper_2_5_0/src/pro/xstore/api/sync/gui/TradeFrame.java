@@ -48,12 +48,13 @@ public class TradeFrame extends JFrame {
         });
 
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/log.jpeg");
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
         frame.setIconImage(icon);
 
         MainPanel defaultTab = new MainPanel(connector);
+        UIManager.put("TabbedPane.contentAreaColor", Color.white);
         this.tabs.setUI(new CustomTabbedPaneUI());
-
+        this.tabs.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
         this.tabs.addTab("Tab 0", null, defaultTab.buildMainPanel(), null);
         this.tabs.addTab(" + ", null, new JPanel(), null);
@@ -81,9 +82,9 @@ public class TradeFrame extends JFrame {
         });
 
         frame.getContentPane().add(this.tabs);
-        frame.setPreferredSize(new Dimension(900, 700));
+        frame.setPreferredSize(new Dimension(1100, 700));
         frame.setResizable(false);
-        frame.getContentPane().setBackground(Color.white);
+        frame.getContentPane().setBackground(Color.black);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

@@ -1,12 +1,8 @@
 package pro.xstore.api.sync.gui;
-
-import com.sun.tools.javac.Main;
 import pro.xstore.api.message.records.STickRecord;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalToggleButtonUI;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -48,11 +44,34 @@ public class OutputFrame extends JFrame {
 
     public void run() {
         frame = new JFrame("Output");
-        JPanel southPanel = new JPanel();
-        southPanel.setLayout(new GridBagLayout());
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        frame.setIconImage(icon);
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.white);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JPanel lowerPanel = new JPanel();
+        lowerPanel.setBackground(Color.white);
+        lowerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 61, 0));
 
         JButton closeFrame = new JButton("Close");
+        closeFrame.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        closeFrame.setBackground(new Color(0,104,55));
+        closeFrame.setForeground(Color.white);
+        lowerPanel.add(closeFrame);
+
         JToggleButton pause = new JToggleButton("Pause Output");
+        pause.setForeground(Color.white);
+        pause.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        pause.setBackground(new Color(0,104,55));
+        pause.setUI(new MetalToggleButtonUI() {
+            @Override
+            protected Color getSelectColor() {
+                return new Color(0,104,55).brighter();
+            }
+        });
+        lowerPanel.add(pause);
+
         ItemListener itemListener = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
@@ -65,6 +84,17 @@ public class OutputFrame extends JFrame {
         pause.addItemListener(itemListener);
 
         JToggleButton filter = new JToggleButton("Show Price Updates");
+        filter.setForeground(Color.white);
+        filter.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        filter.setBackground(new Color(0,104,55));
+        filter.setUI(new MetalToggleButtonUI() {
+            @Override
+            protected Color getSelectColor() {
+                return new Color(0,104,55).brighter();
+            }
+        });
+        lowerPanel.add(filter);
+
         ItemListener itemListener2 = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
@@ -76,37 +106,27 @@ public class OutputFrame extends JFrame {
         };
         filter.addItemListener(itemListener2);
 
-        chatBox = new JTextArea();
-        chatBox.setEditable(false);
-        JScrollPane scroll = new JScrollPane(chatBox);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        frame.getContentPane().add(BorderLayout.CENTER, scroll);
-
-        chatBox.setLineWrap(true);
-
-        GridBagConstraints left = new GridBagConstraints();
-        left.anchor = GridBagConstraints.WEST;
-        left.weightx = 2.0;
-        GridBagConstraints middle = new GridBagConstraints();
-        middle.anchor = GridBagConstraints.CENTER;
-        GridBagConstraints right = new GridBagConstraints();
-        right.anchor = GridBagConstraints.EAST;
-        right.weightx = 2.0;
-
-        southPanel.add(filter, left);
-        southPanel.add(pause, middle);
-        southPanel.add(closeFrame, right);
-        
         closeFrame.addActionListener(e -> frame.dispose());
 
-        frame.add(southPanel, BorderLayout.PAGE_END);
+        chatBox = new JTextArea();
+        chatBox.setEditable(false);
+        chatBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        chatBox.setLineWrap(true);
+        JScrollPane scroll = new JScrollPane(chatBox);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setPreferredSize(new Dimension(560, 490));
+        scroll.setSize(new Dimension(560, 490));
+        scroll.setMaximumSize(new Dimension(560, 490));
+
+        panel.add(scroll);
+        panel.add(lowerPanel);
+
+        frame.getContentPane().add(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setSize(560, 560);
-
-
     }
 
 }

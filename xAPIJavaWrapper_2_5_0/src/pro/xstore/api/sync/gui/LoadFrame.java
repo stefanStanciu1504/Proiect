@@ -14,7 +14,7 @@ import javax.swing.*;
 
 
 public class LoadFrame extends JFrame {
-    private static JFrame f;
+    private static JFrame frame;
     private static JComboBox<String> comboBox;
     private static JComboBox<String> tradeBox;
     private static JTextField TD;
@@ -54,17 +54,34 @@ public class LoadFrame extends JFrame {
     }
 
     public void run() throws IOException {
-        f = new JFrame("Load file");
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JPanel p = new JPanel();
-        p.setLayout(new GridBagLayout());
+        frame = new JFrame("Load file");
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        frame.setIconImage(icon);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+        JPanel buttons = new JPanel();
+        buttons.setBackground(Color.white);
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 45, 0));
+        
         JButton close = new JButton("Close");
+        close.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        close.setBackground(new Color(0,104,55));
+        close.setForeground(Color.white);
+        buttons.add(close);
+
         JButton load = new JButton("Load");
+        load.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        load.setBackground(new Color(0,104,55));
+        load.setForeground(Color.white);
+        buttons.add(load);
 
         JLabel notify = new JLabel("Load file");
+        notify.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
-        close.addActionListener(e -> f.dispose());
+        close.addActionListener(e -> frame.dispose());
         load.addActionListener(e -> {
             String aux = "./src/Saves/" + comboBox.getEditor().getItem() + ".txt";
             File file = new File(aux);
@@ -85,7 +102,7 @@ public class LoadFrame extends JFrame {
                     }
                 }
                 myReader.close();
-                f.dispose();
+                frame.dispose();
             } catch (Exception ignore) {
                 notify.setText("Please select a valid save");
             }
@@ -97,25 +114,30 @@ public class LoadFrame extends JFrame {
         loadOptions.addAll(listFiles("./src/Saves"));
         comboBox = new JComboBox<>(loadOptions.toArray(new String[0]));
         comboBox.setMaximumRowCount(10);
-        comboBox.setPreferredSize(comboBox.getPreferredSize());
-        comboBox.setMaximumSize(comboBox.getPreferredSize());
-
+        comboBox.setPreferredSize(new Dimension(180, 25));
+        comboBox.setSize(new Dimension(180, 25));
+        comboBox.setMaximumSize(new Dimension(180, 25));
         JComboBoxDecorator.decorate(comboBox, true, loadOptions);
+        comboBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
-        GridBagConstraints left = new GridBagConstraints();
-        left.anchor = GridBagConstraints.WEST;
-        GridBagConstraints right = new GridBagConstraints();
-        right.anchor = GridBagConstraints.EAST;
-        right.weightx = 2.0;
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        JPanel title = new JPanel();
+        title.add(notify);
+        title.setBackground(Color.white);
+        panel.add(title);
 
-        p.add(load, left);
-        p.add(close, right);
+        JPanel dropdown = new JPanel();
+        dropdown.add(comboBox);
+        dropdown.setBackground(Color.white);
+        panel.add(dropdown);
 
-        f.add(p, BorderLayout.PAGE_END);
-        f.add(comboBox, BorderLayout.CENTER);
-        f.add(notify, BorderLayout.PAGE_START);
-        f.setVisible(true);
-        f.setSize(240, 110);
-        f.setLocationRelativeTo(null);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(buttons);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+        frame.setSize(240, 200);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
     }
 }

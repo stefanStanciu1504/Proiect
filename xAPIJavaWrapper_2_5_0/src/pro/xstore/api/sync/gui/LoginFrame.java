@@ -12,7 +12,6 @@ import java.io.IOException;
 import org.jdesktop.swingx.border.DropShadowBorder;
 import java.util.Scanner;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.metal.MetalToggleButtonUI;
 
 
@@ -35,6 +34,8 @@ public class LoginFrame extends JFrame implements ActionListener {
         frame = new JFrame("Login");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        frame.setIconImage(icon);
         button = new JButton("Login");
         ImageIcon lower_left = new ImageIcon(new ImageIcon("./src/Media/circlesDown.png").getImage().getScaledInstance(63, 60, Image.SCALE_SMOOTH));
         ImageIcon upper_right = new ImageIcon(new ImageIcon("./src/Media/circlesUp.png").getImage().getScaledInstance(63, 60, Image.SCALE_SMOOTH));
@@ -42,7 +43,8 @@ public class LoginFrame extends JFrame implements ActionListener {
         JLabel right = new JLabel(upper_right);
 
         JToggleButton selectDemo = new JToggleButton("Demo account");
-        selectDemo.setFont(new Font("Papyrus", Font.BOLD, 14));
+        selectDemo.setFocusPainted(false);
+        selectDemo.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         selectDemo.setBackground(new Color(0,104,55));
         selectDemo.setUI(new MetalToggleButtonUI() {
             @Override
@@ -53,7 +55,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 
         selectDemo.setForeground(Color.white);
         JToggleButton selectReal = new JToggleButton("Real account");
-        selectReal.setFont(new Font("Papyrus", Font.BOLD, 14));
+        selectReal.setFocusPainted(false);
+        selectReal.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         selectReal.setBackground(new Color(0,104,55));
         selectReal.setUI(new MetalToggleButtonUI() {
             @Override
@@ -86,15 +89,36 @@ public class LoginFrame extends JFrame implements ActionListener {
         selectReal.addItemListener(itemListenerReal);
 
         button.addActionListener(this);
+        button.setFocusPainted(false);
         button.setBackground(new Color(0,104,55).darker());
         button.setForeground(Color.white);
-        button.setFont(new Font("Papyrus", Font.BOLD, 14));
+        button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
         notify = new JLabel("Welcome to MoneyTrading!");
-        notify.setFont(new Font("Papyrus", Font.BOLD, 18));
+        notify.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 
-        username = new JTextField(20);
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        usernamePanel.setBackground(Color.white);
+
+        username = new JTextField(16);
+        username.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        JLabel accountInfo = new JLabel("Account Number:");
+        accountInfo.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+        usernamePanel.add(accountInfo);
+        usernamePanel.add(username);
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        passwordPanel.setBackground(Color.white);
+
         password = new JPasswordField(16);
+        password.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        JLabel passwordInfo = new JLabel("Password:");
+        passwordInfo.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+        passwordPanel.add(Box.createRigidArea(new Dimension(37, 0)));
+        passwordPanel.add(passwordInfo);
+        passwordPanel.add(password);
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -102,14 +126,16 @@ public class LoginFrame extends JFrame implements ActionListener {
         panel.setMaximumSize(new Dimension(360, 300));
 
         panel.add(Box.createRigidArea(new Dimension(5, 16)));
-        panel.add(notify);
-        notify.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JPanel notifyPanel = new JPanel();
+        notifyPanel.setBackground(Color.white);
+        notifyPanel.add(notify);
+        panel.add(notifyPanel);
         username.setMaximumSize(username.getPreferredSize());
         panel.add(Box.createRigidArea(new Dimension(5, 30)));
-        panel.add(username);
+        panel.add(usernamePanel);
         password.setMaximumSize(password.getPreferredSize());
         panel.add(Box.createRigidArea(new Dimension(5, 6)));
-        panel.add(password);
+        panel.add(passwordPanel);
 
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         try {
@@ -126,8 +152,10 @@ public class LoginFrame extends JFrame implements ActionListener {
             ioException.printStackTrace();
         }
 
+        JPanel checkBoxPanel = new JPanel();
+        checkBoxPanel.setBackground(Color.white);
         JCheckBox checkBox = new JCheckBox("Save credentials");
-        checkBox.setFont(new Font("Papyrus", Font.BOLD, 14));
+        checkBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         checkBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         checkBox.addItemListener(e -> {
             if(e.getStateChange() == ItemEvent.SELECTED) {
@@ -136,9 +164,10 @@ public class LoginFrame extends JFrame implements ActionListener {
         });
 
         checkBox.setBackground(Color.white);
+        checkBoxPanel.add(checkBox);
         panel.add(Box.createRigidArea(new Dimension(5, 6)));
-        panel.add(checkBox);
-        panel.add(Box.createRigidArea(new Dimension(5, 46)));
+        panel.add(checkBoxPanel);
+        panel.add(Box.createRigidArea(new Dimension(5, 30)));
         panel.add(button);
 
         JPanel accountPanel = new JPanel();

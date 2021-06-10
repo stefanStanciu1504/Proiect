@@ -103,10 +103,9 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
             default:
                 xp = new int[]{x, x, x + 3, x + w - inclTab - 6, x + w - inclTab - 2, x + w - inclTab, x + w - inclTab, x};
                 yp = new int[]{y + h, y + 3, y, y, y + 1, y + 3, y + h, y + h};
-                gradientShadow = new GradientPaint(0, 0, new Color(0,104,55), 0, y + h / 2, new Color(240, 255, 210));
+                gradientShadow = new GradientPaint(0, 0, new Color(0,104,55).darker(), 0, y + h / 2, new Color(0,104,55).brighter());
                 break;
         }
-        // ;
         shape = new Polygon(xp, yp, xp.length);
         if (isSelected) {
             g2D.setColor(selectColor);
@@ -114,10 +113,10 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
         } else {
             if (tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
                 g2D.setColor(deSelectColor);
-                GradientPaint gradientShadowTmp = new GradientPaint(0, 0, new Color(255, 255, 200), 0, y + h / 2, new Color(240, 255, 210));
+                GradientPaint gradientShadowTmp = new GradientPaint(0, 0, new Color(0,104,55), 0, y + h / 2, new Color(255, 255, 255));
                 g2D.setPaint(gradientShadowTmp);
             } else {
-                GradientPaint gradientShadowTmp = new GradientPaint(0, 0, new Color(240, 255, 210), 0, y + 15 + h / 2, new Color(204, 204, 204));
+                GradientPaint gradientShadowTmp = new GradientPaint(0, 0, new Color(0,104,55), 0, y + 15 + h / 2, new Color(255, 255, 255));
                 g2D.setPaint(gradientShadowTmp);
             }
         }
@@ -144,7 +143,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
             if (tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
                 g.setColor(tabPane.getForegroundAt(tabIndex));
                 BasicGraphicsUtils.drawStringUnderlineCharAt(g, title, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
-            } else { // tab disabled
+            } else {
                 g.setColor(Color.BLACK);
                 BasicGraphicsUtils.drawStringUnderlineCharAt(g, title, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
                 g.setColor(tabPane.getBackgroundAt(tabIndex).darker());

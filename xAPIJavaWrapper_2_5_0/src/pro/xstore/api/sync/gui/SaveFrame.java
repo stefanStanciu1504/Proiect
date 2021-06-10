@@ -9,7 +9,7 @@ import javax.swing.*;
 
 
 public class SaveFrame extends JFrame {
-    private static JFrame f;
+    private static JFrame frame;
     private static File file;
     private final String market;
     private final double diff;
@@ -69,19 +69,37 @@ public class SaveFrame extends JFrame {
     }
 
     public void run() {
-        f = new JFrame("File Name");
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JPanel p = new JPanel();
-        p.setLayout(new GridBagLayout());
+        frame = new JFrame("Save file");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.jpeg");
+        frame.setIconImage(icon);
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JPanel buttons = new JPanel();
+        buttons.setBackground(Color.white);
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));
 
         JButton close = new JButton("Close");
+        close.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        close.setBackground(new Color(0,104,55));
+        close.setForeground(Color.white);
+        buttons.add(close);
+
         JButton save = new JButton("Save");
+        save.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        save.setBackground(new Color(0,104,55));
+        save.setForeground(Color.white);
+        buttons.add(save);
 
         JLabel notify = new JLabel("Save file");
+        notify.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
-        JTextField fileName = new JTextField(20);
+        JTextField fileName = new JTextField(15);
+        fileName.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
-        close.addActionListener(e -> f.dispose());
+        close.addActionListener(e -> frame.dispose());
         save.addActionListener(e -> {
             if (!fileName.getText().equals("")) {
                 try {
@@ -99,26 +117,30 @@ public class SaveFrame extends JFrame {
                     myFile.close();
             } catch(IOException ignored){
             }
-            f.dispose();
+            frame.dispose();
         } else {
                 notify.setText("Please enter a valid name");
             }
         });
 
-        GridBagConstraints left = new GridBagConstraints();
-        left.anchor = GridBagConstraints.WEST;
-        GridBagConstraints right = new GridBagConstraints();
-        right.anchor = GridBagConstraints.EAST;
-        right.weightx = 2.0;
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        JPanel title = new JPanel();
+        title.add(notify);
+        title.setBackground(Color.white);
+        panel.add(title);
 
-        p.add(save, left);
-        p.add(close, right);
+        JPanel name = new JPanel();
+        name.add(fileName);
+        name.setBackground(Color.white);
+        panel.add(name);
 
-        f.add(p, BorderLayout.PAGE_END);
-        f.add(fileName, BorderLayout.CENTER);
-        f.add(notify, BorderLayout.PAGE_START);
-        f.setVisible(true);
-        f.setSize(240, 110);
-        f.setLocationRelativeTo(null);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(buttons);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+        frame.setSize(240, 200);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
     }
 }
