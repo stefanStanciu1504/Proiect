@@ -29,7 +29,7 @@ public class SaveFrame extends JFrame {
         volume = new_volume;
     }
 
-    public void saveBigDickOptions(double new_SL, double new_TP, double new_maxT, double new_TS, double new_timeT) {
+    public void saveOptions(double new_SL, double new_TP, double new_maxT, double new_TS, double new_timeT) {
         optionalToggle = !optionalToggle;
         SL = new_SL;
         TP = new_TP;

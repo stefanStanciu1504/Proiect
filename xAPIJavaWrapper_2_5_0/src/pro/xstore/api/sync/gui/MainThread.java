@@ -16,7 +16,7 @@ public class MainThread implements Runnable {
     public static AtomicBoolean blockTransactions = new AtomicBoolean(false);
     public static AtomicInteger currTransactions = new AtomicInteger();
     private static OutputFrame outputFrame;
-    private static PriceUpdates updates;
+    private static final PriceUpdates updates = new PriceUpdates();
     private static final BuyThread buyThread = new BuyThread();
     private static final SellThread sellThread = new SellThread();
     private static final TsThread tsThread = new TsThread();
@@ -70,9 +70,10 @@ public class MainThread implements Runnable {
     public void setBigMoney(double stopLoss, double takeProfit,
                             double maxTransactions, double trailingStop, double delay) {
         bigMoneyTime.set(true);
-        buyThread.setOptionals(stopLoss, takeProfit, maxTransactions, delay);
-        sellThread.setOptionals(stopLoss, takeProfit, maxTransactions, delay);
-        tsThread.setOptionals(stopLoss, takeProfit, maxTransactions, trailingStop);
+        updates.setMaxTransactions(maxTransactions);
+        buyThread.setOptionals(stopLoss, takeProfit, delay, maxTransactions);
+        sellThread.setOptionals(stopLoss, takeProfit, delay, maxTransactions);
+        tsThread.setOptionals(stopLoss, takeProfit, trailingStop);
         if (running.get()) {
             tsThread.start();
         }
@@ -92,7 +93,7 @@ public class MainThread implements Runnable {
 
     public void run() {
         running.set(true);
-        updates = new PriceUpdates(connector, market, subscribedMarkets, outputFrame);
+        updates.setMandatoryValues(connector, market, subscribedMarkets, outputFrame);
         updates.register(buyThread);
         updates.register(sellThread);
         updates.register(tsThread);
@@ -104,9 +105,9 @@ public class MainThread implements Runnable {
         updates.start();
         buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume);
 //        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
-//        tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume);
+        tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume);
 
-//        buyThread.start();
+        buyThread.start();
 //        sellThread.start();
         if (bigMoneyTime.get()) {
             tsThread.start();

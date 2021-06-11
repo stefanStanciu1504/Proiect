@@ -13,20 +13,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PriceUpdates implements Subject, Runnable {
     private final AtomicBoolean running = new AtomicBoolean(false);
-    private static OutputFrame outputFrame;
-    private final SyncAPIConnector connector;
-    private final String market;
-    private final LinkedList<String> subscribedMarkets;
+    private OutputFrame outputFrame;
+    private SyncAPIConnector connector;
+    private String market;
+    private LinkedList<String> subscribedMarkets;
     private STickRecord record = null;
     private List<Observer> observers;
     private boolean changed;
+    private double maxTransactions;
     private final Object MUTEX = new Object();
 
-    public PriceUpdates(SyncAPIConnector new_connector, String new_market, LinkedList<String> new_subscribedMarkets, OutputFrame new_outFrame) {
-        connector = new_connector;
-        market = new_market;
-        subscribedMarkets = new_subscribedMarkets;
-        outputFrame = new_outFrame;
+    public PriceUpdates() {
+    }
+
+    public void setMandatoryValues(SyncAPIConnector new_connector, String new_market, LinkedList<String> new_subscribedMarkets, OutputFrame new_outFrame) {
+        this.connector = new_connector;
+        this.market = new_market;
+        this.subscribedMarkets = new_subscribedMarkets;
+        this.outputFrame = new_outFrame;
         this.observers = new ArrayList<>();
     }
 
@@ -44,7 +48,7 @@ public class PriceUpdates implements Subject, Runnable {
 
     @Override
     public void notifyObservers() {
-        List<Observer> observersLocal = null;
+        List<Observer> observersLocal;
 
         synchronized (MUTEX) {
             if (!changed) return;
@@ -76,6 +80,23 @@ public class PriceUpdates implements Subject, Runnable {
         notifyObservers();
     }
 
+    public void setMaxTransactions(double maxTransactions) {
+        this.maxTransactions = maxTransactions;
+    }
+
+    private void checkTransactionsLimit() {
+        if (MainThread.currTransactions.get() >= this.maxTransactions && this.maxTransactions != 0) {
+            if (MainThread.bigMoneyTime.get() && !MainThread.blockTransactions.get()) {
+                this.outputFrame.updateOutput("Maximum transactions reached!");
+                MainThread.blockTransactions.set(true);
+            } else if (!MainThread.bigMoneyTime.get() && MainThread.blockTransactions.get()) {
+                MainThread.blockTransactions.set(false);
+            }
+        } else if (MainThread.currTransactions.get() < this.maxTransactions && MainThread.blockTransactions.get()) {
+            MainThread.blockTransactions.set(false);
+        }
+    }
+
     public void run() {
         running.set(true);
         TickPricesResponse resp = null;
@@ -99,6 +120,7 @@ public class PriceUpdates implements Subject, Runnable {
         STickRecord prev = null;
         STickRecord curr = null;
         while (running.get()) {
+            checkTransactionsLimit();
             if (curr != null)
                 prev = curr;
             curr = connector.getTickRecord();

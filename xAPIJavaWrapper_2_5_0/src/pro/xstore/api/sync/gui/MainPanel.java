@@ -123,7 +123,6 @@ public class MainPanel {
             if (!text.getText().equals("")) {
                 try {
                     trailingStop_value = Double.parseDouble(text.getText());
-
                 } catch (Exception e) {
                     trailingStop_value = Double.MIN_VALUE;
                     trailingStop_label.setText("Insert a number");
@@ -211,6 +210,14 @@ public class MainPanel {
                 (maxTransactions_value != Double.MIN_VALUE) ||
                 (trailingStop_value != Double.MIN_VALUE) ||
                 (timeTransaction_value != Double.MIN_VALUE);
+    }
+
+    private boolean checkOptionalLabels() {
+        return !stopLoss_label.getText().equals("Insert a number") &&
+                !takeProfit_label.getText().equals("Insert a number") &&
+                !maxTransactions_label.getText().equals("Insert a number") &&
+                !trailingStop_label.getText().equals("Insert a number") &&
+                !timeTransaction_label.getText().equals("Insert a number");
     }
 
     public void disableSimpleFields() {
@@ -464,7 +471,7 @@ public class MainPanel {
                 checkMandatoryValues();
                 saveOption = new SaveFrame(market_value, priceDiff_value, timeInterval_value, tradeVolume_value);
                 if (getSavedOptionals()) {
-                    saveOption.saveBigDickOptions(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
+                    saveOption.saveOptions(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
                     saveOption.run();
                 }
             }
@@ -484,11 +491,14 @@ public class MainPanel {
                             subtitle.setText("Optional Values");
                             subtitle.setForeground(Color.black);
                         }
+                        defaultOptionalLabels();
                         disableBigMoneyFields();
                         trader.setBigMoney(stopLoss_value, takeProfit_value, maxTransactions_value, trailingStop_value, timeTransaction_value);
                     } else {
-                        subtitle.setText("No fields were filled out!");
-                        subtitle.setForeground(Color.red);
+                        if (checkOptionalLabels()) {
+                            subtitle.setText("No fields were filled out!");
+                            subtitle.setForeground(Color.red);
+                        }
                         toggleButton.setSelected(false);
                     }
                 } else {
@@ -552,6 +562,7 @@ public class MainPanel {
                 enableSimpleFields();
                 loadButton.setEnabled(true);
                 resetButton.setEnabled(true);
+                toggleButton.setSelected(false);
                 if (aux != null) {
                     trader.stop();
                     try {

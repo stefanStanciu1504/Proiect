@@ -57,18 +57,18 @@ public class SellThread implements Runnable, Observer {
         this.tradeVolume = new_tradeVolume;
     }
 
-    public void setOptionals(double new_stopLoss, double new_takeProfit, double new_delay, double new_maxTransactions) {
+    public void setOptionals(double new_stopLoss, double new_takeProfit, double new_delay, double maxTransactions) {
         this.stopLoss = new_stopLoss;
         this.takeProfit = new_takeProfit;
-        this.maxTransactions = new_maxTransactions;
         this.delay = new_delay;
+        this.maxTransactions = maxTransactions;
     }
 
     public void setOptionalToDefault() {
         this.stopLoss = 0.0;
         this.takeProfit = 0.0;
-        this.maxTransactions = Double.MAX_VALUE;
         this.delay = 0.25;
+        this.maxTransactions = 0;
     }
 
     public void start() {
@@ -80,18 +80,44 @@ public class SellThread implements Runnable, Observer {
         running.set(false);
     }
 
-    public TradeTransInfoRecord makeSellInfo(long value) {
+    private TradeTransInfoRecord makeSellInfo(long value) {
         TradeTransInfoRecord info;
         if (!MainThread.bigMoneyTime.get()) {
             info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
                     this.currentPrice.getBid(), 0.0, 0.0, this.currentPrice.getSymbol(), this.tradeVolume, (long)0.0, "", value);
         } else {
-            double sl = this.currentPrice.getBid() + this.stopLoss;
-            double tp = this.currentPrice.getBid() - this.takeProfit;
-            info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
-                    this.currentPrice.getBid(), sl, tp, this.currentPrice.getSymbol(), this.tradeVolume, (long)0.0, "", value);
+            if (this.stopLoss != Double.MIN_VALUE && this.takeProfit == Double.MIN_VALUE) {
+                double sl = this.currentPrice.getBid() + this.stopLoss;
+                info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
+                        this.currentPrice.getBid(), sl, 0.0, this.currentPrice.getSymbol(), this.tradeVolume, (long)0.0, "", value);
+            } else if (this.stopLoss == Double.MIN_VALUE && this.takeProfit != Double.MIN_VALUE) {
+                double tp = this.currentPrice.getBid() - this.takeProfit;
+                info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
+                        this.currentPrice.getBid(), 0.0, tp, this.currentPrice.getSymbol(), this.tradeVolume, (long)0.0, "", value);
+            } else if (this.stopLoss != Double.MIN_VALUE && this.takeProfit != Double.MIN_VALUE) {
+                double sl = this.currentPrice.getBid() + this.stopLoss;
+                double tp = this.currentPrice.getBid() - this.takeProfit;
+                info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
+                        this.currentPrice.getBid(), sl, tp, this.currentPrice.getSymbol(), this.tradeVolume, (long)0.0, "", value);
+            } else {
+                info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.OPEN,
+                        this.currentPrice.getBid(), 0.0, 0.0, this.currentPrice.getSymbol(), this.tradeVolume, (long)0.0, "", value);
+            }
         }
         return info;
+    }
+
+    private void checkTransactionsLimit() {
+        if (MainThread.currTransactions.get() >= this.maxTransactions && this.maxTransactions != 0) {
+            if (MainThread.bigMoneyTime.get() && !MainThread.blockTransactions.get()) {
+                this.outputFrame.updateOutput("Maximum transactions reached!");
+                MainThread.blockTransactions.set(true);
+            } else if (!MainThread.bigMoneyTime.get() && MainThread.blockTransactions.get()) {
+                MainThread.blockTransactions.set(false);
+            }
+        } else if (MainThread.currTransactions.get() < this.maxTransactions && MainThread.blockTransactions.get()) {
+            MainThread.blockTransactions.set(false);
+        }
     }
 
     public void run() {
@@ -138,17 +164,13 @@ public class SellThread implements Runnable, Observer {
                                                         this.outputFrame.updateOutput("No funds left.");
                                                         MainThread.stopTransactions();
                                                         break;
-                                                    } else {
-                                                        long curr_t = System.currentTimeMillis();
-                                                        MainThread.atomicDelay.set((long) (curr_t + (this.delay * 1000)));
                                                     }
                                                 } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
                                                     int temp = MainThread.currTransactions.get();
                                                     MainThread.currTransactions.set(temp + 1);
-                                                    String transactionInfo = (temp + 1) + ". A sell position was opened with the number " + tradeStatus.getOrder();
+                                                    String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder();
                                                     this.outputFrame.updateOutput(transactionInfo);
-                                                    long curr_t = System.currentTimeMillis();
-                                                    MainThread.atomicDelay.set((long) (curr_t + (this.delay * 1000)));
+                                                    checkTransactionsLimit();
                                                 } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.PENDING)) {
                                                     try {
                                                         tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
@@ -157,9 +179,9 @@ public class SellThread implements Runnable, Observer {
                                                     }
                                                     int temp = MainThread.currTransactions.get();
                                                     MainThread.currTransactions.set(temp + 1);
-                                                    String transactionInfo = (temp + 1) + ". A sell position was opened with the number " + tradeStatus.getOrder();
+                                                    String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder();
                                                     this.outputFrame.updateOutput(transactionInfo);
-
+                                                    checkTransactionsLimit();
                                                 }
                                             }
                                         }
