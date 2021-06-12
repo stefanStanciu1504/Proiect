@@ -25,7 +25,6 @@ public class TsThread implements Runnable, Observer {
     private double tradeVolume;
     private double stopLoss;
     private double takeProfit;
-    private TradesResponse tds;
     private STickRecord currentPrice = null;
 
     public TsThread() {
@@ -100,13 +99,13 @@ public class TsThread implements Runnable, Observer {
     public void run() {
         running.set(true);
         while (running.get()) {
-            this.tds = null;
+            TradesResponse tds = null;
             if (System.currentTimeMillis() >= this.checkDelay) {
                 if (connector != null) {
                     boolean isLockAcquired = MainThread.lock.tryLock();
                     if (isLockAcquired) {
                         try {
-                            this.tds = APICommandFactory.executeTradesCommand(this.connector, true);
+                            tds = APICommandFactory.executeTradesCommand(this.connector, true);
                         }
                         catch (Exception ex) {
                             System.out.println("ceva");
@@ -120,9 +119,9 @@ public class TsThread implements Runnable, Observer {
                 }
             }
 
-            if (this.tds != null) {
-                if (this.tds.getTradeRecords() != null) {
-                    MainThread.currTransactions.set(this.tds.getTradeRecords().size());
+            if (tds != null) {
+                if (tds.getTradeRecords() != null) {
+                    MainThread.currTransactions.set(tds.getTradeRecords().size());
                     if ((this.stopLoss != Double.MIN_VALUE) && (this.takeProfit != Double.MIN_VALUE) && (this.trailingStop != Double.MIN_VALUE)) {
                         for (TradeRecord td : tds.getTradeRecords()) {
                             update();
@@ -160,7 +159,7 @@ public class TsThread implements Runnable, Observer {
                                                         } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ERROR)) {
                                                             System.out.println("ERROR : " + tradeStatus);
                                                         } else {
-                                                            outputFrame.updateOutput("Order's (" + td.getPosition() + ") SL and TP were modified.");
+                                                            outputFrame.updateOutput("Order's (" + td.getOrder() + ") SL and TP were modified.");
                                                         }
                                                     }
                                                 }

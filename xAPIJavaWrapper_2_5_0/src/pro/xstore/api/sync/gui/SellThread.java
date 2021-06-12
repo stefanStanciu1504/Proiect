@@ -25,10 +25,10 @@ public class SellThread implements Runnable, Observer {
     private double time;
     private double diff;
     private double tradeVolume;
-    private double stopLoss;
-    private double takeProfit;
+    private double stopLoss = Double.MIN_VALUE;
+    private double takeProfit = Double.MIN_VALUE;
     private double delay = 0.25;
-    private double maxTransactions;
+    private double maxTransactions = Double.MIN_VALUE;
     private STickRecord currentPrice = null;
 
     public SellThread() {
@@ -65,10 +65,10 @@ public class SellThread implements Runnable, Observer {
     }
 
     public void setOptionalToDefault() {
-        this.stopLoss = 0.0;
-        this.takeProfit = 0.0;
+        this.stopLoss = Double.MIN_VALUE;
+        this.takeProfit = Double.MIN_VALUE;
         this.delay = 0.25;
-        this.maxTransactions = 0;
+        this.maxTransactions = Double.MIN_VALUE;
     }
 
     public void start() {
@@ -108,14 +108,15 @@ public class SellThread implements Runnable, Observer {
     }
 
     private void checkTransactionsLimit() {
-        if (MainThread.currTransactions.get() >= this.maxTransactions && this.maxTransactions != 0) {
-            if (MainThread.bigMoneyTime.get() && !MainThread.blockTransactions.get()) {
+        if ((MainThread.currTransactions.get() >= this.maxTransactions) &&
+                (this.maxTransactions != 0) && (this.maxTransactions != Double.MIN_VALUE)) {
+            if ((MainThread.bigMoneyTime.get()) && (!MainThread.blockTransactions.get())) {
                 this.outputFrame.updateOutput("Maximum transactions reached!");
                 MainThread.blockTransactions.set(true);
-            } else if (!MainThread.bigMoneyTime.get() && MainThread.blockTransactions.get()) {
+            } else if ((!MainThread.bigMoneyTime.get()) && (MainThread.blockTransactions.get())) {
                 MainThread.blockTransactions.set(false);
             }
-        } else if (MainThread.currTransactions.get() < this.maxTransactions && MainThread.blockTransactions.get()) {
+        } else if ((MainThread.currTransactions.get() < this.maxTransactions) && (MainThread.blockTransactions.get())) {
             MainThread.blockTransactions.set(false);
         }
     }

@@ -85,14 +85,15 @@ public class PriceUpdates implements Subject, Runnable {
     }
 
     private void checkTransactionsLimit() {
-        if (MainThread.currTransactions.get() >= this.maxTransactions && this.maxTransactions != 0) {
-            if (MainThread.bigMoneyTime.get() && !MainThread.blockTransactions.get()) {
+        if ((MainThread.currTransactions.get() >= this.maxTransactions) &&
+                (this.maxTransactions != 0) && (this.maxTransactions != Double.MIN_VALUE)) {
+            if ((MainThread.bigMoneyTime.get()) && (!MainThread.blockTransactions.get())) {
                 this.outputFrame.updateOutput("Maximum transactions reached!");
                 MainThread.blockTransactions.set(true);
-            } else if (!MainThread.bigMoneyTime.get() && MainThread.blockTransactions.get()) {
+            } else if ((!MainThread.bigMoneyTime.get()) && (MainThread.blockTransactions.get())) {
                 MainThread.blockTransactions.set(false);
             }
-        } else if (MainThread.currTransactions.get() < this.maxTransactions && MainThread.blockTransactions.get()) {
+        } else if ((MainThread.currTransactions.get() < this.maxTransactions) && (MainThread.blockTransactions.get())) {
             MainThread.blockTransactions.set(false);
         }
     }
