@@ -104,7 +104,8 @@ public class LoadFrame extends JFrame {
                 myReader.close();
                 frame.dispose();
             } catch (Exception ignore) {
-                notify.setText("Please select a valid save");
+                notify.setText("Please select a valid save!");
+                notify.setForeground(Color.red);
             }
 
         });

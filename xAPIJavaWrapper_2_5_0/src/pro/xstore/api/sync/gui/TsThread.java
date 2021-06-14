@@ -59,9 +59,9 @@ public class TsThread implements Runnable, Observer {
     }
 
     public void setOptionalToDefault() {
-        this.stopLoss = 0.0;
-        this.takeProfit = 0.0;
-        this.trailingStop = 0.0;
+        this.stopLoss = Double.MIN_VALUE;
+        this.takeProfit = Double.MIN_VALUE;
+        this.trailingStop = Double.MIN_VALUE;
     }
 
     public void start() {
@@ -76,22 +76,22 @@ public class TsThread implements Runnable, Observer {
     public TradeTransInfoRecord makeBuyChange(STickRecord aux, long order, double ask) {
         TradeTransInfoRecord info;
         long curr_t = System.currentTimeMillis();
-        long end = (long) (curr_t + (time * 1000));
-        double sl = aux.getAsk() - stopLoss;
-        double tp = aux.getAsk() + takeProfit;
+        long end = (long) (curr_t + (this.time * 1000));
+        double sl = aux.getAsk() - this.stopLoss;
+        double tp = aux.getAsk() + this.takeProfit;
         info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.BUY, TRADE_TRANSACTION_TYPE.MODIFY,
-                ask, sl, tp, aux.getSymbol(), tradeVolume, order, "", end);
+                ask, sl, tp, aux.getSymbol(), this.tradeVolume, order, "", end);
         return info;
     }
 
     public TradeTransInfoRecord makeSellChange(STickRecord aux, long order, double bid) {
         TradeTransInfoRecord info;
         long curr_t = System.currentTimeMillis();
-        long end = (long) (curr_t + (time * 1000));
-        double sl = aux.getBid() + stopLoss;
-        double tp = aux.getBid() - takeProfit;
+        long end = (long) (curr_t + (this.time * 1000));
+        double sl = aux.getBid() + this.stopLoss;
+        double tp = aux.getBid() - this.takeProfit;
         info = new TradeTransInfoRecord(TRADE_OPERATION_CODE.SELL, TRADE_TRANSACTION_TYPE.MODIFY,
-                bid, sl, tp, aux.getSymbol(), tradeVolume, order, "", end);
+                bid, sl, tp, aux.getSymbol(), this.tradeVolume, order, "", end);
 
         return info;
     }
@@ -101,14 +101,14 @@ public class TsThread implements Runnable, Observer {
         while (running.get()) {
             TradesResponse tds = null;
             if (System.currentTimeMillis() >= this.checkDelay) {
-                if (connector != null) {
+                if (this.connector != null) {
                     boolean isLockAcquired = MainThread.lock.tryLock();
                     if (isLockAcquired) {
                         try {
                             tds = APICommandFactory.executeTradesCommand(this.connector, true);
                         }
                         catch (Exception ex) {
-                            System.out.println("ceva");
+                            System.out.println("Exception at TsThread!");
                         }
                         finally {
                             long curr_t1 = System.currentTimeMillis();
@@ -125,31 +125,35 @@ public class TsThread implements Runnable, Observer {
                     if ((this.stopLoss != Double.MIN_VALUE) && (this.takeProfit != Double.MIN_VALUE) && (this.trailingStop != Double.MIN_VALUE)) {
                         for (TradeRecord td : tds.getTradeRecords()) {
                             update();
-                            if (System.currentTimeMillis() >= checkDelay) {
+                            if (System.currentTimeMillis() >= this.checkDelay) {
                                 if (this.currentPrice != null && td != null) {
                                     boolean isLockAcquired = MainThread.lock.tryLock();
                                     if (isLockAcquired) {
                                         try {
                                             TradeTransInfoRecord info = null;
-                                            if (td.getCmd() == 0 && MainThread.bigMoneyTime.get()) {
-                                                if (this.currentPrice.getAsk() >= (td.getOpen_price() + takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
+                                            if ((td.getCmd() == 0) &&
+                                                    (MainThread.bigMoneyTime.get())) {
+                                                if ((this.currentPrice.getAsk() >= (td.getOpen_price() + this.takeProfit * (this.trailingStop / 100.0f))) &&
+                                                        (MainThread.bigMoneyTime.get())) {
                                                     info = makeBuyChange(this.currentPrice, td.getPosition(), td.getOpen_price());
                                                 }
-                                            } else if (td.getCmd() == 1 && MainThread.bigMoneyTime.get()) {
-                                                if (this.currentPrice.getBid() <= (td.getOpen_price() - takeProfit * (trailingStop / 100.0f)) && MainThread.bigMoneyTime.get()) {
+                                            } else if ((td.getCmd() == 1) &&
+                                                        (MainThread.bigMoneyTime.get())) {
+                                                if ((this.currentPrice.getBid() <= (td.getOpen_price() - this.takeProfit * (this.trailingStop / 100.0f))) &&
+                                                        (MainThread.bigMoneyTime.get())) {
                                                     info = makeSellChange(this.currentPrice, td.getPosition(), td.getOpen_price());
                                                 }
                                             }
                                             if (info != null) {
                                                 TradeTransactionResponse tradeResponse = null;
                                                 try {
-                                                    tradeResponse = APICommandFactory.executeTradeTransactionCommand(connector, info);
+                                                    tradeResponse = APICommandFactory.executeTradeTransactionCommand(this.connector, info);
                                                 } catch (Exception ignore) {
                                                 }
                                                 if (tradeResponse != null) {
                                                     TradeTransactionStatusResponse tradeStatus = null;
                                                     try {
-                                                        tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
+                                                        tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(this.connector,
                                                                 tradeResponse.getOrder());
                                                     } catch (Exception ignore) {
                                                     }
@@ -158,8 +162,17 @@ public class TsThread implements Runnable, Observer {
                                                             System.out.println("REJECTED : " + tradeStatus);
                                                         } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ERROR)) {
                                                             System.out.println("ERROR : " + tradeStatus);
+                                                        } else if ((tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) && (this.outputFrame != null)) {
+                                                            this.outputFrame.updateOutput("Order's (" + td.getOrder() + ") SL and TP were modified.");
                                                         } else {
-                                                            outputFrame.updateOutput("Order's (" + td.getOrder() + ") SL and TP were modified.");
+                                                            try {
+                                                                tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(this.connector,
+                                                                        tradeResponse.getOrder());
+                                                            } catch (Exception ignore) {
+                                                            }
+                                                            if ((tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) && (this.outputFrame != null)) {
+                                                                this.outputFrame.updateOutput("Order's (" + td.getOrder() + ") SL and TP were modified.");
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -167,7 +180,7 @@ public class TsThread implements Runnable, Observer {
                                         }
                                         finally {
                                             long curr_t1 = System.currentTimeMillis();
-                                            checkDelay = (long) (curr_t1 + (0.25 * 1000));
+                                            this.checkDelay = (long) (curr_t1 + (0.25 * 1000));
                                             MainThread.lock.unlock();
                                         }
                                     }

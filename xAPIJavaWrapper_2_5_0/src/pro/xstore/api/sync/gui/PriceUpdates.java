@@ -88,27 +88,25 @@ public class PriceUpdates implements Subject, Runnable {
         if ((MainThread.currTransactions.get() >= this.maxTransactions) &&
                 (this.maxTransactions != 0) && (this.maxTransactions != Double.MIN_VALUE)) {
             if ((MainThread.bigMoneyTime.get()) && (!MainThread.blockTransactions.get())) {
-                this.outputFrame.updateOutput("Maximum transactions reached!");
                 MainThread.blockTransactions.set(true);
+                if ((!MainThread.messagePrinted.get()) && (this.outputFrame != null)) {
+                    MainThread.messagePrinted.set(true);
+                    this.outputFrame.updateOutput("Maximum transactions reached!");
+                }
             } else if ((!MainThread.bigMoneyTime.get()) && (MainThread.blockTransactions.get())) {
+                MainThread.messagePrinted.set(false);
                 MainThread.blockTransactions.set(false);
             }
         } else if ((MainThread.currTransactions.get() < this.maxTransactions) && (MainThread.blockTransactions.get())) {
+            MainThread.messagePrinted.set(false);
             MainThread.blockTransactions.set(false);
         }
     }
 
     public void run() {
         running.set(true);
-        TickPricesResponse resp = null;
-        try {
-            resp = APICommandFactory.executeTickPricesCommand(connector, 0L, subscribedMarkets, 0L);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assert resp != null;
-        for (TickRecord tr : resp.getTicks()) {
-            outputFrame.updateOutput("Market: " + tr.getSymbol());
+        if (outputFrame != null) {
+            outputFrame.updateOutput("Market: " + market);
         }
 
         try {
@@ -128,7 +126,9 @@ public class PriceUpdates implements Subject, Runnable {
 
             if (curr != null && prev != null && !curr.getAsk().equals(prev.getAsk()) && curr.getSymbol().equals(market)) {
                 postPrice(curr);
-                outputFrame.updateOutput(curr);
+                if (outputFrame != null) {
+                    outputFrame.updateOutput(curr);
+                }
             }
         }
     }

@@ -20,6 +20,7 @@ public class MainThread implements Runnable {
     private static final BuyThread buyThread = new BuyThread();
     private static final SellThread sellThread = new SellThread();
     private static final TsThread tsThread = new TsThread();
+    public static AtomicBoolean messagePrinted =  new AtomicBoolean(false);
     private SyncAPIConnector connector;
     private String market;
     private LinkedList<String> subscribedMarkets;
@@ -37,11 +38,11 @@ public class MainThread implements Runnable {
     public void setEssentials(String new_market,
                               LinkedList<String> new_subscribedMarkets, double new_time,
                               double new_diff, double new_tradeVolume, OutputFrame new_outFrame) {
-        market = new_market;
-        subscribedMarkets = new_subscribedMarkets;
-        time = new_time;
-        diff = new_diff;
-        tradeVolume = new_tradeVolume;
+        this.market = new_market;
+        this.subscribedMarkets = new_subscribedMarkets;
+        this.time = new_time;
+        this.diff = new_diff;
+        this.tradeVolume = new_tradeVolume;
         outputFrame = new_outFrame;
     }
 
@@ -51,14 +52,16 @@ public class MainThread implements Runnable {
     }
 
     public void stop() {
-        updates.stop();
         buyThread.stop();
         sellThread.stop();
         tsThread.stop();
+        updates.stop();
         currTransactions.set(0);
         blockTransactions.set(false);
         atomicDelay.set(0);
-        outputFrame.closeFrame();
+        if (outputFrame != null) {
+            outputFrame.closeFrame();
+        }
         running.set(false);
     }
 
@@ -89,7 +92,6 @@ public class MainThread implements Runnable {
             blockTransactions.set(false);
         }
     }
-
 
     public void run() {
         running.set(true);

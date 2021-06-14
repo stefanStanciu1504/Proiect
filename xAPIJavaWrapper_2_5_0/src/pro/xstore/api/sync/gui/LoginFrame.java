@@ -163,9 +163,9 @@ public class LoginFrame extends JFrame implements ActionListener {
                 saveCredentials = true;
             }
         });
-
         checkBox.setBackground(Color.white);
         checkBoxPanel.add(checkBox);
+
         panel.add(Box.createRigidArea(new Dimension(5, 6)));
         panel.add(checkBoxPanel);
         panel.add(Box.createRigidArea(new Dimension(5, 30)));

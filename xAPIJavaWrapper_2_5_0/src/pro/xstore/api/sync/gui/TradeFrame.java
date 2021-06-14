@@ -24,13 +24,12 @@ public class TradeFrame extends JFrame {
     private final SyncAPIConnector connector;
     private final JTabbedPane tabs = new JTabbedPane();
 
-
     public TradeFrame(SyncAPIConnector aux_connector) {
         connector = aux_connector;
     }
 
     public void run() throws Exception {
-        JFrame frame = new JFrame("TradeFrame");
+        JFrame frame = new JFrame("MoneyTrade");
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -46,7 +45,6 @@ public class TradeFrame extends JFrame {
                 }
             }
         });
-
 
         Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
         frame.setIconImage(icon);

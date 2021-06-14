@@ -119,7 +119,8 @@ public class SaveFrame extends JFrame {
             }
             frame.dispose();
         } else {
-                notify.setText("Please enter a valid name");
+                notify.setText("Please enter a valid name!");
+                notify.setForeground(Color.red);
             }
         });
 
