@@ -111,7 +111,7 @@ public class PriceUpdates implements Subject, Runnable {
 
         try {
             connector.subscribePrice(market);
-            connector.subscribeTrades();
+//            connector.subscribeTrades();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

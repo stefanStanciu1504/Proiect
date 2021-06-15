@@ -12,7 +12,9 @@ import pro.xstore.api.message.response.TradeTransactionStatusResponse;
 import pro.xstore.api.message.response.TradesResponse;
 import pro.xstore.api.sync.SyncAPIConnector;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class TsThread implements Runnable, Observer {
     private final AtomicBoolean running = new AtomicBoolean(false);
@@ -24,6 +26,7 @@ public class TsThread implements Runnable, Observer {
     private double trailingStop = 0.0;
     private double tradeVolume;
     private double stopLoss;
+    private String market;
     private double takeProfit;
     private STickRecord currentPrice = null;
 
@@ -44,12 +47,13 @@ public class TsThread implements Runnable, Observer {
     }
 
     public void setMandatoryValues(SyncAPIConnector new_connector, OutputFrame new_outFrame, PriceUpdates new_updates,
-                                   double new_time, double new_tradeVolume) {
+                                   double new_time, double new_tradeVolume, String market) {
         this.connector = new_connector;
         this.outputFrame = new_outFrame;
         this.updates = new_updates;
         this.time = new_time;
         this.tradeVolume = new_tradeVolume;
+        this.market = market;
     }
 
     public void setOptionals(double new_stopLoss, double new_takeProfit, double new_trailingStop) {
@@ -121,7 +125,8 @@ public class TsThread implements Runnable, Observer {
 
             if (tds != null) {
                 if (tds.getTradeRecords() != null) {
-                    MainThread.currTransactions.set(tds.getTradeRecords().size());
+                    List<TradeRecord> tempList = tds.getTradeRecords().stream().filter(p -> p.getSymbol().equals(this.market)).collect(Collectors.toList());
+                    MainThread.currTransactions.set(tempList.size());
                     if ((this.stopLoss != Double.MIN_VALUE) && (this.takeProfit != Double.MIN_VALUE) && (this.trailingStop != Double.MIN_VALUE)) {
                         for (TradeRecord td : tds.getTradeRecords()) {
                             update();

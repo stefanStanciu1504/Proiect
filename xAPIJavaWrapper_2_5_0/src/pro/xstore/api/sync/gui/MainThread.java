@@ -56,9 +56,6 @@ public class MainThread implements Runnable {
         sellThread.stop();
         tsThread.stop();
         updates.stop();
-        currTransactions.set(0);
-        blockTransactions.set(false);
-        atomicDelay.set(0);
         if (outputFrame != null) {
             outputFrame.closeFrame();
         }
@@ -107,7 +104,7 @@ public class MainThread implements Runnable {
         updates.start();
         buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume);
 //        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
-        tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume);
+        tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume, market);
 
         buyThread.start();
 //        sellThread.start();
