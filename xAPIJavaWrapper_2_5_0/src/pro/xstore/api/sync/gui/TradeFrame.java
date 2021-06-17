@@ -14,6 +14,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
@@ -22,6 +23,7 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 public class TradeFrame extends JFrame {
     private final SyncAPIConnector connector;
+//    public AtomicLong atomicDelay = new AtomicLong(0);
     private final JTabbedPane tabs = new JTabbedPane();
 
     public TradeFrame(SyncAPIConnector aux_connector) {

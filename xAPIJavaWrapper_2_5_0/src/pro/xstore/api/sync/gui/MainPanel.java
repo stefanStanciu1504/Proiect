@@ -656,7 +656,7 @@ public class MainPanel {
                         outFrame = null;
                     }
                     checkBox.setEnabled(false);
-                    trader.setEssentials(aux, subscribedMarkets, timeInterval_value, priceDiff_value, tradeVolume_value, outFrame);
+                    trader.setEssentials(aux, timeInterval_value, priceDiff_value, tradeVolume_value, outFrame);
                     button.setText("Stop");
                     disableSimpleFields();
                     loadButton.setEnabled(false);

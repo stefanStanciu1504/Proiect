@@ -1,13 +1,9 @@
 package pro.xstore.api.sync.gui;
 
-import pro.xstore.api.message.command.APICommandFactory;
 import pro.xstore.api.message.records.STickRecord;
-import pro.xstore.api.message.records.TickRecord;
-import pro.xstore.api.message.response.TickPricesResponse;
 import pro.xstore.api.sync.SyncAPIConnector;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -16,20 +12,20 @@ public class PriceUpdates implements Subject, Runnable {
     private OutputFrame outputFrame;
     private SyncAPIConnector connector;
     private String market;
-    private LinkedList<String> subscribedMarkets;
+    private final MainThread mainThread;
     private STickRecord record = null;
     private List<Observer> observers;
     private boolean changed;
     private double maxTransactions;
     private final Object MUTEX = new Object();
 
-    public PriceUpdates() {
+    public PriceUpdates(MainThread mainThread) {
+        this.mainThread = mainThread;
     }
 
-    public void setMandatoryValues(SyncAPIConnector new_connector, String new_market, LinkedList<String> new_subscribedMarkets, OutputFrame new_outFrame) {
+    public void setMandatoryValues(SyncAPIConnector new_connector, String new_market, OutputFrame new_outFrame) {
         this.connector = new_connector;
         this.market = new_market;
-        this.subscribedMarkets = new_subscribedMarkets;
         this.outputFrame = new_outFrame;
         this.observers = new ArrayList<>();
     }
@@ -85,21 +81,21 @@ public class PriceUpdates implements Subject, Runnable {
     }
 
     private void checkTransactionsLimit() {
-        if ((MainThread.currTransactions.get() >= this.maxTransactions) &&
+        if ((mainThread.currTransactions.get() >= this.maxTransactions) &&
                 (this.maxTransactions != 0) && (this.maxTransactions != Double.MIN_VALUE)) {
-            if ((MainThread.bigMoneyTime.get()) && (!MainThread.blockTransactions.get())) {
-                MainThread.blockTransactions.set(true);
-                if ((!MainThread.messagePrinted.get()) && (this.outputFrame != null)) {
-                    MainThread.messagePrinted.set(true);
+            if ((mainThread.bigMoneyTime.get()) && (!mainThread.blockTransactions.get())) {
+                mainThread.blockTransactions.set(true);
+                if ((!mainThread.messagePrinted.get()) && (this.outputFrame != null)) {
+                    mainThread.messagePrinted.set(true);
                     this.outputFrame.updateOutput("Maximum transactions reached!");
                 }
-            } else if ((!MainThread.bigMoneyTime.get()) && (MainThread.blockTransactions.get())) {
-                MainThread.messagePrinted.set(false);
-                MainThread.blockTransactions.set(false);
+            } else if ((!mainThread.bigMoneyTime.get()) && (mainThread.blockTransactions.get())) {
+                mainThread.messagePrinted.set(false);
+                mainThread.blockTransactions.set(false);
             }
-        } else if ((MainThread.currTransactions.get() < this.maxTransactions) && (MainThread.blockTransactions.get())) {
-            MainThread.messagePrinted.set(false);
-            MainThread.blockTransactions.set(false);
+        } else if ((mainThread.currTransactions.get() < this.maxTransactions) && (mainThread.blockTransactions.get())) {
+            mainThread.messagePrinted.set(false);
+            mainThread.blockTransactions.set(false);
         }
     }
 
@@ -111,7 +107,6 @@ public class PriceUpdates implements Subject, Runnable {
 
         try {
             connector.subscribePrice(market);
-//            connector.subscribeTrades();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

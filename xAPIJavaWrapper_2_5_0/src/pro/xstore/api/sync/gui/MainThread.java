@@ -9,21 +9,20 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MainThread implements Runnable {
-    public static ReentrantLock lock = new ReentrantLock();
+    public ReentrantLock lock = new ReentrantLock();
     private final AtomicBoolean running = new AtomicBoolean(false);
-    public static AtomicBoolean bigMoneyTime = new AtomicBoolean(false);
-    public static AtomicLong atomicDelay = new AtomicLong(0);
-    public static AtomicBoolean blockTransactions = new AtomicBoolean(false);
-    public static AtomicInteger currTransactions = new AtomicInteger();
-    private static OutputFrame outputFrame;
-    private static final PriceUpdates updates = new PriceUpdates();
-    private static final BuyThread buyThread = new BuyThread();
-    private static final SellThread sellThread = new SellThread();
-    private static final TsThread tsThread = new TsThread();
-    public static AtomicBoolean messagePrinted =  new AtomicBoolean(false);
+    public AtomicBoolean bigMoneyTime = new AtomicBoolean(false);
+    public AtomicLong atomicDelay = new AtomicLong(0);
+    public AtomicBoolean blockTransactions = new AtomicBoolean(false);
+    public AtomicInteger currTransactions = new AtomicInteger();
+    private OutputFrame outputFrame;
+    private final PriceUpdates updates = new PriceUpdates(this);
+    private final BuyThread buyThread = new BuyThread(this);
+    private final SellThread sellThread = new SellThread(this);
+    private final TsThread tsThread = new TsThread(this);
+    public AtomicBoolean messagePrinted =  new AtomicBoolean(false);
     private SyncAPIConnector connector;
     private String market;
-    private LinkedList<String> subscribedMarkets;
     private double time;
     private double diff;
     private double tradeVolume;
@@ -35,15 +34,13 @@ public class MainThread implements Runnable {
         this.connector = connector;
     }
 
-    public void setEssentials(String new_market,
-                              LinkedList<String> new_subscribedMarkets, double new_time,
+    public void setEssentials(String new_market, double new_time,
                               double new_diff, double new_tradeVolume, OutputFrame new_outFrame) {
         this.market = new_market;
-        this.subscribedMarkets = new_subscribedMarkets;
         this.time = new_time;
         this.diff = new_diff;
         this.tradeVolume = new_tradeVolume;
-        outputFrame = new_outFrame;
+        this.outputFrame = new_outFrame;
     }
 
     public void start() {
@@ -62,7 +59,7 @@ public class MainThread implements Runnable {
         running.set(false);
     }
 
-    public static void stopTransactions() {
+    public void stopTransactions() {
         buyThread.stop();
         sellThread.stop();
     }
@@ -92,7 +89,7 @@ public class MainThread implements Runnable {
 
     public void run() {
         running.set(true);
-        updates.setMandatoryValues(connector, market, subscribedMarkets, outputFrame);
+        updates.setMandatoryValues(connector, market, outputFrame);
         updates.register(buyThread);
         updates.register(sellThread);
         updates.register(tsThread);
@@ -102,12 +99,12 @@ public class MainThread implements Runnable {
         tsThread.setSubject(updates);
 
         updates.start();
-        buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume);
-//        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
+        buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
+        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
         tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume, market);
 
         buyThread.start();
-//        sellThread.start();
+        sellThread.start();
         if (bigMoneyTime.get()) {
             tsThread.start();
         }

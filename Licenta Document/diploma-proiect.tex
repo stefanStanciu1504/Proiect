@@ -115,7 +115,7 @@ COMPUTER SCIENCE AND ENGINEERING DEPARTMENT\\}
 %%   Campurile de mai jos trebuie modificate de autor. Modificati doar continutul, nu si numele fiecarei definitii
 %%
 \newcommand{\ProjectTitleEN}{Trading Bot}
-\newcommand{\ProjectSubtitleEN}{Building an autonomous program that does the trading for you}
+\newcommand{\ProjectSubtitleEN}{Making an autonomous program that does the trading for you}
 \newcommand{\Name}{Stanciu Stefan-Lucian}
 \newcommand{\Advisor}{Prof. dr. ing. Radulescu Florin}
 \newcommand{\Year}{2021}
@@ -129,7 +129,7 @@ COMPUTER SCIENCE AND ENGINEERING DEPARTMENT\\}
 %%   Campurile aferente rezumatului
 %%
 
-\newcommand{\AbstractEN}{With the evolution of technology and with the apparition of the internet, in this day and age, purchasing and selling financial products has never been easier. In the past investors would call their broker to make a trade for them. They could either visit or telephone their broker, but now everything is being done on an online trading platform. Using these platforms can have a lot of benefits, but there is also one big downside, which is if you want to make money constantly then you have to be online for quite some time each day, in order to not miss some good deals. My application, MoneyTrading, aims to offer the customers of a trading platform, XTB Romania, a tool that will automatically make transactions for them based on the their preferences.}
+\newcommand{\AbstractEN}{With the evolution of technology and with the apparition of the internet, in this day and age, purchasing and selling financial products has never been easier. In the past investors would call their broker to make a trade for them. They could either visit or telephone their broker, but now everything is being done on an online trading platform. Using these platforms can have a lot of benefits, but there is also one big downside, which is if you want to make money constantly then you have to be online for quite some time each day, in order to not miss some good deals. My application, MoneyTrading, aims to offer the customers of a trading platform, xStation from XTB, a tool that will automatically make transactions for them based on the their preferences.}
 
 
 \begin{document}
@@ -145,45 +145,30 @@ COMPUTER SCIENCE AND ENGINEERING DEPARTMENT\\}
 
 
 \chapter{Introduction}\pagestyle{fancy}
-% * <marios.choudary@gmail.com> 2018-02-28T11:38:18.106Z:
-% 
-% > INTRODUCERE
-% Am scos de aici referintele la font pentru a nu mai fi dependenti de Calibri. Personal, nici nu sunt sigur ca ajuta prea mult aceasta recomandare si mi se pare bun font-ul default din Latex (Computer Modern). Daca sunteti de-acord, va rog sa stergeti liniile comentate de mai jos, precum si cele referitoare la fontul Calibri din restul documentului.
-% 
-% ^.
-Parametrii de formatare recomandați pentru lucrare: 
-\begin{itemize}
- %\item Font recomandat: Calibri; Dimensiune font: 12; 
- \item Dimensiune font: 12; 
- \item Spațiere între linii: 1,5; Spațiere după paragraf: 8pt;
- \item Stil: Justified;
- \item Dimensiune pagină: A4; Margini: 2,54cm/ 2,54cm/ 2,54cm/ 2,54cm;
- %\item Heading1: Calibri, 14, bold, all caps;
- %\item Heading2: Calibri, 14, bold;
- %\item Heading3: Calibri, 12. 
- %\item Font pentru formule: Cambria Math, 12.
- \item Heading1: 14, bold, all caps;
- \item Heading2: 14, bold;
- \item Heading3: 12. 
- \item Font size pentru formule: 12.
-\end{itemize}
-În cadrul introducerii, este necesară abordarea următoarelor puncte care reprezintă de fapt familiarizarea cititorului (comisia, alți colegi sau experți în domeniu) cu tema proiectului, soluția propusa și cuprinsul/structura lucrării. Deși introducerea poate conține și unele elemente mai generale, se recomandă păstrarea unui limbaj tehnic, specific audienței care va citi lucrarea.
-
-În cadrul capitolelor următoare, veți regăsi o serie notații de forma \dezvoltare, \cercetare. Acest tip de formatare este utilizat exclusiv în acest template pentru a marca sfaturi și cerințe specifice pentru lucrări de diploma cu specific diferit. În pregătirea documentului vostru, nu veți utiliza aceste marcaje. 
-Elementele pe care trebuie să le abordați în introducere sunt descrise în cadrul subcapitolelor de mai jos. 
 \section{Context}
-O scurtă introducere a proiectului, motivație, explicație de ce este relevant domeniul proiectului.
-\section{Problem} 
-Care este problema pe care proiectul o va rezolva.
-\section{Objectives}
-Care sunt obiectivele proiectului/soluției/abordării/ideii; Ce creșteri sau evoluții determină rezolvarea proiectului.
-\section{Proposed Solution} 
-Descrierea pe scurt a soluției implementate; ce abordare este propusă (nu detalierea utilitarelor și a tehnologiilor, ci abordarea și ideea propusă de către autor).
-\section{Obatained results}
-Descriere pe scurt a rezultatelor obținute, eventual de ce acestea sunt importante față de alte soluții sau studii.
-\section{Thesis Structure}
-Un paragraf în care fiecare dintre secțiunile următoare este prezentată în 1-2 fraze, punând accentul pe elementele cele mai semnificative din fiecare secțiune.
+Traditionally, if investors or traders wanted to make a trade, they would have had to call their brokerage firms with a purchase or sell request. The process of confirming such an important request was a long and tedious one, with multiple phone calls or meetings in which a lot of topics needed to be addressed. The subjects that were approached by both parties involved (broker and the investor) were about the market's price, the limit price, how long to keep the order open for, in what account to purchase the shares (if the client had multiple accounts) and if the investment representative would approve the commission costs for making the trade. A lot of time and effort was spent on making transactions in the past.
 
+Today, with so many advancements in the digital era, increasingly more investors are choosing to use online trading platforms from the comforts of their home, at any time they want. Online trading, simply put, refers to buying and selling financial assets using proprietary trading platforms offered by a broker for DIY (do-it-yourself) investing. As high-speed computers and good internet connections were made more and more accessible to every citizen, in the mid to late '90s the use of online trading increased exponentially. On such platforms there were made available, to purchase or sell, all kinds of currencies, stocks, bonds, options, funds, EFTs (electronic funds transfers). As of today, some of the most popular assets in the online trading domain are currencies, cryptocurrencies, stocks, commodities and one of the largest financial market in the world, larger even then the stock market, is the foreign exchange or forex, with an average daily trading volume of 6.6 trillion US dollars, according to the 2019 Triennial Central Bank Survey of FX and OTC derivatives markets \cite{centralBank}.
+
+Nowadays, anyone can start trading online, simply, by opening a demat (dematerialized account that provides the facility of holding shares and securities in an electronic format) and creating an online account on a trading platform, but, in order to have success in this domain, it also requires a lot of information about the markets and about the stocks as stated in \cite{marketWizards}. There's quite a wealth of mostly free information out there on the internet like financial articles, stock market books and website tutorials from which one can grasp the intricacies of this domain. Online trading can be a really great way to earn a daily income as well as plan for the future, if it is done right.
+
+\section{The Problem} 
+The advent of online trading platforms, came with a lot of benefits, but also with some negatives, to both investors and traders. For example, one benefit is the improvement in speed and simplicity of which transactions can be made, due to the lack of need for paper-based documents to be copied, filed for each transaction. Another benefit is that an investor can now monitor the changes in market's prices and his investments all the time, but this benefit can also become one of the main disadvantages of online trading platforms, because it requires a lot of dedication and a lot of attention, in order to not lose money and make a profit. Online trading, can become a full time job for some investors, even if they already have another career, because of the need to be online on the platform for quite a while, day after day, monitoring each change in the market's price, making all the right transactions at the right moments, just to not lose out on potentially important or lucrative trades. In other words, online trading can consume a lot of time from a person's life, and that's the main problem that I'm trying to solve with this project.        
+\section{Objectives}
+The main goal of MoneyTrading, my application, is to address the main problem that was presented above. This tool will target the investors that are using xStation, the online trading platform from XTB, and it aims to make online trading a way of earning extra money without the need to constantly be online, avoiding the need to continuously stare at some price graphs, just waiting for the right opportunity to present itself, in order to make a good/profitable transaction and also, to change, for the better, the trading experience into a less time consuming, side or main, activity. To achieve the objectives stated above, my project will have to ease the transactions process by automatically overseeing any changes in prices from the markets and by performing purchase or sell orders based on the user's preferences and the current state of the market. 
+\section{Proposed Solution} 
+My application, MoneyTrading, features an user interface from which the consumer can login into their account on xStation, using their password and account number. After a successfully authentication, they can select on which markets to start making transactions and, most importantly, how and when to make the desired transactions. These user's choices are processed by an algorithm that determines, based on the conditions from the input, if a trade request needs to be made. Once the trading information is provided then it is sent to xStation platform using XTB's API.
+\section{Obtained results}
+The result is an autonomous program that does the trading for it's users. The transactions that it makes are entirely based on the user's input. It works on multiple markets at the same time, each market having it's own different options determined by the user. 
+\section{Thesis Structure}
+\begin{itemize}
+	\item \textbf{Motivation and Requirements Analysis}: provides an insight into the motivation that made me develop my application, what it's functionalities are and what it's supposed to achieve
+	\item \textbf{Related Work}: offers details about other products that have a similar purpose with my program and it also highlights some differences between the presented applications
+	\item \textbf{Proposed Solution}: this chapter explores a detailed view of what technologies were used in the making of my project
+	\item \textbf{Implementation Details}: provides an explanation of how the technologies from the previous chapter were used and how the algorithm works
+	\item \textbf{Experimental Results}: presents the obtained results after using the application
+	\item \textbf{Conclusion and Future Work}: this chapter gives an overview about what can be improved and what was gained from this project
+\end{itemize}
 
 
 \chapter{Motivation and Requirements Analysis}
@@ -300,7 +285,6 @@ f(x) = a_0 + \sum_{n=1}^{\infty}\left(a_n \cos\frac{n\pi x}{L} + b_n\sin\frac{n\
 \section{XTB Platform API}
 
 
-
 \chapter{Implementation Details}
 În plus fata de capitolul precedent acesta conține elemente specifice ale rezolvării problemei care au presupus dificultăți deosebite din punct de vedere tehnic. Pot fi incluse configurații, secvențe de cod, pseudo-cod, implementări ale unor algoritmi, analize ale unor date, scripturi de testare. De asemenea, poate fi detaliat modul în care au fost utilizate tehnologiile introduse in capitolul 3.
 
@@ -345,7 +329,7 @@ Orice tabel prezent în teză va fi referit în text; exemplu: a se vedea Tabel~
 \end{table}
 
 
-\chapter{Experimental results}
+\chapter{Experimental Results}
 Acest capitol trebuie să răspundă, în principiu, la 2 întrebări și să se încheie cu o discuție a rezultatelor obținute. Cele doua întrebări la care trebuie sa se răspundă sunt:
 \begin{enumerate}
 	\item  \textbf{Merge corect?} (Conform specificațiilor extrase în capitolul 2); 
@@ -377,7 +361,7 @@ Criterii pentru calificativul \textit{Bine}:
 	\item \ambele Discuție cu prezentarea calitativă și cantitativă a rezultatelor, precum și a relevanței acestor rezultate printr-o comparație complexă cu alte sisteme similare.
 \end{itemize}
 
-\chapter{Conclusion and future work}
+\chapter{Conclusion and Future Work}
 În acest capitol este sumarizat întreg proiectul, de la obiective, la implementare, si la relevanta rezultatelor obținute. În finalul capitolului poate exista o subsecțiune de ``Dezvoltări ulterioare''.
 
 Criterii pentru calificativul \textit{Ne\textit{Satisfăcător}}: 
@@ -439,12 +423,6 @@ Trebuie respectat un singur standard de trimiteri bibliografice (citare), dintre
 așa cum procedăm mai jos prin folosirea fișierului ``bibliography.bib''. În orice caz, în Latex va trebui să folosiți comanda
 \verb!\cite{}!
 pentru a adăuga referințe, iar această comandă trebuie folosită direct în text, acolo unde vreți sa apară citația, ca în exemplele următoare:
-\begin{itemize}
-	\item Articol jurnal: ~\cite{article};
-	\item Articol conferință:~\cite{proc};
-	\item Carte: ~\cite{book};
-	\item Weblink: ~\cite{silva};
-\end{itemize}
 
 \textbf{Important}: în această secțiune de obicei apar doar intrările bibliografice (adică doar listarea referințelor). Citarea lor prin comanda cite și explicații legate de ele trebuie facute în secțiunile anterioare. Citarea de mai sus a fost facută aici doar pentru exemplificare.
 

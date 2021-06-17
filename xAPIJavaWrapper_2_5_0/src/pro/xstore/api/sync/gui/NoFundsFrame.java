@@ -9,10 +9,10 @@ import java.io.IOException;
 
 
 public class NoFundsFrame extends Frame {
-    private static final int BUFFER_SIZE = 4096;
+    private final String market;
 
-
-    public NoFundsFrame() {
+    public NoFundsFrame(String market) {
+        this.market = market;
     }
 
     public void run() {
@@ -36,6 +36,7 @@ public class NoFundsFrame extends Frame {
 
             theAudioLine.start();
 
+            int BUFFER_SIZE = 4096;
             byte[] bufferBytes = new byte[BUFFER_SIZE];
             int readBytes = -1;
 
@@ -57,7 +58,7 @@ public class NoFundsFrame extends Frame {
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        JLabel warning = new JLabel("No funds left!");
+        JLabel warning = new JLabel("No funds left on the market " + this.market + "!");
         warning.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         warning.setBackground(Color.white);
         warning.setForeground(Color.red);

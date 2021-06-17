@@ -12,6 +12,7 @@ import pro.xstore.api.message.response.TradeTransactionStatusResponse;
 import pro.xstore.api.message.response.TradesResponse;
 import pro.xstore.api.sync.SyncAPIConnector;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class TsThread implements Runnable, Observer {
     private OutputFrame outputFrame;
     private SyncAPIConnector connector;
     private PriceUpdates updates;
+    private final MainThread mainThread;
     private double time;
     private long checkDelay = 0;
     private double trailingStop = 0.0;
@@ -29,8 +31,11 @@ public class TsThread implements Runnable, Observer {
     private String market;
     private double takeProfit;
     private STickRecord currentPrice = null;
+    private boolean entered = false;
+    private final List<Long> visited = new LinkedList<Long>();
 
-    public TsThread() {
+    public TsThread(MainThread mainThread) {
+        this.mainThread = mainThread;
     }
 
     @Override
@@ -106,7 +111,7 @@ public class TsThread implements Runnable, Observer {
             TradesResponse tds = null;
             if (System.currentTimeMillis() >= this.checkDelay) {
                 if (this.connector != null) {
-                    boolean isLockAcquired = MainThread.lock.tryLock();
+                    boolean isLockAcquired = mainThread.lock.tryLock();
                     if (isLockAcquired) {
                         try {
                             tds = APICommandFactory.executeTradesCommand(this.connector, true);
@@ -115,9 +120,13 @@ public class TsThread implements Runnable, Observer {
                             System.out.println("Exception at TsThread!");
                         }
                         finally {
-                            long curr_t1 = System.currentTimeMillis();
-                            this.checkDelay = (long) (curr_t1 + (2.0 * 1000));
-                            MainThread.lock.unlock();
+                            if (!entered) {
+                                long curr_t1 = System.currentTimeMillis();
+
+                                this.checkDelay = (long) (curr_t1 + (2.0 * 1000));
+                                this.entered = true;
+                            }
+                            mainThread.lock.unlock();
                         }
                     }
                 }
@@ -126,26 +135,33 @@ public class TsThread implements Runnable, Observer {
             if (tds != null) {
                 if (tds.getTradeRecords() != null) {
                     List<TradeRecord> tempList = tds.getTradeRecords().stream().filter(p -> p.getSymbol().equals(this.market)).collect(Collectors.toList());
-                    MainThread.currTransactions.set(tempList.size());
+                    mainThread.currTransactions.set(tempList.size());
                     if ((this.stopLoss != Double.MIN_VALUE) && (this.takeProfit != Double.MIN_VALUE) && (this.trailingStop != Double.MIN_VALUE)) {
-                        for (TradeRecord td : tds.getTradeRecords()) {
+                        int count = 0;
+                        boolean check = false;
+                        for (TradeRecord td : tempList) {
                             update();
-                            if (System.currentTimeMillis() >= this.checkDelay) {
+                            if (visited.contains(td.getPosition())) {
+                                count++;
+                                continue;
+                            }
+                            if (System.currentTimeMillis() >= this.checkDelay && this.entered) {
+                                check = true;
                                 if (this.currentPrice != null && td != null) {
-                                    boolean isLockAcquired = MainThread.lock.tryLock();
+                                    boolean isLockAcquired = mainThread.lock.tryLock();
                                     if (isLockAcquired) {
+                                        TradeTransInfoRecord info = null;
                                         try {
-                                            TradeTransInfoRecord info = null;
                                             if ((td.getCmd() == 0) &&
-                                                    (MainThread.bigMoneyTime.get())) {
+                                                    (mainThread.bigMoneyTime.get())) {
                                                 if ((this.currentPrice.getAsk() >= (td.getOpen_price() + this.takeProfit * (this.trailingStop / 100.0f))) &&
-                                                        (MainThread.bigMoneyTime.get())) {
+                                                        (mainThread.bigMoneyTime.get())) {
                                                     info = makeBuyChange(this.currentPrice, td.getPosition(), td.getOpen_price());
                                                 }
                                             } else if ((td.getCmd() == 1) &&
-                                                        (MainThread.bigMoneyTime.get())) {
+                                                        (mainThread.bigMoneyTime.get())) {
                                                 if ((this.currentPrice.getBid() <= (td.getOpen_price() - this.takeProfit * (this.trailingStop / 100.0f))) &&
-                                                        (MainThread.bigMoneyTime.get())) {
+                                                        (mainThread.bigMoneyTime.get())) {
                                                     info = makeSellChange(this.currentPrice, td.getPosition(), td.getOpen_price());
                                                 }
                                             }
@@ -184,13 +200,25 @@ public class TsThread implements Runnable, Observer {
                                             }
                                         }
                                         finally {
-                                            long curr_t1 = System.currentTimeMillis();
-                                            this.checkDelay = (long) (curr_t1 + (0.25 * 1000));
-                                            MainThread.lock.unlock();
+                                            if (info != null) {
+                                                if (!visited.contains(td)) {
+                                                    visited.add(td.getPosition());
+                                                }
+                                                long curr_t1 = System.currentTimeMillis();
+                                                this.checkDelay = (long) (curr_t1 + (0.25 * 1000));
+                                            }
+                                            mainThread.lock.unlock();
                                         }
                                     }
                                 }
                             }
+                        }
+                        if (check) {
+                            this.entered = false;
+                        }
+                        if (count == tempList.size()) {
+                            System.out.println(visited);
+                            visited.clear();
                         }
                     }
                 }
