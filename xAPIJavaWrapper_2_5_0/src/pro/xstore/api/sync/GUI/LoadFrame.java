@@ -1,4 +1,4 @@
-package pro.xstore.api.sync.gui;
+package pro.xstore.api.sync.GUI;
 
 
 import java.awt.*;

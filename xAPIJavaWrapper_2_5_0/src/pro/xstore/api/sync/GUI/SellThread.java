@@ -1,4 +1,4 @@
-package pro.xstore.api.sync.gui;
+package pro.xstore.api.sync.GUI;
 
 import pro.xstore.api.message.codes.REQUEST_STATUS;
 import pro.xstore.api.message.codes.TRADE_OPERATION_CODE;
@@ -182,7 +182,7 @@ public class SellThread implements Runnable, Observer {
                                                 } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
                                                     int temp = mainThread.currTransactions.get();
                                                     if (this.outputFrame != null) {
-                                                        String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder();
+                                                        String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder() + ".";
                                                         this.outputFrame.updateOutput(transactionInfo);
                                                     }
                                                     mainThread.currTransactions.set(temp + 1);
@@ -195,7 +195,7 @@ public class SellThread implements Runnable, Observer {
                                                     }
                                                     int temp = mainThread.currTransactions.get();
                                                     if (this.outputFrame != null) {
-                                                        String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder();
+                                                        String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder() + ".";
                                                         this.outputFrame.updateOutput(transactionInfo);
                                                     }
                                                     mainThread.currTransactions.set(temp + 1);

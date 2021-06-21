@@ -1,4 +1,4 @@
-package pro.xstore.api.sync.gui;
+package pro.xstore.api.sync.GUI;
 
 public interface Subject {
     public void register(Observer obj);

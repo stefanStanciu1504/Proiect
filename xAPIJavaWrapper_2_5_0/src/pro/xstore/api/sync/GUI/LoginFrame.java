@@ -1,4 +1,4 @@
-package pro.xstore.api.sync.gui;
+package pro.xstore.api.sync.GUI;
 
 import pro.xstore.api.sync.Credentials;
 import pro.xstore.api.sync.Example;

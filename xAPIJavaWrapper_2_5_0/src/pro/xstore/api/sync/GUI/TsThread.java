@@ -1,4 +1,4 @@
-package pro.xstore.api.sync.gui;
+package pro.xstore.api.sync.GUI;
 
 import pro.xstore.api.message.codes.REQUEST_STATUS;
 import pro.xstore.api.message.codes.TRADE_OPERATION_CODE;
@@ -217,7 +217,6 @@ public class TsThread implements Runnable, Observer {
                             this.entered = false;
                         }
                         if (count == tempList.size()) {
-                            System.out.println(visited);
                             visited.clear();
                         }
                     }

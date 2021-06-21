@@ -1,4 +1,4 @@
-package pro.xstore.api.sync.gui;
+package pro.xstore.api.sync.GUI;
 import pro.xstore.api.message.records.STickRecord;
 
 import javax.swing.*;
@@ -38,7 +38,7 @@ public class OutputFrame extends JFrame {
             chatBox.setText("");
     }
 
-    public void closeFrame() {
+    public void closeButton() {
         frame.dispose();
     }
 
@@ -50,15 +50,15 @@ public class OutputFrame extends JFrame {
         panel.setBackground(Color.white);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JPanel lowerPanel = new JPanel();
-        lowerPanel.setBackground(Color.white);
-        lowerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 61, 0));
+        JPanel optionsPanel = new JPanel();
+        optionsPanel.setBackground(Color.white);
+        optionsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 61, 0));
 
-        JButton closeFrame = new JButton("Close");
-        closeFrame.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        closeFrame.setBackground(new Color(0,104,55));
-        closeFrame.setForeground(Color.white);
-        lowerPanel.add(closeFrame);
+        JButton closeButton = new JButton("Close");
+        closeButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        closeButton.setBackground(new Color(0,104,55));
+        closeButton.setForeground(Color.white);
+        optionsPanel.add(closeButton);
 
         JToggleButton pause = new JToggleButton("Pause Output");
         pause.setForeground(Color.white);
@@ -70,7 +70,7 @@ public class OutputFrame extends JFrame {
                 return new Color(0,104,55).brighter();
             }
         });
-        lowerPanel.add(pause);
+        optionsPanel.add(pause);
 
         ItemListener itemListener = itemEvent -> {
             int state = itemEvent.getStateChange();
@@ -93,9 +93,9 @@ public class OutputFrame extends JFrame {
                 return new Color(0,104,55).brighter();
             }
         });
-        lowerPanel.add(filter);
+        optionsPanel.add(filter);
 
-        ItemListener itemListener2 = itemEvent -> {
+        ItemListener filterButtonItemListener = itemEvent -> {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
                 filter.setText("Hide Price Updates");
@@ -104,22 +104,22 @@ public class OutputFrame extends JFrame {
             }
             filterUpdates = !filterUpdates;
         };
-        filter.addItemListener(itemListener2);
+        filter.addItemListener(filterButtonItemListener);
 
-        closeFrame.addActionListener(e -> frame.dispose());
+        closeButton.addActionListener(e -> frame.dispose());
 
         chatBox = new JTextArea();
         chatBox.setEditable(false);
         chatBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         chatBox.setLineWrap(true);
-        JScrollPane scroll = new JScrollPane(chatBox);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scroll.setPreferredSize(new Dimension(560, 490));
-        scroll.setSize(new Dimension(560, 490));
-        scroll.setMaximumSize(new Dimension(560, 490));
+        JScrollPane notificationsArea = new JScrollPane(chatBox);
+        notificationsArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        notificationsArea.setPreferredSize(new Dimension(560, 490));
+        notificationsArea.setSize(new Dimension(560, 490));
+        notificationsArea.setMaximumSize(new Dimension(560, 490));
 
-        panel.add(scroll);
-        panel.add(lowerPanel);
+        panel.add(notificationsArea);
+        panel.add(optionsPanel);
 
         frame.getContentPane().add(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

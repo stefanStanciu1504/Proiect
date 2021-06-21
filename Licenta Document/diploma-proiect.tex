@@ -1,7 +1,7 @@
 \documentclass[12pt,a4paper]{report}
 
 \usepackage[utf8]{inputenc} % pentru suport diacritice
-\usepackage[romanian]{babel} % setări pentru limba română 
+\usepackage[english]{babel} % setări pentru limba română 
 \renewcommand\familydefault{\sfdefault} % sans serif
 
 \usepackage[margin=2.54cm]{geometry}	% dimensiuni pagină și margini
@@ -121,7 +121,7 @@ COMPUTER SCIENCE AND ENGINEERING DEPARTMENT\\}
 \newcommand{\Year}{2021}
 
 % Setări document
-\title{Proiect de diplomă}
+\title{DIPLOMA PROJECT}
 \author{\Name}
 \date{\Year}
 
@@ -158,7 +158,7 @@ The advent of online trading platforms, came with a lot of benefits, but also wi
 The main goal of MoneyTrading, my application, is to address the main problem that was presented above. This tool will target the investors that are using xStation, the online trading platform from XTB, and it aims to make online trading a way of earning extra money without the need to constantly be online, avoiding the need to continuously stare at some price graphs, just waiting for the right opportunity to present itself, in order to make a good/profitable transaction and also, to change, for the better, the trading experience into a less time consuming, side or main, activity. To achieve the objectives stated above, my project will have to ease the transactions process by automatically overseeing any changes in prices from the markets and by performing purchase or sell orders based on the user's preferences and the current state of the market. 
 \section{Proposed Solution} 
 My application, MoneyTrading, features an user interface from which the consumer can login into their account on xStation, using their password and account number. After a successfully authentication, they can select on which markets to start making transactions and, most importantly, how and when to make the desired transactions. These user's choices are processed by an algorithm that determines, based on the conditions from the input, if a trade request needs to be made. Once the trading information is provided then it is sent to xStation platform using XTB's API.
-\section{Obtained results}
+\section{Obtained Results}
 The result is an autonomous program that does the trading for it's users. The transactions that it makes are entirely based on the user's input. It works on multiple markets at the same time, each market having it's own different options determined by the user. 
 \section{Thesis Structure}
 \begin{itemize}
@@ -172,164 +172,299 @@ The result is an autonomous program that does the trading for it's users. The tr
 
 
 \chapter{Motivation and Requirements Analysis}
-\dezvoltare Acest capitol va analiza cerințele produsului din prisma potențialilor clienți și a scenariilor de utilizare preconizate, urmând a fi generată o lista de funcționalități. 
+\section{Motivation}
+This project is motivated by the simple fact that making money on a trading platform takes a lot of time. Firstly, to have success in this domain, one has to learn and grasp the intricacies of markets and trades. Secondly, any investor will have to start making transactions and following closely almost every change in the market's prices, and these things require patience, dedication and a lot of free time. Therefore, my idea was to make an investor's life a bit easier by completely eliminating or by making one of the previous steps as less tedious as possible. We all know that knowledge is needed in almost every professional field, so I deemed that the first step is a mandatory one. That's why, inspired by a famous quote "Time is money" as stated by Benjamin Franklin in \cite{timeIsMoney}, I decided to develop a program that tries to make trading online as a side activity by getting rid of the need to frequently check for any modification in stocks, markets or any opened transactions.
 
-\cercetare Acest capitol va introduce motivația realizării proiectului propus.
+\section{Requirements}
+On the side of hardware requirements, in order to use my application entitled MoneyTrading, the consumer, has to posses a good and steady internet connection and a working computer or laptop. Software-wise, the user needs to have on his personal computer the latest Java version installed. Also the consumer is required to own an usable account on the trading platform xStation.
 
-Dacă proiectul de licență face parte dintr-un proiect mai amplu (de exemplu un proiect complex, la care lucrează 2 studenți (ex: 1 student la front-end-ul aplicației, 1 student la back-end-ul aplicației), în acest capitol va fi explicat pe scurt ansamblul proiectului și ce parte din proiect este adresată de lucrarea propusă. 
+\section{Use Case}
+Step 1: The user opens the application and then the first thing he sees is the authentication window in which he has to login using his account number and his password from the official platform xStation. At this stage, the user can choose between two types of accounts that are supported by the trading website which are demo and real account. The demo is a one month trial in which the consumer can experiment with different markets and values on the platform and the real account is where the money is, hopefully, being made. If the authentication is successful then he can advance to the next step, otherwise he has to reenter his credentials until an effective login.
 
-Criterii pentru calificativul \textit{Ne\textit{Satisfăcător}}: 
-\begin{itemize}
-	\item \dezvoltare Cerințele sunt imaginate de student pe baza unei analize a pieței;
-	\item \cercetare Nu se oferă o motivație valida.
-\end{itemize}
+Step 2:
+After the confirmation of a successful authentication, the main window of the program appears from which the user can control on what markets and with what details to make future transactions.
 
-Criterii pentru calificativul \textit{Satisfăcător}: 
-\begin{itemize}
-	\item \dezvoltare Există un interviu, un client, analiza cerințelor este elaborată pe baza interviului;
-	\item \cercetare Motivația este doar personala.
-\end{itemize}
-
-
-Criterii pentru calificativul \textit{Bine}: 
-\begin{itemize}
-	\item	 \dezvoltare Proces iterativ pe baza unor interviuri cu mai mulți clienți, dezvoltare MVP, reevaluare cerințe;
-	\item	 \cercetare Motivația este legata de o necesitate științifica / tehnica explicită.
-\end{itemize}
+Step 3:
+After filling out the desired fields the user can then start the algorithm by pressing the button "Start placing orders", from the main window, and after that the consumer can sit back and let the magic happen, because the algorithm will start to make all the possible transactions based on the user's input at all the correct times. Furthermore, the user can add additional, optional, details like stop loss, trailing profit, the number of maximum orders, the time between transactions and a take profit value (all of these fields will be explained in the Proposed Solution chapter) to all future transactions by pressing the button "Activate additional fields" from the main window. The general flow of the application is displayed in Figure~\ref{fig:appflow}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=7cm,height=10cm]{pics/appflow.png}
+	\caption{The general flow of the application}
+	\label{fig:appflow}
+\end{figure}
 
 
 \chapter{Related Work}
-\dezvoltare Ce soluții similare există pe piață? Care sunt limitările lor / pentru ce cazuri de utilizare sau pentru ce tip de clienți produsele existente pe piață nu răspund cerințelor? Care sunt indicatorii pe baza cărora sunt evaluate aceste produse, de către potențiali clienți, și unde sunt lipsurile/ care este oportunitatea generată de lipsurile acestea?
-
-\cercetare Metode existente (sau ``State of the Art'') se referă, de regulă, la nivelul curent de dezvoltare: care este starea curentă a domeniului, unde ne găsim, care este contextul. Care sunt soluțiile actuale prezente în literatura de specialitate și care sunt limitările lor? Ce direcții de explorare sunt recomandate în literatura de specialitate? Literatura de specialitate se refera la articole științifice recente, publicate în reviste cu factor de impact mare, sau în volumele unor conferințe de top, sau în cărți.
-
-\ambele În încheierea acestui capitol se dorește descrierea tehnologiilor folosite în lucrare, cu alternative și cu argumente convingătoare calitative și cantitative.  
-
-Criterii pentru calificativul \textit{Ne\textit{Satisfăcător}}: 
+First of all, a trading bot is a software program that uses an API to interact with the consumer's exchange account and automatically execute trades based on its interpretation of the market data. This usually means that the bot will make a trade when market conditions meet a set of predefined and programmed criteria. Nowadays, with the explosion in popularity of digital currency, the most popular and the most sought after bots are the ones that automate cryptocurrency trading and they are called crypto bots. Even if the forex (foreign exchange) is the largest financial market in the world as stated in \cite{forex}, the availability and the demand for forex bots are way smaller compared to crypto bots, which is surprising considering that there are no guarantees when it comes to gains from forex and cryptocurrency trading. Moreover, there are 3 types of bots:
 \begin{itemize}
-	\item \dezvoltare Sunt analizate superficial câteva produse de pe piață; 
-	\item \cercetare analiza literaturii limitata la grupuri de cercetare din România;
-	\item \ambele Sunt descrise tehnologiile folosite în lucrare. 
+	\item Arbitrage - a good way of explaining this type is by starting to define what arbitrage means and that is the simultaneous purchase and sale of the same financial asset in different markets, in order to make a profit from the slight differences in the asset's price. To simply put it, arbitrage takes advantage of the inevitable and imminent inefficiencies in markets and creates an opportunity for quite an almost risk-free profit for the investor. 
+	As for this type of bot it represents a tool that examines prices across various exchanges and then executes trades in order to take advantage of markets' discrepancies.
+	\item Historical - this type of tool examines and analyses past data prices in order to predict future changes in markets and to, possibly, come up with a trading strategy that would, theoretically, offer investors a boost in profits.
+	\item Signal - this bot is programmed to execute trades based on signals triggered by a certain amount of numerical variation in trading volume or price.
 \end{itemize}
+As online trading became more and more popular so did these autonomous programs. There are many simple and reliable trading bots available to use that are obtainable by either free download, purchase or subscription. As for what these bots offer to traders is quite simple, they offer the capability to automate their trades, making their lives a whole lot easier while they wait for the program to make a profit. However, on many occasions, because of the unpredictable nature of markets, making a profit while using a bot isn't always the case. Most of these bots, while they automatically execute trades on a user's exchange account, they offer almost no control over their programmed strategy making them relatively useless for an advanced and experienced investor. These kind of bots can be compared to a mystery box, because the user doesn't always know what they are actually getting. The consumer has to rely on the creator's understanding of the market and programming skills that went into making the bot's strategy. As a result, the quality of these autonomous programs can vary from good, to poor, to an outright scam. Finding the right bot depends entirely on the user's needs and experience in the trading domain. Even so, any bot's strategy can be caught by unanticipated factors and events like an exchange hack or a flash crash or a rapid price rise.
+     
 
-Criterii pentru calificativul \textit{Satisfăcător}:
-\begin{itemize}
-	\item \dezvoltare Există un interviu, un client, analiza cerințelor este elaborată pe baza interviului.
-	\item \cercetare analiza literaturii de specialitate din lume, fără poziționarea precisă a lucrării în peisajului domeniului studiat;
-	\item \ambele Sunt descrise câteva tehnologii alternative pentru fiecare din tehnologiile folosite în lucrare. Există o argumentare referitoare la alegere.
-\end{itemize}
+\section{Similiar Solutions}
+\subsection{1000pip Climber System}
+\textbf{1000pip Climber System}\footnote{\url{https://www.1000pipclimberea.com}} (see Figure~\ref{fig:pip}) is a completely mechanical system that operates on foreign exchange markets and it offers an advanced trading algorithm in a very to use package. It is purchasable for 97 US dollars. This is a signal based bot that monitors 6 currency pairs EUR/USD, EUR/JPY, AUD/USD, USD/CAD, USD/JPY, and USD/CHF. The algorithm that this bot uses was designed to identify key areas of supply and demand pressure zones. Once one of these areas is detected then a probability is determined, which indicates if the market's price will come out of the pressure zone. This probability is calculated by analyzing the price movement over short, medium and long periods of time. If the algorithm determines that the probability is high enough for the price to develop out of the pressure zone then a signal is sent to mark a potentially successful trade. These are all the details the developers shared about their algorithm and methodology. This is not a very customizable bot because its complexity is kept internal and there are almost no settings for the user to change. The interface is simple and clear so that anyone could understand it and easily use it.    
+\subsection{Zenbot}
+\textbf{Zenbot}\footnote{\url{https://github.com/DeviaVir/zenbot}} (see Figure~\ref{fig:zenbot}) is an open-source crypto trading bot. It doesn't have an interface and it is fully controlled by command line. It is built using modern technologies like Node.js and MongoDB. Zenbot can also be integrated with other services like Discord, IFTTT and Telegram in order to inform the user about any updates in trades. It's quite customizable, but as there is no interface it does require some technical skills. That being said, it does provide access to already made strategies or the user can build his own personal approach to trading. Zenbot requires a lot of attention from the consumers as they have to read its documentation and understand all the parameters before they can use it successfully. This tool was implemented as secure as possible, but it is always up to users to make sure that this free software is consistently updated and not badly configured or installed. Being an open-source, Zenbot, is maintained by its community which means that there is no guarantee for any assistance or feedback in case something goes wrong. 
 
-Criterii pentru calificativul \textit{Bine}:
-\begin{itemize}
-	\item \dezvoltare Proces iterativ pe baza unor interviuri cu mai mulți clienți, dezvoltare MVP, reevaluare cerințe;
-	\item \cercetare analiza literaturii de specialitate din lume, cu poziționarea precisă a lucrării în peisajul actual al domeniului studiat; 
-	\item \ambele Sunt descrise tehnologii alternative. Sunt analizate cantitativ și calitativ, folosite benchmarkuri și teste efectuate de student. Analiza este rezumată prin tabele și grafice.
-\end{itemize}
-
-\section{Similiar solutions}
-
-Figurile utilizate în document vor fi centrate și numerotate (de exemplu Figura~\ref{fig:pic1}). 
-Orice figură ce nu este realizată de către autorul lucrării va fi în mod obligatoriu citată fie la final (de exemplu Figura ~\ref{fig:pic2} este preluată din documentul \cite{}), fie cel puțin într-o notă de subsol (a se vedea Figura~\ref{fig:pic2}). Orice figură ce depășește ca dimensiune 50\% dintr-o pagină, va fi mutată la anexe. Toate figurile din cadrul tezei vor fi referite în text. Exemplu: Figura~\ref{fig:pic1} prezintă o schemă de principiu pentru un amplificator inversor cu AO. 
-
-\begin{figure}[th]
-\centering
-\includegraphics{pics/Pic1.png}
-  \caption{Amplificator inversor}
-  \label{fig:pic1}
+\newpage
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=16cm,height=9cm]{pics/1000PipClimberSystemEA.png}
+	\caption{The 1000pip Climber System}
+	\label{fig:pip}
+	\bigskip
+	\includegraphics[width=16cm,height=9cm]{pics/zenbot.png}
+	\caption{The Zenbot}
+	\label{fig:zenbot}
 \end{figure}
 
 \newpage
-
-\begin{figure}[th]
-\centering
-\includegraphics{pics/Pic2.png}
-  \caption[Amplificator de instrumentație cu 3 AO-uri]{Amplificator de instrumentație cu 3 AO-uri\protect\footnotemark}
-  \label{fig:pic2}
-\end{figure}
-\footnotetext{© http://www.ece.tamu.edu/sspalermo/ecen3205/Secton\%201III.pdf}
+\section{Comparison}
+Because my application, MoneyTrading, is integrated with the XTB's API it can access any of its 2205 markets which include forex, indices, commodities, stock CFDs, ETF CFDs and crypto which is big advantage over the 2 bots that were presented above. My bot is a signal based program because it executes trades based on indicators triggered by a certain amount of fluctuation in price in a specific, customizable, period of time. MoneyTrading has an easy to understand interface with tooltips to help the user in figuring out what everything does, in contrast to Zenbot. The user can customize every value to future transactions just by filling out the fields dedicated to trade volume, take profit, stop loss, the maximum number of transactions to make on a selected market, trailing stop and the time between each future trade. MoneyTrading offers a level of customizability above the one offered by 1000pip Climber System.
+\break
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[th]\small\linespread{1}
+	\begin{tabular}{l >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{3.5cm}}
+		\textbf{Feature} & \textbf{1000pip Climber System} & \textbf{Zenbot} &\textbf{MoneyTrading} \\ [0.5cm]\hline
+		\textbf{A pleasant interface} & Yes & No & Yes \\[0.5cm]\hline
+		\textbf{Customizable} & No & Yes & Yes \\ [0.5cm]\hline
+		\textbf{\textit{A plethora of markets}} & No & No & Yes \\ [0.5cm]\hline
+		\textbf{Free} & No & Yes & Yes\\ [0.5cm]\hline
+	\end{tabular}
+	\caption{Comparing the features}
+	\label{tab:comparsion}
+\end{table} 
 
 \chapter{Proposed Solution}
-Capitolul conține o privire de ansamblu a soluției ce rezolvă problema, prin prezentarea structurii / arhitecturii acesteia. În funcție de tipul lucrării acest capitol poate conține diagrame (clase, distribuție, workflow, entitate-relație), demonstrații de corectitudine pentru algoritmii propuși de autor, abordări teoretice (modelare matematică), structura hardware, arhitectura aplicației.
-
-
-Criterii pentru calificativul \textit{Ne\textit{Satisfăcător}}: 
+In order to make such an autonomous program I had to begin by building the interface. The user had to be able to login using his xStation account so I had to make a login window (see Figure~\ref{fig:login}) from which he could also choose the type of account, real or demo, he wanted to authenticate with. To also ease the user's access to his account I thought that a "Save credentials" checkbox would be a quality of life feature which would make the consumer's login go a little bit faster and effortless. After a successful login, the user would be presented with the main window (see Figure~\ref{fig:mainwindow}) which has the following mandatory input fields:
 \begin{itemize}
-	\item	Descriere în limbaj natural.
+	\item Market - this field is a dropdown with all the available markets from the xStation trading platform. The user has to choose one valid market on which to start the algorithm that will automatically execute trades. 
+	\item Price Difference - this is a TextField in which the user has to write a double type value. This number will become the value for which to look out for at each chosen market's price change.
+	\item Time Interval - this is also a TextField and its value represents the interval of time in which to look out for the price difference at each market's price change.
+	\item Trade volume - this field refers to the volume of currency that will be used for each future transaction. In other words, it represents how much the user wants to pay for each transaction.
 \end{itemize}
-
-Criterii pentru calificativul \textit{Satisfăcător}: 
+The described fields above are mandatory for the algorithm because without any values it cannot execute any basic trades. There are also some optional fields for the user to further customize his approach to trading. These optional fields are all TextFields and they require a double type value:
 \begin{itemize}
-	\item	Descriere + diagrame de baze de date, workflow, clase, algoritmi. 
-\end{itemize}
+	
+	\item Stop Loss (S/L) - this field represents a value that is either subtracted or added to the price of each transaction and its result can be defined as a price point where an advance order to sell the asset is triggered. This field is used to limit loss or gain in a trade. To better explain what this field does I feel that an example is needed:
+	\begin{itemize}
+		\item For a buy order - Stop Loss value is equal to the price of the index (market) at the time of placing the order from which the S/L value, written by the user in this field, is subtracted. \\
+		For example: The inserted value for S/L is 30\$ and the buy order was executed at 950\$, then the stop loss value for this transaction will be set at 920\$.
+		\item For a sell order - The difference here is that the S/L isn't subtracted from the index's price but it is now added. \\
+		For example: The inserted value for S/L is 30\$ and the buy order was executed at 650\$, then the stop loss value for this transaction will be set at 680\$.
+	\end{itemize}
 
-Criterii pentru calificativul \textit{Bine}: 
-\begin{itemize}
-	\item 	Descriere + diagrame de baze de date, workflow, clase, algoritmi + descrierea unui proces prin care s-a realizat arhitectura/structura soluției.
+	\item Take profit (T/P) - this field represents a value that is either subtracted or added to the price of each transaction and its result can be defined as a price point where the opened position will be closed. This field is used to maximize the profits. Just like in the Stop Loss's explanation an example would better demonstrate this field's use:
+	\begin{itemize}
+		\item For a buy order - Take Profit value is equal to the price of the index (market) at the time of placing the order from which the T/P value, written by the user in this field, is added. \\
+		For example: The inserted value for T/P is 30\$ and the buy order was executed at 950\$, then the take profit value for this transaction will be set at 980\$.
+		\item For a sell order - The difference here is that the T/P isn't added from the index's price but it is now subtracted. \\
+		For example: The inserted value for T/P is 30\$ and the buy order was executed at 650\$, then the take profit value for this transaction will be set at 620\$.
+	\end{itemize}
+
+	\item Max Transactions - this field refers to the maximum number of transactions that will be made on the chosen market.
+	
+	\item Trailing Stop (T/S) - this field is percentage based and its purpose is to constantly check if the market's price moved towards the T/P that was set, multiplied by the percentage provided, for the opened orders, then the values stop loss and take profit are updated based on the current index's price. To better illustrate the definition I present the following example:
+	\begin{itemize}
+		\item For a buy order - The inserted value for T/S is 50\%, the T/P was set at 30\$ and the buy order was executed at 950\$ so the take profit value is 980\$. When the index's price reaches 965\$ then the values for take profit and stop loss for the current transaction are updated using the latest price. 
+		\item For a sell order - The inserted value for T/S is 50\%, the T/P was set at 30\$ and the buy order was executed at 650\$ so the take profit value is 620\$. When the index's price reaches 635\$ then the values for take profit and stop loss for the current transaction are updated using the latest price.
+	\end{itemize}
+	The provided numbers for T/P and S/L by the user stay the same and in order to activate the trailing stop for future transactions the fields take profit and stop loss are mandatory.
+	
+	\item Time/Transactions - it represents the minimum time between each future transaction.
 \end{itemize}
+There is also an output window (see Figure~\ref{fig:output}) from which the user can track every update, made by the algorithm, like each new transaction, each new change in an order's stop loss and take profit and also when the number of opened trades reaches the maximum transactions value, if there is one.
 
 \section{Technologies}
-Formulele matematice utilizate în document vor fi centrate în pagină și numerotate.
-
-\begin{equation}
-(x+a)^n = \sum_{k=0}^{n}\left(\begin{array}{c}n\\k\\\end{array}\right)x^ka^{n-k}
-\end{equation}
-
-\begin{equation}
-f(x) = a_0 + \sum_{n=1}^{\infty}\left(a_n \cos\frac{n\pi x}{L} + b_n\sin\frac{n\pi x}{L}\right)
-\end{equation}
-
+The interface was all built in Java and for its development I used the technologies presented below. 
 \subsection{AWT API}
+Java AWT (Abstract Window Toolkit) is an API made for developing graphic user interfaces or window-based applications in Java. AWT was made with the intent to call the native platform, which refers to operating systems, subroutine for creating components such as text areas, buttons, drop downs etc. For instance, an AWT graphic user interface with a button and a text area would have a completely different look and feel across distinct platforms like Linux, Windows and Mac operating system.This happens because these platforms have different looks and feels for their native buttons and text areas, meaning that AWT directly calls their native platform subroutine that creates these components. To simply put it, a software program that was made using AWT would look like a Windows type of application if it was executed on Windows, but the same application would look like a Linux program if it ran on an UNIX operating system.
 
+Nowadays, because of its platform depended nature AWT is rarely used. Its components are all constructed by the operating system on which the application runs. The hierarchy of Java AWT classes are given below in Figure~\ref{fig:awt}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=10cm,height=10cm]{pics/awthierarchy.jpg}
+	\caption{The hierarchy of Java AWT classes}
+	\label{fig:awt}
+\end{figure}
+\newpage
+Containers are components from AWT API that incorporate other components like buttons, labels, check boxes etc. There are four types of containers available:
+\begin{itemize}
+	\item Window: it doesn't have borders, menu bars and a title.
+	\item Frame: as shown in the hierarchy above, the frame is a subclass of the window class, but it has everything that the window container is missing. It is the most used container when developing Java applications and it can have components like buttons, labels, text boxes etc.
+	\item Panel: it doesn't have bars, a title or borders and it represents a generic container for holding other components.
+	\item Dialog: it has a border, a title and it is a subclass of the window class, but it cannot exist without an associated instance of a frame.   
+\end{itemize}
+AWT has only two layouts available and are the following:
+\begin{itemize}
+	\item Flow: it is the default layout and when it is applied on a frame or panel it would force the contained components to be placed in a row form that are aligned in center by default.  
+	\item Border: it is a more complex layout due to the fact that it has five regions and any new component must be added in one of these regions (PAGE\_START, LINE\_START, CENTER, LINE\_END, PAGE\_END). 
+\end{itemize}
+AWT is the foundation upon which Swing is made, meaning that Swing is an improvement in every way and it manages to be a platform independent GUI API.
 \subsection{Swing API}
-
-\section{XTB Platform API}
+Swing API is a part of the Java Foundation Classes (JFC) that is used to ease a developer's life while creating front end/GUI applications using Java. As I said before, it is built on top of AWT API and it is platform independent. Swing API is based on a MVC architecture:
+ \begin{itemize}
+ 	\item Model: it represents a component's data.  
+ 	\item View: it is the graphical illustration base on a component's data.
+ 	\item Controller: this element takes the input from the user's view and reflects the changes in the component's data
+ \end{itemize}
+Owing to the fact that Swing is based on the MVC architecture it comes with the following benefits:
+\begin{itemize}
+	\item Light Weight: Swing's components are independent of the platform that they are used on, therefore the API doesn't rely on operating system calls in order to build and render its visual components. The only thing that it uses is just Java. 
+	\item Rich Controls: in addition to familiar components such as buttons, check boxes and labels, Swing provides several advanced components such as tabbed panel, trees, tables, lists etc.
+	\item Highly Customizable: every component can be visually customized due to the fact that the appearance doesn't affect the functionality.
+	\item Pluggable look-and-feel: this GUI's look and feel is changeable at run time just by using different available values.    
+\end{itemize}
+Every Swing graphic user interface recognizes three main aspects:
+\begin{itemize}
+	\item UI Elements - these represent the core of every interface and they are exactly what a consumer sees and interacts with in the application. 
+	\item Layouts - these dictate how every component from a frame or panel are organized and placed in the application.
+	\item Behavior - it defines what happens with every intractable component when used by the consumer.
+\end{itemize}
+The hierarchy of java swing API is given below in Figure~\ref{fig:swing}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm,height=10cm]{pics/swing.jpg}
+	\caption{The hierarchy of Java Swing API}
+	\label{fig:swing}
+\end{figure}
+\newpage
+One of the most important things in a GUI is the user interface interaction. In Java, each user's interaction with a component is signaled by an event which describes that the state of the component has changed. As an example, clicking a button, typing a character in a text area or selecting an item from a drop down are all interactions that cause an event. There are two types of events:
+\begin{itemize}
+	\item Foreground - these are the types of events that are triggered by a human interaction with a graphical element like a button or a scroll bar. 
+	\item Background - these events are generated by a hardware or system malfunction, by a flaw in the software code or by the completion of an operation.
+\end{itemize}
+In order to take advantage of this events and control what happens when they are triggered, there is, in Java, an event handling mechanism that specifies an action to take when an event occurs. Java uses the Delegation Event Model to handle the apparition of such events and this model has two key participants:
+\begin{itemize}
+	\item Source: it serves as the object that triggered the event and it needs to provide information to the handler about the action that just occurred.  
+	\item Listener: it is also known as the event handler and it is responsible for developing a response to the event. 
+\end{itemize}
+The benefit of this model is that the logic which generates and handles events is totally separated by the user's interface logic. Another advantage is that the event handlers have to be registered with the component that will be responsible for generating the event, meaning that if the user finds himself in a situation where there are multiple buttons on the same frame and he pushes one, only the associated listener will receive the event notification and will trigger the appropriated response for that button.
+In contrast to the layouts offered by the AWT API, Swing comes with five new layouts for even further customisation:
+\begin{itemize}
+	\item Card: this layout makes it that each component in a container will be treated as a card and only one card can be visible at a time.  
+	\item Grid: it arranges the frame's or panel's contained components in the form of a rectangular grid.
+	\item Spring: it positions the components based on a set of constraints. 
+	\item Grid Bag: this layout has the capability of aligning the components vertically and horizontally without depending on components having the same size.  
+	\item Group: it groups elements hierarchically.
+\end{itemize}
+This technology was the most used in making my application's interface because it was way more customizable than the AWT API. 
+\section{XTB's API}
+In order for my program to communicate with the xStation platform I used the free XTB's API\footnote{\url{http://developers.xstore.pro/api/documentation.html}}. It provides the necessary means to request and get data from the main trading platform. The communication protocol that is utilized by this API uses a JSON format.\\
+The general flow of the application using XTB's API is presented in Figure~\ref{fig:flow}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=16cm,height=8cm]{pics/flow.png}
+	\caption{The general flow of the application}
+	\label{fig:flow}
+\end{figure}
 
 
 \chapter{Implementation Details}
-În plus fata de capitolul precedent acesta conține elemente specifice ale rezolvării problemei care au presupus dificultăți deosebite din punct de vedere tehnic. Pot fi incluse configurații, secvențe de cod, pseudo-cod, implementări ale unor algoritmi, analize ale unor date, scripturi de testare. De asemenea, poate fi detaliat modul în care au fost utilizate tehnologiile introduse in capitolul 3.
 
+\section{Building the Interface}
+\subsection{Login window}
+To start making my autonomous trading program I had to make a clean and easy to understand interface. In achieving this I used Swing and AWT API. The login window contains two text fields, one for the account number and one for the password, a checkbox for saving the credentials and two buttons for selecting the type of the account which the user wants to authenticate on. In order to save the credentials I had to take the values from the two text fields and then save them into a file, so that at the next start up of the application the two text fields would have as default values the saved credentials. If the authentication isn't successful, then a message is displayed on the window for the purpose of warning the user. Once the credentials are valid, then the login window closes and the main window of the application opens up.
 
-Criterii pentru calificativul \textit{Ne\textit{Satisfăcător}}: 
+\subsection{Main panel}
+Firstly, I had to consider how to arrange nine text fields and buttons in order to make it look good and not very cluttered. To pull this off, in a frame container, I made a main panel that used the Box Layout from Swing API and then created six other panels that would be contained by the main panel. The Box Layout made it that these panels would stack one on top of each other. These six panels are:
 \begin{itemize}
-	\item	Sunt prezentate pe scurt scheme și pseudo-cod.
+ 	\item Header: which contains the MoneyTrade's logo and three buttons for saving the current user's configuration "Save Options", loading a saved configuration "Load Options" and one for resetting all the text fields "Reset Options". For this panel I used the Border Layout from AWT API, because I wanted my logo to be on the far left side of the main panel (LINE\_START) and the buttons to be on the far right of the screen (LINE\_END).   
+ 	\item Simple order: it contains all the mandatory fields, all arranged on a row and in order to achieve such a placement I used the Flow Layout of which I changed it's default center alignment to a left alignment. Above each text field there are labels with tooltips which contain a short description of the fields. To pair the each label with its corresponding field I made small panels that used the Box Layout in which I introduced a label and a text field. After that I added these panels in the simple order panel, which automatically arranged the panels in a row.    
+ 	\item Place order: it's made out of a toggleable button "Start placing orders" that starts the algorithm and a checkbox that opens the output window or not. For this I used the Flow Layout, but now I left the default alignment on.  
+ 	\item Advanced order: it contains all the optional fields and the layout is the same as the one from the simple order panel.
+ 	\item Activate optionals: this is made out of just a toggleable button that introduces the optional values into the algorithm. It doesn't have any layouts, it's just a simple panel.
+ 	\item Footer: just a decorative panel with a label which states that the application was developed using the XTB's API. 
 \end{itemize}
-Criterii pentru calificativul \textit{Satisfăcător}: 
+Each field, besides the market, needs to have an above zero double type value introduced, otherwise the user is warned that the value isn't a valid one. The "Start placing orders" cannot be toggled on until all the mandatory fields are filled out with valid values. The "Save Options" button opens up a new frame (see Figure~\ref{fig:saveload}) in which there are two buttons and a text field. To save the current configuration of the fields then the user has to enter a non-empty string for the file's name, otherwise the user is warned that the introduced name isn't a valid one. The two buttons from this window are "Close" which is self-explanatory and "Save" which creates a new file that contains all the values from the current configuration. The "Load Options" initiates a new window (see Figure~\ref{fig:saveload}) which contains two buttons "Close", "Load" and a drop down with all the saved configurations. Once the user decides on which configuration to use and selects it then he has to click the "Load" button in order to fill up the fields with the saved values. The two windows that open up after pressing the two buttons explained above, were built the same, meaning that both of them have a main panel that uses a Box Layout and that contains two other panels, one that consists of either a text field or a drop down and the other panel which utilizes the Flow Layout, that has two buttons. "Reset Options" has a pretty straightforward functionality and that is to clear out all the fields. If the check box "Show output" is checked then after pressing "Start placing orders" the output window opens up.
+
+\subsection{The output window}
+This frame was made with the purpose of tracking each change that happens due to the algorithm working. This window is made out of a main panel that has a Box Layout in which there are two other panels:
 \begin{itemize}
-	\item	Descriere sumara a implementării, prezentarea unor secvențe nerelevante de cod, scheme, etc. 
+	\item Notifications Area: which contains a text area in which every new notification will be displayed and a scroll pane that automatically scrolls down if the notifications are overflowing the text area.
+	\item Options: this has three buttons in a Flow Layout with center alignment:
+	\begin{itemize}
+		\item Close: it is self-explanatory what this does.
+		\item Pause Output: this is a toggleable button which is set as default on the value off and when it is on it makes that no new notification will be displayed in the text area, otherwise the normal flow of displaying notifications is resumed.
+		\item Show Price Updates: another toggleable button which is set as default on the value off and its functionality is to make every price change be counted as a new notification.
+	\end{itemize}
 \end{itemize}
-Criterii pentru calificativul \textit{Bine}: 
-\begin{itemize}
-	\item	Descrierea detaliată a algoritmilor/structurilor utilizați; Prezentarea etapizată a dezvoltării, inclusiv cu dificultăți de implementare întâmpinate, soluții descoperite; (dacă este cazul) demonstrarea corectitudinii algoritmilor utilizați. 
-\end{itemize}
 
-\section{Using the XTB API}
-Se recomandă utilizarea tabelelor de forma celui de mai jos.  Font size :  9. 
-Orice tabel prezent în teză va fi referit în text; exemplu: a se vedea Tabel~\ref{tab:criterii}.
+\subsection{The main frame}
+This represents the container in which the main panel is. One big feature for my application that was surely needed was the possibility of having my algorithm work on multiple markets at the same time. For achieving this in the interface, I made the frame a tabbed pane, meaning that the frame could have multiple tabs opened, each for a different market with all new distinct values. What gave me the idea of having tabs was the fact that every modern browser has multiple tabs on which the user can have different websites opened at the same time. Each new tab consisted in a new main panel as shown below in Figure~\ref{fig:tabs}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=13cm,height=8cm]{pics/tabs.png}
+	\caption{Tabs code example}
+	\label{fig:tabs}
+\end{figure}
 
-\section{Building the interface}
+\subsection{The logo}
+To add a more personal touch to the application I decided to make a logo in Adobe Illustrator, which is a graphical editor made by Adobe Systems. Because my program was called MoneyTrading, I tried to create a logo that would fit. The result can be seen in Figure~\ref{fig:logo}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=10cm,height=6cm]{pics/logo.png}
+	\caption{MoneyTrading Logo}
+	\label{fig:logo}
+\end{figure}
 
-\section{The algorithm}
+\subsection{Events}
+To make my interface user interactible, each button, text field, check box and drop down that I used has an event listener attached to it. Every handler has a different purpose, based on its connected component, and they vary from having some simple functionalities, like changing a label or a boolean variable or just calling a method, to holding a more complex and important block of code, like having to collect the input's user and starting a thread based on those values while also checking that the variables are valid.  
+
+An example on how an event listener is linked to a component is shown below in Figure~\ref{fig:events}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=10cm,height=6cm]{pics/events.png}
+	\caption{Events code example}
+	\label{fig:events}
+\end{figure}
+
+\section{The Algorithm}
 
 \subsection{Choosing the right design pattern}
 
-\section{The optimisation}
-
-
-\begin{table}[th]\small\linespread{1}
-\caption{Sumarizare criterii}
-\label{tab:criterii}
-\begin{tabular}{l >{\raggedright\arraybackslash}p{8cm} >{\raggedright\arraybackslash}p{4cm}}
-\textbf{Calificativ} & \textbf{Criteriu} & \textbf{Observații} \\\hline
-\textbf{Nesatisfacator} & Sunt prezentate pe scurt scheme și pseudo-cod & \\\hline
-\textbf{Satisfacator} &Descriere sumara a implementării, prezentarea unor secvențe nerelevante de cod, scheme, etc.& \\
-\hline
-\textbf{\textit{Bine}} &Descrierea detaliată a algoritmilor/structurilor utilizați; Prezentarea etapizată a dezvoltării, inclusiv cu dificultăți de implementare întâmpinate, soluții descoperite; (dacă este cazul) demonstrarea corectitudinii algoritmilor utilizați. & Pot fi incluse configurații, secvente de cod, pseudo-cod, implementări ale unor algoritmi, analize ale unor date, scripturi de testare. \\
-\hline
-\end{tabular}
-\end{table}
-
+\section{The Optimization}
 
 \chapter{Experimental Results}
+\section{Interface Screenshots}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=5cm,height=5cm]{pics/login.png}
+	\caption{The login window}
+	\label{fig:login}
+\end{figure}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=16cm,height=10cm]{pics/mainwindow.png}
+	\caption{The main window}
+	\label{fig:mainwindow}
+\end{figure}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=10cm,height=10cm]{pics/output.png}
+	\caption{The output window}
+	\label{fig:output}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\subfloat[\centering]{{\includegraphics[width=5cm]{pics/load1.png} }}
+	\qquad
+	\subfloat[\centering]{{\includegraphics[width=5cm]{pics/load2.png} }}
+	\qquad
+	\subfloat[\centering]{{\includegraphics[width=4cm]{pics/save.png} }}
+	\caption{The load and save windows}
+	\label{fig:saveload}
+\end{figure}
+
+\newpage
+\section{Results}
 Acest capitol trebuie să răspundă, în principiu, la 2 întrebări și să se încheie cu o discuție a rezultatelor obținute. Cele doua întrebări la care trebuie sa se răspundă sunt:
 \begin{enumerate}
 	\item  \textbf{Merge corect?} (Conform specificațiilor extrase în capitolul 2); 
@@ -379,72 +514,10 @@ Criterii pentru calificativul \textit{Bine}:
 	\item	Concluziile sunt corelate cu conținutul lucrării, și se oferă o imagine precisa asupra relevantei și calității rezultatelor obținute în cadrul proiectului. 
 \end{itemize}
 
-\chapter*{Bibliography}\addcontentsline{toc}{chapter}{Bibliography}  
-% * <marios.choudary@gmail.com> 2018-02-28T12:07:48.730Z:
-% 
-% > BIBLIOGRAFIE
-% Am adaugat un paragraf cu cateva detalii despre folosirea citarilor bibliografice in Latex, despre folosirea lui "\cite" si despre posibilitatea folosirii bibliografiei si direct in fisierul Latex.
-% 
-% ^.
-
-\begin{itemize}
-	\item 	NU utilizați referințe la Wikipedia sau alte surse fără autor asumat.
-	\item 	Pentru referințe la articole relevante accesibile în web (descrise prin URL) se va nota la bibliografie și data accesării.
-	\item 	Mai multe detalii despre citarea referințelor din internet se pot regăsi la:
-	\begin{itemize}
-		\item	\url{http://www.writinghelp-central.com/apa-citation-internet.html}
-		\item	\url{http://www.webliminal.com/search/search-web13.html}
-	\end{itemize}
-	\item 	Note de subsol se utilizează dacă referiți un link mai puțin semnificativ o singură dată; Dacă nota este citată de mai multe ori, atunci utilizați o referință bibliografică.
-	\item 	Dacă o imagine este introdusă în text și nu este realizată de către autorul lucrării, trebuie citată sursa ei (ca notă de subsol sau referință - este de preferat utilizarea unei note de subsol).
-	\item 	Referințele se pun direct legate de text (de exemplu ``KVM [1] uses'', ``as stated by Popescu and Ionescu [12]'', etc.). Nu este recomandat să folosiți formulări de tipul ``[1] uses'', ``as stated in [12]'', ``as described in [11]'' etc..
-	\item 	Afirmațiile de forma ``are numerous'', ``have grown exponentially'', ``are among the most used'', ``are an important topic'' trebuie să fie acoperite cu citări, date concrete si analize comparative.
-	\begin{itemize}
-		\item	Mai ales în capitolele de introducere, ``state of the art'', ``related work'' sau ``background'' trebuie să vă argumentați afirmațiile prin citări. Fiți autocritici și gândiți-vă dacă afirmațiile au nevoie de citări, chiar și cele pe care le considerați evidente.
-		\item	Cea mai mare parte dintre citări vor fi în capitolele de introducere ``state of the art'', ``related work'' sau ``background''.
-	\end{itemize}
-	\item 	Toate intrările bibliografice trebuie citate în text. Nu le adăugați pur și simplu la final.
-	\item 	Nu copiați sau traduceți niciodată din surse de informație de orice tip (online, offline, cărți, etc.). Dacă totuși doriți să oferiți, prin excepție, un citat celebru - de maxim 1 frază- utilizați ghilimele și evident menționați sursa. .
-	\item 	Dacă reformulați idei sau creați un paragraf rezumat al unor idei folosind cuvintele voastre, precizați cu citare (referință bibliografică) sau cu notă de subsol sursa sau sursele de unde ați preluat ideile.
-\end{itemize}
-
-Trebuie respectat un singur standard de trimiteri bibliografice (citare), dintre următoarele alternative:
-\begin{itemize}
-	\item APA (\url{http://pitt.libguides.com/c.php?g=12108\&p=64730})
-	\item IEEE (\url{https://ieee-dataport.org/sites/default/files/analysis/27/IEEE\%20Citation\%20Guidelines.pdf}) 
-	\item Harvard (\url{https://libweb.anglia.ac.uk/referencing/harvard.htm})
-	\item Cu numerotarea referințelor în ordine alfabetică sau în ordinea apariției în text (de exemplu, stilul cu numere folosit de unele publicații ACM - \url{https://www.acm.org/publications/authors/reference-formatting}) 
-\end{itemize}
-
-În Latex este foarte ușor să folosiți referințe într-un mod corect și unitar, fie prin adăugarea unei secțiuni
-\verb!\begin{thebibliography}!
-(vezi la sfârșitul acestei secțiuni), fie printr-un fișier separat de tip bib, folosind comanda
-\verb!\bibliography{}!,
-așa cum procedăm mai jos prin folosirea fișierului ``bibliography.bib''. În orice caz, în Latex va trebui să folosiți comanda
-\verb!\cite{}!
-pentru a adăuga referințe, iar această comandă trebuie folosită direct în text, acolo unde vreți sa apară citația, ca în exemplele următoare:
-
-\textbf{Important}: în această secțiune de obicei apar doar intrările bibliografice (adică doar listarea referințelor). Citarea lor prin comanda cite și explicații legate de ele trebuie facute în secțiunile anterioare. Citarea de mai sus a fost facută aici doar pentru exemplificare.
-
 % Asa se specifica folosirea unui fisier cu referinte bibliografice:
 \bibliographystyle{plain}
 \bibliography{bibliography}
 
-%% O alta varianta ar fi fost includerea de articole direct in acest fisier
-%% in felul urmator:
-%% \begin{thebibliography}{ABC}
-%%
-%% \bibitem{article}
-%%  H. Baali, H. Djelouat, A. Amira and F. Bensaali,
-%%  ``Empowering Technology Enabled Care Using IoT and Smart Devices:
-%   A Review''. In: IEEE Sensors Journal, vol. 322 (10), pp. 891--921, 1905.
-%%
-%% (more \bibitem items here...)
-%%
-%% \end{thebibliography}
 
-%% Daca vreti ca o sectiune sa inceapa pe o pagina noua, puteti forta acest lucru cu comanda "\newpage", ca mai jos:
-
-%\newpage
 
 \end{document}

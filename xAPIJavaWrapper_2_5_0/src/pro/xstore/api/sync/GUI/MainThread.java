@@ -1,8 +1,7 @@
-package pro.xstore.api.sync.gui;
+package pro.xstore.api.sync.GUI;
 
 import pro.xstore.api.sync.SyncAPIConnector;
 
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;

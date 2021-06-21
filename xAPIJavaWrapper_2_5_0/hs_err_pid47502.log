@@ -526,16 +526,16 @@ Event: 19.548 GC heap before
 Deoptimization events (20 events):
 Event: 18.051 Thread 0x00007f9254003800 DEOPT PACKING pc=0x00007f93004708d4 sp=0x00007f92a0b9a9b0
 Event: 18.051 Thread 0x00007f9254001800 Uncommon trap: trap_request=0xffffffec fr.pc=0x00007f930047138c relative=0x000000000000006c
-Event: 18.051 Thread 0x00007f9254001800 Uncommon trap: reason=null_assert_or_unreached0 action=make_not_entrant pc=0x00007f930047138c method=pro.xstore.api.sync.gui.PriceUpdates.getUpdate(Lpro/xstore/api/sync/gui/Observer;)Ljava/lang/Object; @ 4 c2
+Event: 18.051 Thread 0x00007f9254001800 Uncommon trap: reason=null_assert_or_unreached0 action=make_not_entrant pc=0x00007f930047138c method=pro.xstore.api.sync.GUI.PriceUpdates.getUpdate(Lpro/xstore/api/sync/gui/Observer;)Ljava/lang/Object; @ 4 c2
 Event: 18.051 Thread 0x00007f9254001800 DEOPT PACKING pc=0x00007f930047138c sp=0x00007f92a0c9b840
 Event: 18.051 Thread 0x00007f9254003800 DEOPT UNPACKING pc=0x00007f92f889d925 sp=0x00007f92a0b9a828 mode 2
 Event: 18.051 Thread 0x00007f9254001800 DEOPT UNPACKING pc=0x00007f92f889d925 sp=0x00007f92a0c9b790 mode 2
 Event: 18.051 Thread 0x00007f9254001800 Uncommon trap: trap_request=0xffffffec fr.pc=0x00007f930047108c relative=0x000000000000006c
-Event: 18.051 Thread 0x00007f9254001800 Uncommon trap: reason=null_assert_or_unreached0 action=make_not_entrant pc=0x00007f930047108c method=pro.xstore.api.sync.gui.PriceUpdates.getUpdate(Lpro/xstore/api/sync/gui/Observer;)Ljava/lang/Object; @ 4 c2
+Event: 18.051 Thread 0x00007f9254001800 Uncommon trap: reason=null_assert_or_unreached0 action=make_not_entrant pc=0x00007f930047108c method=pro.xstore.api.sync.GUI.PriceUpdates.getUpdate(Lpro/xstore/api/sync/gui/Observer;)Ljava/lang/Object; @ 4 c2
 Event: 18.051 Thread 0x00007f9254001800 DEOPT PACKING pc=0x00007f930047108c sp=0x00007f92a0c9b840
 Event: 18.051 Thread 0x00007f9254001800 DEOPT UNPACKING pc=0x00007f92f889d925 sp=0x00007f92a0c9b790 mode 2
 Event: 18.051 Thread 0x00007f9254005800 Uncommon trap: trap_request=0xffffffec fr.pc=0x00007f9300472054 relative=0x0000000000000094
-Event: 18.051 Thread 0x00007f9254005800 Uncommon trap: reason=null_assert_or_unreached0 action=make_not_entrant pc=0x00007f9300472054 method=pro.xstore.api.sync.gui.PriceUpdates.getUpdate(Lpro/xstore/api/sync/gui/Observer;)Ljava/lang/Object; @ 4 c2
+Event: 18.051 Thread 0x00007f9254005800 Uncommon trap: reason=null_assert_or_unreached0 action=make_not_entrant pc=0x00007f9300472054 method=pro.xstore.api.sync.GUI.PriceUpdates.getUpdate(Lpro/xstore/api/sync/gui/Observer;)Ljava/lang/Object; @ 4 c2
 Event: 18.051 Thread 0x00007f9254005800 DEOPT PACKING pc=0x00007f9300472054 sp=0x00007f92a0a999b0
 Event: 18.051 Thread 0x00007f9254003800 Uncommon trap: trap_request=0xffffff4d fr.pc=0x00007f9300470d88 relative=0x0000000000000068
 Event: 18.051 Thread 0x00007f9254003800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f9300470d88 method=java.util.concurrent.atomic.AtomicBoolean.get()Z @ 4 c2
