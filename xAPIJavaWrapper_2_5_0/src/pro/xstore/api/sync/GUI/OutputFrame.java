@@ -38,7 +38,7 @@ public class OutputFrame extends JFrame {
             chatBox.setText("");
     }
 
-    public void closeButton() {
+    public void closeFrame() {
         frame.dispose();
     }
 

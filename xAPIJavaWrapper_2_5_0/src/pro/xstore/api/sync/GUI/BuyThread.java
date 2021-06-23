@@ -137,10 +137,12 @@ public class BuyThread implements Observer, Runnable {
 
             if (this.currentPrice != null) {
                 if (!buyPrices.containsKey(this.currentPrice.getAsk())) {
-                    long curr_t = System.currentTimeMillis();
-                    long end = (long) (curr_t + (this.time * 1000));
+                    long currentTime = System.currentTimeMillis();
+                    long end = (long) (currentTime + (this.time * 1000));
                     this.buyPrices.put(this.currentPrice.getAsk(), end);
                 }
+
+                
                 for (HashMap.Entry<Double, Long> entry : this.buyPrices.entrySet()) {
                     double key = entry.getKey();
                     long value = entry.getValue();
@@ -207,8 +209,8 @@ public class BuyThread implements Observer, Runnable {
                                             }
                                         }
                                     } finally {
-                                        long curr_t = System.currentTimeMillis();
-                                        mainThread.atomicDelay.set((long) (curr_t + (this.delay * 1000)));
+                                        long currentTime = System.currentTimeMillis();
+                                        mainThread.atomicDelay.set((long) (currentTime + (this.delay * 1000)));
                                         mainThread.lock.unlock();
                                     }
                                 }

@@ -173,7 +173,7 @@ The result is an autonomous program that does the trading for it's users. The tr
 
 \chapter{Motivation and Requirements Analysis}
 \section{Motivation}
-This project is motivated by the simple fact that making money on a trading platform takes a lot of time. Firstly, to have success in this domain, one has to learn and grasp the intricacies of markets and trades. Secondly, any investor will have to start making transactions and following closely almost every change in the market's prices, and these things require patience, dedication and a lot of free time. Therefore, my idea was to make an investor's life a bit easier by completely eliminating or by making one of the previous steps as less tedious as possible. We all know that knowledge is needed in almost every professional field, so I deemed that the first step is a mandatory one. That's why, inspired by a famous quote "Time is money" as stated by Benjamin Franklin in \cite{timeIsMoney}, I decided to develop a program that tries to make trading online as a side activity by getting rid of the need to frequently check for any modification in stocks, markets or any opened transactions.
+This project is motivated by the simple fact that making money on a trading platform takes a lot of time. Firstly, to have success in this domain, one has to learn and grasp the intricacies of markets and trades. Secondly, any investor will have to start making transactions whilst following closely almost every change in the market's prices, and these things require patience, dedication and a lot of free time. Therefore, my idea was to make an investor's life a bit easier by completely eliminating or by making one of the previous steps as less tedious as possible. We all know that knowledge is needed in almost every professional field, so I deemed that the first step is a mandatory one. That's why, inspired by a famous quote "Time is money" as stated by Benjamin Franklin in \cite{timeIsMoney}, I decided to develop a program that tries to make trading online as a side activity by getting rid of the need to frequently check for any modification in stocks, markets or any opened transactions.
 
 \section{Requirements}
 On the side of hardware requirements, in order to use my application entitled MoneyTrading, the consumer, has to posses a good and steady internet connection and a working computer or laptop. Software-wise, the user needs to have on his personal computer the latest Java version installed. Also the consumer is required to own an usable account on the trading platform xStation.
@@ -202,7 +202,7 @@ First of all, a trading bot is a software program that uses an API to interact w
 	\item Historical - this type of tool examines and analyses past data prices in order to predict future changes in markets and to, possibly, come up with a trading strategy that would, theoretically, offer investors a boost in profits.
 	\item Signal - this bot is programmed to execute trades based on signals triggered by a certain amount of numerical variation in trading volume or price.
 \end{itemize}
-As online trading became more and more popular so did these autonomous programs. There are many simple and reliable trading bots available to use that are obtainable by either free download, purchase or subscription. As for what these bots offer to traders is quite simple, they offer the capability to automate their trades, making their lives a whole lot easier while they wait for the program to make a profit. However, on many occasions, because of the unpredictable nature of markets, making a profit while using a bot isn't always the case. Most of these bots, while they automatically execute trades on a user's exchange account, they offer almost no control over their programmed strategy making them relatively useless for an advanced and experienced investor. These kind of bots can be compared to a mystery box, because the user doesn't always know what they are actually getting. The consumer has to rely on the creator's understanding of the market and programming skills that went into making the bot's strategy. As a result, the quality of these autonomous programs can vary from good, to poor, to an outright scam. Finding the right bot depends entirely on the user's needs and experience in the trading domain. Even so, any bot's strategy can be caught by unanticipated factors and events like an exchange hack or a flash crash or a rapid price rise.
+As online trading became more and more popular so did these autonomous programs. There are many simple and reliable trading bots available to use that are obtainable by either free download, purchase or subscription. As for what these bots offer to traders is quite simple, they offer the capability to automate their trades, making their lives a whole lot easier while they wait for the program to make a profit. However, on many occasions, because of the unpredictable nature of markets, making a profit while using a bot isn't always the case. Most of these bots, while they automatically execute trades on a user's exchange account, they offer almost no control over their programmed strategy making them relatively useless for an advanced and experienced investor. These kind of bots can be compared to a mystery box, because the user doesn't always know what they are actually getting. The consumer has to rely on the creator's understanding of the market and programming skills that went into making the bot's strategy. As a result, the quality of these autonomous programs can vary from good, to poor, to an outright scam. Finding the right bot depends entirely on the user's needs and experience in the trading domain. Even so, any bot's strategy can be caught by unanticipated factors and events like an exchange hack, a flash crash or a rapid rise in price.
      
 
 \section{Similiar Solutions}
@@ -225,7 +225,7 @@ As online trading became more and more popular so did these autonomous programs.
 
 \newpage
 \section{Comparison}
-Because my application, MoneyTrading, is integrated with the XTB's API it can access any of its 2205 markets which include forex, indices, commodities, stock CFDs, ETF CFDs and crypto which is big advantage over the 2 bots that were presented above. My bot is a signal based program because it executes trades based on indicators triggered by a certain amount of fluctuation in price in a specific, customizable, period of time. MoneyTrading has an easy to understand interface with tooltips to help the user in figuring out what everything does, in contrast to Zenbot. The user can customize every value to future transactions just by filling out the fields dedicated to trade volume, take profit, stop loss, the maximum number of transactions to make on a selected market, trailing stop and the time between each future trade. MoneyTrading offers a level of customizability above the one offered by 1000pip Climber System.
+Because my application, MoneyTrading, is integrated with the XTB's API it can access any of its 2205 markets which include forex, indices, commodities, stock CFDs, ETF CFDs and crypto which is big advantage over the two bots that were presented above. My bot is a signal based program because it executes trades based on indicators triggered by a certain amount of fluctuation in price in a specific, customizable, period of time. MoneyTrading has an easy to understand interface with tool tips to help the user in figuring out what everything does, in contrast to Zenbot. The user can customize every value to future transactions just by filling out the fields dedicated to trade volume, take profit, stop loss, the maximum number of transactions to make on a selected market, trailing stop and the time between each future trade. MoneyTrading offers a level of customizability above the one offered by 1000pip Climber System.
 \break
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[th]\small\linespread{1}
@@ -243,7 +243,7 @@ Because my application, MoneyTrading, is integrated with the XTB's API it can ac
 \chapter{Proposed Solution}
 In order to make such an autonomous program I had to begin by building the interface. The user had to be able to login using his xStation account so I had to make a login window (see Figure~\ref{fig:login}) from which he could also choose the type of account, real or demo, he wanted to authenticate with. To also ease the user's access to his account I thought that a "Save credentials" checkbox would be a quality of life feature which would make the consumer's login go a little bit faster and effortless. After a successful login, the user would be presented with the main window (see Figure~\ref{fig:mainwindow}) which has the following mandatory input fields:
 \begin{itemize}
-	\item Market - this field is a dropdown with all the available markets from the xStation trading platform. The user has to choose one valid market on which to start the algorithm that will automatically execute trades. 
+	\item Market - this field is a drop down with all the available markets from the xStation trading platform. The user has to choose one valid market on which to start the algorithm that will automatically execute trades. 
 	\item Price Difference - this is a TextField in which the user has to write a double type value. This number will become the value for which to look out for at each chosen market's price change.
 	\item Time Interval - this is also a TextField and its value represents the interval of time in which to look out for the price difference at each market's price change.
 	\item Trade volume - this field refers to the volume of currency that will be used for each future transaction. In other words, it represents how much the user wants to pay for each transaction.
@@ -345,7 +345,7 @@ In order to take advantage of this events and control what happens when they are
 	\item Listener: it is also known as the event handler and it is responsible for developing a response to the event. 
 \end{itemize}
 The benefit of this model is that the logic which generates and handles events is totally separated by the user's interface logic. Another advantage is that the event handlers have to be registered with the component that will be responsible for generating the event, meaning that if the user finds himself in a situation where there are multiple buttons on the same frame and he pushes one, only the associated listener will receive the event notification and will trigger the appropriated response for that button.
-In contrast to the layouts offered by the AWT API, Swing comes with five new layouts for even further customisation:
+In contrast to the layouts offered by the AWT API, Swing comes with five new layouts for even further customization:
 \begin{itemize}
 	\item Card: this layout makes it that each component in a container will be treated as a card and only one card can be visible at a time.  
 	\item Grid: it arranges the frame's or panel's contained components in the form of a rectangular grid.
@@ -375,7 +375,7 @@ To start making my autonomous trading program I had to make a clean and easy to 
 Firstly, I had to consider how to arrange nine text fields and buttons in order to make it look good and not very cluttered. To pull this off, in a frame container, I made a main panel that used the Box Layout from Swing API and then created six other panels that would be contained by the main panel. The Box Layout made it that these panels would stack one on top of each other. These six panels are:
 \begin{itemize}
  	\item Header: which contains the MoneyTrade's logo and three buttons for saving the current user's configuration "Save Options", loading a saved configuration "Load Options" and one for resetting all the text fields "Reset Options". For this panel I used the Border Layout from AWT API, because I wanted my logo to be on the far left side of the main panel (LINE\_START) and the buttons to be on the far right of the screen (LINE\_END).   
- 	\item Simple order: it contains all the mandatory fields, all arranged on a row and in order to achieve such a placement I used the Flow Layout of which I changed it's default center alignment to a left alignment. Above each text field there are labels with tooltips which contain a short description of the fields. To pair the each label with its corresponding field I made small panels that used the Box Layout in which I introduced a label and a text field. After that I added these panels in the simple order panel, which automatically arranged the panels in a row.    
+ 	\item Simple order: it contains all the mandatory fields, all arranged on a row and in order to achieve such a placement I used the Flow Layout of which I changed it's default center alignment to a left alignment. Above each text field there are labels with tool tips which contain a short description of the fields. To pair the each label with its corresponding field I made small panels that used the Box Layout in which I introduced a label and a text field. After that I added these panels in the simple order panel, which automatically arranged the panels in a row.    
  	\item Place order: it's made out of a toggleable button "Start placing orders" that starts the algorithm and a checkbox that opens the output window or not. For this I used the Flow Layout, but now I left the default alignment on.  
  	\item Advanced order: it contains all the optional fields and the layout is the same as the one from the simple order panel.
  	\item Activate optionals: this is made out of just a toggleable button that introduces the optional values into the algorithm. It doesn't have any layouts, it's just a simple panel.
@@ -426,7 +426,46 @@ An example on how an event listener is linked to a component is shown below in F
 \end{figure}
 
 \section{The Algorithm}
-The main idea of the algorithm is that every change in a market's price is saved for a specified amount of time (time interval field) in a Hash Map with the key of type double for saving the price and a value of type long for maintaining at which point in time this pair expires.
+The main idea of the algorithm is that every change in a market's price is saved for a specified amount of time (time interval field) in a Hash Map with the key of type double for saving the price and a value of type long for maintaining at which point in time this pair expires. An example can be seen in Figure~\ref{fig:prices}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=13cm,height=4cm]{pics/prices.png}
+	\caption{Hash Map Prices}
+	\label{fig:prices}
+\end{figure}
+\\
+If the Hash Map isn't empty then we iterate through it, comparing all the added keys with the current market's price checking if the price difference, submitted by the user, has been met or surpassed. If the price difference condition was met then a trade request will be sent to xStation using the API. Such a request can have all the optional fields that were completed by the user. The response received from the trading platform can have three status codes like ACCEPTED, REJECTED, and PENDING. An earlier point that I made was about the possibility of having my algorithm work on multiple markets at the same time and for accomplishing this task I decided to work with threads. In total I have five threads that are declared for each main panel:
+\begin{itemize}
+	\item Main Thread: which controls all of the other threads, meaning that it can pass on all of the submitted fields to all threads and it can start or stop them when an event is triggered. 
+	\item Price Updates: this is just for constantly monitoring the market's price and checking if the maximum number of transactions was reached, if it was set.
+	\item Buy Thread: this is dedicated to just making purchases, because of the fact that buy and sell prices are different, meaning that the formulas for take profit, stop loss and price difference are distinct from a sell order.
+	\item Sell Thread: at this point the main purpose of this one is self-explanatory.
+	\item Trailing Stop (Ts): this was made to constantly look out and make updates in the stop loss and take profit values of opened transactions. It also counts the number of trades that are opened on the selected market.   
+\end{itemize}
+Because of the API's limitation regarding the fact that a user can only send requests in 200ms intervals, otherwise the connection would be dropped, I needed to make sure that two different transactions requests couldn't be sent at the same time. For the purpose of resolving this problem I used a Reentrant Lock which would limit the access of making a transaction to just one thread at a time. This lock was used only in the threads that could send order requests and it was declared in the main thread on account of this being the one that controlled all of the other threads. Now, if a thread would fulfill the price difference condition, at first, it would have to check if the lock is acquired or not. After a successful trade request each thread needs to unlock the synchronization mechanism.
+\newpage
+An example of using the Reentrant Lock is displayed below in Figure~\ref{fig:lock}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.7]{pics/lock1.png}
+	\includegraphics[scale=0.7]{pics/lock2.png}
+	\caption{Using the Reentrant Lock}
+	\label{fig:lock}
+\end{figure}
+\\
+Of course, this wasn't enough to avoid the problem of having the connection dropped, because the lock would just make the trade requests become sequential and if a thread would finish processing a request and then another thread would send a request all in the 200ms time frame then the connection would be dropped. So, a small delay after each trade was surely needed to avoid this problem. In accomplishing this I used an Atomic Long value which is a variable that is written to memory, so that each change is visible to other threads. The scope of this value is to add a delay after each transaction which is verified by every thread before placing another order. Needless to say, this value needed to be updated, by a default delay of 250ms or by the user's time/transactions value, after each request before unlocking the synchronization mechanism.
+Below, in Figure~\ref{fig:delay}, is an example of the atomic variable.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.7]{pics/delay1.png}
+	\includegraphics[scale=0.7]{pics/delay2.png}
+	\caption{Using the Atomic Delay}
+	\label{fig:delay}
+\end{figure}
+\\
+In order to count the number of opened orders for the max transactions field I worked with an atomic integer which is updated after each new, successful trade request. If this value reaches the submitted user's limit then the buy and the sell threads are stopped. Trailing Stop thread continues to run, because this only modifies the take profit and stop loss values for the already opened trades.  
+  
+
 \subsection{Choosing the right design pattern}
 
 \chapter{Experimental Results}
