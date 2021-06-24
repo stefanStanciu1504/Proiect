@@ -463,10 +463,12 @@ Below, in Figure~\ref{fig:delay}, is an example of the atomic variable.
 	\label{fig:delay}
 \end{figure}
 \\
-In order to count the number of opened orders for the max transactions field I worked with an atomic integer which is updated after each new, successful trade request. If this value reaches the submitted user's limit then the buy and the sell threads are stopped. Trailing Stop thread continues to run, because this only modifies the take profit and stop loss values for the already opened trades.  
-  
+In order to count the number of opened orders for the max transactions field I worked with an atomic integer which is updated after each new, successful trade request. If this value reaches the submitted user's limit then the buy and the sell threads are paused until the number of current transactions becomes lower than the set limit. Trailing Stop thread continues to run, because this only modifies the take profit and stop loss values for the already opened trades.
+
+If the user runs out of funds while the algorithm is running then a new window will pop up to notify the consumer as seen in Figure~\ref{fig:nofunds}. When this frame opens up it generates a warning sound, making it more obvious. At the event of having no more funds then the buy and sell threads are stopped indefinitely until an algorithm restart is triggered by pressing again "Start placing orders".  
 
 \subsection{Choosing the right design pattern}
+Because the 
 
 \chapter{Experimental Results}
 \section{Interface Screenshots}
@@ -491,11 +493,11 @@ In order to count the number of opened orders for the max transactions field I w
 
 \begin{figure}[!ht]
 	\centering
-	\subfloat[\centering]{{\includegraphics[width=5cm]{pics/load1.png} }}
+	\subfloat[][\centering]{\includegraphics[width=5cm]{pics/load1.png} }
 	\qquad
-	\subfloat[\centering]{{\includegraphics[width=5cm]{pics/load2.png} }}
+	\subfloat[][\centering]{\includegraphics[width=5cm]{pics/load2.png} }
 	\qquad
-	\subfloat[\centering]{{\includegraphics[width=4cm]{pics/save.png} }}
+	\subfloat[][\centering]{\includegraphics[width=4cm]{pics/save.png} }
 	\caption{The load and save windows}
 	\label{fig:saveload}
 \end{figure}
