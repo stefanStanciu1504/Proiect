@@ -1,5 +1,4 @@
 package pro.xstore.api.sync.GUI;
-import pro.xstore.api.message.records.STickRecord;
 
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalToggleButtonUI;
@@ -13,15 +12,17 @@ public class OutputFrame extends JFrame {
     private JFrame frame;
     private boolean pauseUpdate = false;
     private boolean filterUpdates = true;
+    private final String market;
 
-    public OutputFrame() {
+    public OutputFrame(String market) {
+        this.market = market;
     }
 
     public <T> void updateOutput(T obj) {
         if (!pauseUpdate) {
             if (filterUpdates) {
-                if (!(obj instanceof STickRecord)) {
-                    chatBox.append(obj.toString() + "\n");
+                if (!obj.toString().startsWith("The market's ask")) {
+                    chatBox.append(obj + "\n");
                     chatBox.setCaretPosition(chatBox.getDocument().getLength() - 1);
                 }
             } else {
@@ -43,8 +44,8 @@ public class OutputFrame extends JFrame {
     }
 
     public void run() {
-        frame = new JFrame("Output");
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
+        frame = new JFrame("Output for " + this.market);
+        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/logo.png");
         frame.setIconImage(icon);
         JPanel panel = new JPanel();
         panel.setBackground(Color.white);

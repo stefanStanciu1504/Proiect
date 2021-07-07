@@ -22,7 +22,7 @@
 \counterwithout{equation}{chapter} % no chapter number in equation labels
 
 \usepackage{booktabs} % for much better looking tables
-\usepackage{url} % Useful for inserting web links nicely
+\usepackage[hyphens]{url} % Useful for inserting web links nicely
 \usepackage[bookmarks,unicode,hidelinks]{hyperref}
 
 \usepackage{array} % for better arrays (eg matrices) in maths
@@ -129,7 +129,7 @@ COMPUTER SCIENCE AND ENGINEERING DEPARTMENT\\}
 %%   Campurile aferente rezumatului
 %%
 
-\newcommand{\AbstractEN}{With the evolution of technology and with the apparition of the internet, in this day and age, purchasing and selling financial products has never been easier. In the past investors would call their broker to make a trade for them. They could either visit or telephone their broker, but now everything is being done on an online trading platform. Using these platforms can have a lot of benefits, but there is also one big downside, which is if you want to make money constantly then you have to be online for quite some time each day, in order to not miss some good deals. My application, MoneyTrading, aims to offer the customers of a trading platform, xStation from XTB, a tool that will automatically make transactions for them based on the their preferences.}
+\newcommand{\AbstractEN}{With the evolution of technology and with the apparition of the internet, in this day and age, purchasing and selling financial products has never been easier. In the past investors would call their broker to make a trade for them. They could either visit or telephone their broker, but now everything is being done on an online trading platform. Using these platforms can have a lot of benefits, but there is also one big downside, which is that if you want to make money constantly then you have to be online for quite some time each day in order to not miss some good deals. My application, MoneyTrading, aims to offer the customers of a trading platform, xStation from XTB, a tool that will automatically make transactions for them based on the their preferences.}
 
 
 \begin{document}
@@ -146,34 +146,34 @@ COMPUTER SCIENCE AND ENGINEERING DEPARTMENT\\}
 
 \chapter{Introduction}\pagestyle{fancy}
 \section{Context}
-Traditionally, if investors or traders wanted to make a trade, they would have had to call their brokerage firms with a purchase or sell request. The process of confirming such an important request was a long and tedious one, with multiple phone calls or meetings in which a lot of topics needed to be addressed. The subjects that were approached by both parties involved (broker and the investor) were about the market's price, the limit price, how long to keep the order open for, in what account to purchase the shares (if the client had multiple accounts) and if the investment representative would approve the commission costs for making the trade. A lot of time and effort was spent on making transactions in the past.
+Traditionally, if investors or traders wanted to make a trade, they would have had to call their brokerage firms with a purchase or sell request. The process of confirming such an important order was a long and tedious one, with multiple phone calls or meetings in which a lot of topics needed to be addressed as stated in \cite{past}. The subjects that were approached by both parties involved (broker and the investor) were about the market's price, the limit price, how long to keep the order open for, in what account to purchase the shares (if the client had multiple accounts) and if the investment representative would approve the commission costs for making the trade. A lot of time and effort was spent on making transactions in the past.
 
-Today, with so many advancements in the digital era, increasingly more investors are choosing to use online trading platforms from the comforts of their home, at any time they want. Online trading, simply put, refers to buying and selling financial assets using proprietary trading platforms offered by a broker for DIY (do-it-yourself) investing. As high-speed computers and good internet connections were made more and more accessible to every citizen, in the mid to late '90s the use of online trading increased exponentially. On such platforms there were made available, to purchase or sell, all kinds of currencies, stocks, bonds, options, funds, EFTs (electronic funds transfers). As of today, some of the most popular assets in the online trading domain are currencies, cryptocurrencies, stocks, commodities and one of the largest financial market in the world, larger even then the stock market, is the foreign exchange or forex, with an average daily trading volume of 6.6 trillion US dollars, according to the 2019 Triennial Central Bank Survey of FX and OTC derivatives markets \cite{centralBank}.
+Today, with so many advancements in the digital era, increasingly more investors are choosing to use online trading platforms from the comforts of their home, at any time they want. Online trading, simply put, refers to buying and selling financial assets using proprietary trading platforms offered by a broker for DIY (do-it-yourself) investing. As high-speed computers and good internet connections were made more and more accessible to every citizen, in the mid to late '90s the use of online trading increased exponentially as stated in \cite{currencyfordummies}. On such platforms there were made available, to purchase or sell, all kinds of currencies, stocks, bonds, options, funds, EFTs (electronic funds transfers). As of today, some of the most popular assets in the online trading domain are currencies, cryptocurrencies, stocks, commodities and one of the largest financial market in the world, larger even then the stock market, is the foreign exchange or forex, with an average daily trading volume of 6.6 trillion US dollars, according to the 2019 Triennial Central Bank Survey of FX and OTC derivatives markets \cite{centralBank}.
 
-Nowadays, anyone can start trading online, simply, by opening a demat (dematerialized account that provides the facility of holding shares and securities in an electronic format) and creating an online account on a trading platform, but, in order to have success in this domain, it also requires a lot of information about the markets and about the stocks as stated in \cite{marketWizards}. There's quite a wealth of mostly free information out there on the internet like financial articles, stock market books and website tutorials from which one can grasp the intricacies of this domain. Online trading can be a really great way to earn a daily income as well as plan for the future, if it is done right.
+Nowadays, anyone can start trading online, simply, by opening a demat (dematerialized account that provides the facility of holding shares and securities in an electronic format) and creating an online account on a trading platform, but in order to have success in this domain, it also requires a lot of information about the markets and about the stocks as stated in \cite{marketWizards}. There's quite a wealth of mostly free information out there on the internet like financial articles, stock market books and website tutorials from which one can grasp the intricacies of this domain. An example for a good read dedicated to beginners would be the book \cite{tutorial} written by J. Moriaco. Online trading can be a really great way to earn a daily income as well as plan for the future, if it is done right.
 
 \section{The Problem} 
-The advent of online trading platforms, came with a lot of benefits, but also with some negatives, to both investors and traders. For example, one benefit is the improvement in speed and simplicity of which transactions can be made, due to the lack of need for paper-based documents to be copied, filed for each transaction. Another benefit is that an investor can now monitor the changes in market's prices and his investments all the time, but this benefit can also become one of the main disadvantages of online trading platforms, because it requires a lot of dedication and a lot of attention, in order to not lose money and make a profit. Online trading, can become a full time job for some investors, even if they already have another career, because of the need to be online on the platform for quite a while, day after day, monitoring each change in the market's price, making all the right transactions at the right moments, just to not lose out on potentially important or lucrative trades. In other words, online trading can consume a lot of time from a person's life, and that's the main problem that I'm trying to solve with this project.        
+The advent of online trading platforms offered a lot of benefits, but also some negatives, to both investors and traders. For example, one benefit is the improvement in speed and simplicity of which transactions can be made, due to the lack of need for paper-based documents to be copied, filed for each transaction. Another benefit is that an investor can now monitor the changes in market's prices and his investments all the time, but this benefit can also become one of the main disadvantages of online trading platforms, because it requires a lot of dedication and a lot of attention, in order to not lose money and make a profit. Online trading, can become a full time job for some investors, even if they already have another career, because of the need to be online on the platform for quite a while, day after day, monitoring each change in the market's price, making all the right transactions at the right moments, just to not lose out on potentially important or lucrative trades. In other words, online trading can consume a lot of time from a person's life as stated in \cite{time}, and that's the main problem that I'm trying to solve with this project.        
 \section{Objectives}
-The main goal of MoneyTrading, my application, is to address the main problem that was presented above. This tool will target the investors that are using xStation, the online trading platform from XTB, and it aims to make online trading a way of earning extra money without the need to constantly be online, avoiding the need to continuously stare at some price graphs, just waiting for the right opportunity to present itself, in order to make a good/profitable transaction and also, to change, for the better, the trading experience into a less time consuming, side or main, activity. To achieve the objectives stated above, my project will have to ease the transactions process by automatically overseeing any changes in prices from the markets and by performing purchase or sell orders based on the user's preferences and the current state of the market. 
+The main goal of MoneyTrading, my application, is to address the main problem that was presented above. This tool will target the investors that are using xStation, the online trading platform from XTB, and it aims to make online trading a way of earning extra money without the need to constantly be online, avoiding the need to continuously stare at some price graphs, just waiting for the right opportunity to present itself in order to make a good/profitable transaction and also, to change, for the better, the trading experience into a less time consuming, side or main, activity. To achieve the objectives stated above, my project will have to ease the transactions process by automatically overseeing any changes in prices from the markets and by performing purchase or sell orders based on the user's preferences and the current state of the market. 
 \section{Proposed Solution} 
-My application, MoneyTrading, features an user interface from which the consumer can login into their account on xStation, using their password and account number. After a successfully authentication, they can select on which markets to start making transactions and, most importantly, how and when to make the desired transactions. These user's choices are processed by an algorithm that determines, based on the conditions from the input, if a trade request needs to be made. Once the trading information is provided then it is sent to xStation platform using XTB's API.
+My application, MoneyTrading, features an user interface from which the consumer can login into their account on xStation, using their password and account number. After a successful authentication, they can select on which markets to start making transactions and, most importantly, how and when to make the desired transactions. These user's choices are processed by an algorithm that determines, based on the conditions from the input, if a trade request needs to be made. Once the trading information is provided then it is sent to xStation platform using XTB's API.
 \section{Obtained Results}
 The result is an autonomous program that does the trading for it's users. The transactions that it makes are entirely based on the user's input. It works on multiple markets at the same time, each market having it's own different options determined by the user. 
 \section{Thesis Structure}
 \begin{itemize}
-	\item \textbf{Motivation and Requirements Analysis}: provides an insight into the motivation that made me develop my application, what it's functionalities are and what it's supposed to achieve
-	\item \textbf{Related Work}: offers details about other products that have a similar purpose with my program and it also highlights some differences between the presented applications
-	\item \textbf{Proposed Solution}: this chapter explores a detailed view of what technologies were used in the making of my project
-	\item \textbf{Implementation Details}: provides an explanation of how the technologies from the previous chapter were used and how the algorithm works
-	\item \textbf{Experimental Results}: presents the obtained results after using the application
-	\item \textbf{Conclusion and Future Work}: this chapter gives an overview about what can be improved and what was gained from this project
+	\item \textbf{Motivation and Requirements Analysis}: provides an insight into the motivation that made me develop my application, what it's functionalities are and what it's supposed to achieve.
+	\item \textbf{Related Work}: offers details about other products that have a similar purpose with my program and it also highlights some differences between the presented applications.
+	\item \textbf{Proposed Solution}: this chapter explores a detailed view of what technologies were used in the making of my project.
+	\item \textbf{Implementation Details}: provides an explanation of how the technologies from the previous chapter were used and how the algorithm works.
+	\item \textbf{Experimental Results}: presents the obtained results after using the application.
+	\item \textbf{Conclusion and Future Work}: this chapter gives an overview about what can be improved and what was gained from this project.
 \end{itemize}
 
 
 \chapter{Motivation and Requirements Analysis}
 \section{Motivation}
-This project is motivated by the simple fact that making money on a trading platform takes a lot of time. Firstly, to have success in this domain, one has to learn and grasp the intricacies of markets and trades. Secondly, any investor will have to start making transactions whilst following closely almost every change in the market's prices, and these things require patience, dedication and a lot of free time. Therefore, my idea was to make an investor's life a bit easier by completely eliminating or by making one of the previous steps as less tedious as possible. We all know that knowledge is needed in almost every professional field, so I deemed that the first step is a mandatory one. That's why, inspired by a famous quote "Time is money" as stated by Benjamin Franklin in \cite{timeIsMoney}, I decided to develop a program that tries to make trading online as a side activity by getting rid of the need to frequently check for any modification in stocks, markets or any opened transactions.
+This project is motivated by the simple fact that making money on a trading platform takes a lot of time. Firstly, to have success in this domain, one has to learn and grasp the intricacies of markets and trades. Secondly, any investor will have to start making transactions while following closely almost every change in the market's prices, and these things require patience, dedication and a lot of free time. Therefore, my idea was to make an investor's life a bit easier by completely eliminating or by making one of the previous steps as less tedious as possible. We all know that knowledge is needed in almost every professional field, so I deemed that the first step is a mandatory one. That's why, inspired by a famous quote "Time is money" as stated by Benjamin Franklin in \cite{timeIsMoney}, I decided to develop a program that tries to make trading online as a side activity by getting rid of the need to frequently check for any modification in stocks, markets or any opened transactions.
 
 \section{Requirements}
 On the side of hardware requirements, in order to use my application entitled MoneyTrading, the consumer, has to posses a good and steady internet connection and a working computer or laptop. Software-wise, the user needs to have on his personal computer the latest Java version installed. Also the consumer is required to own an usable account on the trading platform xStation.
@@ -185,7 +185,7 @@ Step 2:
 After the confirmation of a successful authentication, the main window of the program appears from which the user can control on what markets and with what details to make future transactions.
 
 Step 3:
-After filling out the desired fields the user can then start the algorithm by pressing the button "Start placing orders", from the main window, and after that the consumer can sit back and let the magic happen, because the algorithm will start to make all the possible transactions based on the user's input at all the correct times. Furthermore, the user can add additional, optional, details like stop loss, trailing profit, the number of maximum orders, the time between transactions and a take profit value (all of these fields will be explained in the Proposed Solution chapter) to all future transactions by pressing the button "Activate additional fields" from the main window. The general flow of the application is displayed in Figure~\ref{fig:appflow}.
+After filling out the desired fields, the user can then start the algorithm by pressing the button "Start placing orders", from the main window, and after that the consumer can sit back and let the magic happen, because the algorithm will start to make all the possible transactions based on the user's input at all the correct times. Furthermore, the user can add additional, optional, details like stop loss, trailing profit, the number of maximum orders, the time between transactions and a take profit value (all of these fields will be explained in the Proposed Solution chapter) to all future transactions by pressing the button "Activate additional fields" from the main window. The general flow of the application is displayed in Figure~\ref{fig:appflow}.
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=7cm,height=10cm]{pics/appflow.png}
@@ -195,7 +195,7 @@ After filling out the desired fields the user can then start the algorithm by pr
 
 
 \chapter{Related Work}
-First of all, a trading bot is a software program that uses an API to interact with the consumer's exchange account and automatically execute trades based on its interpretation of the market data. This usually means that the bot will make a trade when market conditions meet a set of predefined and programmed criteria. Nowadays, with the explosion in popularity of digital currency, the most popular and the most sought after bots are the ones that automate cryptocurrency trading and they are called crypto bots. Even if the forex (foreign exchange) is the largest financial market in the world as stated in \cite{forex}, the availability and the demand for forex bots are way smaller compared to crypto bots, which is surprising considering that there are no guarantees when it comes to gains from forex and cryptocurrency trading. Moreover, there are 3 types of bots:
+First of all, a trading bot is a software program that uses an API to interact with the consumer's exchange account and automatically execute trades based on its interpretation of the market data. This usually means that the bot will make a trade when market conditions meet a set of predefined and programmed criteria. Nowadays, with the explosion in popularity of digital currency, the most popular and the most sought after bots are the ones that automate cryptocurrency trading and they are called crypto bots. Even if the forex (foreign exchange) is the largest financial market in the world as stated in \cite{forex}, the availability and the demand for forex bots are way smaller compared to crypto bots, which is surprising considering that there are no guarantees when it comes to gains from forex and cryptocurrency trading. Moreover, there are 3 types of bots as stated on this website\footnote{\url{https://www.finextra.com/blogposting/20185/everything-you-need-to-know-about-crypto-trading-bots}}:
 \begin{itemize}
 	\item Arbitrage - a good way of explaining this type is by starting to define what arbitrage means and that is the simultaneous purchase and sale of the same financial asset in different markets, in order to make a profit from the slight differences in the asset's price. To simply put it, arbitrage takes advantage of the inevitable and imminent inefficiencies in markets and creates an opportunity for quite an almost risk-free profit for the investor. 
 	As for this type of bot it represents a tool that examines prices across various exchanges and then executes trades in order to take advantage of markets' discrepancies.
@@ -215,17 +215,18 @@ As online trading became more and more popular so did these autonomous programs.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=16cm,height=9cm]{pics/1000PipClimberSystemEA.png}
-	\caption{The 1000pip Climber System}
+	\caption{The 1000pip Climber System\protect\footnotemark}
 	\label{fig:pip}
 	\bigskip
 	\includegraphics[width=16cm,height=9cm]{pics/zenbot.png}
-	\caption{The Zenbot}
+	\caption{The Zenbot\protect\footnotemark[5]}
 	\label{fig:zenbot}
 \end{figure}
-
+\footnotetext{\url{https://www.1000pipclimberea.com}}
+\footnotetext[5]{\url{https://jaynagpaul.com/algorithmic-crypto-trading}}
 \newpage
 \section{Comparison}
-Because my application, MoneyTrading, is integrated with the XTB's API it can access any of its 2205 markets which include forex, indices, commodities, stock CFDs, ETF CFDs and crypto which is big advantage over the two bots that were presented above. My bot is a signal based program because it executes trades based on indicators triggered by a certain amount of fluctuation in price in a specific, customizable, period of time. MoneyTrading has an easy to understand interface with tool tips to help the user in figuring out what everything does, in contrast to Zenbot. The user can customize every value to future transactions just by filling out the fields dedicated to trade volume, take profit, stop loss, the maximum number of transactions to make on a selected market, trailing stop and the time between each future trade. MoneyTrading offers a level of customizability above the one offered by 1000pip Climber System.
+Because my application, MoneyTrading, is integrated with the XTB's API it can access any of its 2205 markets which include forex, indices, commodities, stock CFDs, ETF CFDs and crypto which is big advantage over the two bots that were presented above. My bot is a signal based program because it executes trades based on indicators triggered by a certain amount of fluctuation in price in a specific, customizable, period of time. MoneyTrading has an easy to understand interface with tool tips to help the user in figuring out what everything does, in contrast to Zenbot. The user can customize every value to future transactions just by filling out the fields dedicated to trade volume, take profit, stop loss, the maximum number of transactions to make on a selected market, trailing stop and the time between each future trade. MoneyTrading offers a level of customizability above the one offered by 1000pip Climber System. The features comparison can be seen in table~\ref{tab:comparsion}. 
 \break
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[th]\small\linespread{1}
@@ -238,17 +239,17 @@ Because my application, MoneyTrading, is integrated with the XTB's API it can ac
 	\end{tabular}
 	\caption{Comparing the features}
 	\label{tab:comparsion}
-\end{table} 
+\end{table}
 
 \chapter{Proposed Solution}
-In order to make such an autonomous program I had to begin by building the interface. The user had to be able to login using his xStation account so I had to make a login window (see Figure~\ref{fig:login}) from which he could also choose the type of account, real or demo, he wanted to authenticate with. To also ease the user's access to his account I thought that a "Save credentials" checkbox would be a quality of life feature which would make the consumer's login go a little bit faster and effortless. After a successful login, the user would be presented with the main window (see Figure~\ref{fig:mainwindow}) which has the following mandatory input fields:
+In order to make such an autonomous program I had to begin by building the interface. The user had to be able to login using his xStation account so I had to make a login window (see Figure~\ref{fig:login}) from which he could also choose the type of account, real or demo, he wants to authenticate with. To also ease the user's access to his account I thought that a "Save credentials" checkbox would be a quality of life feature which would make the consumer's login go a little bit faster and effortless. After a successful login, the user would be presented with the main window (see Figure~\ref{fig:mainwindow}) which has the following mandatory input fields:
 \begin{itemize}
 	\item Market - this field is a drop down with all the available markets from the xStation trading platform. The user has to choose one valid market on which to start the algorithm that will automatically execute trades. 
 	\item Price Difference - this is a TextField in which the user has to write a double type value. This number will become the value for which to look out for at each chosen market's price change.
 	\item Time Interval - this is also a TextField and its value represents the interval of time in which to look out for the price difference at each market's price change.
 	\item Trade volume - this field refers to the volume of currency that will be used for each future transaction. In other words, it represents how much the user wants to pay for each transaction.
 \end{itemize}
-The described fields above are mandatory for the algorithm because without any values it cannot execute any basic trades. There are also some optional fields for the user to further customize his approach to trading. These optional fields are all TextFields and they require a double type value:
+The described fields above are mandatory for the algorithm, because without any values it cannot execute any basic trades. There are also some optional fields for the user to further customize his approach to trading. These optional fields are all TextFields and they require a double type value:
 \begin{itemize}
 	
 	\item Stop Loss (S/L) - this field represents a value that is either subtracted or added to the price of each transaction and its result can be defined as a price point where an advance order to sell the asset is triggered. This field is used to limit loss or gain in a trade. To better explain what this field does I feel that an example is needed:
@@ -283,20 +284,21 @@ There is also an output window (see Figure~\ref{fig:output}) from which the user
 \section{Technologies}
 The interface was all built in Java and for its development I used the technologies presented below. 
 \subsection{AWT API}
-Java AWT (Abstract Window Toolkit) is an API made for developing graphic user interfaces or window-based applications in Java. AWT was made with the intent to call the native platform, which refers to operating systems, subroutine for creating components such as text areas, buttons, drop downs etc. For instance, an AWT graphic user interface with a button and a text area would have a completely different look and feel across distinct platforms like Linux, Windows and Mac operating system.This happens because these platforms have different looks and feels for their native buttons and text areas, meaning that AWT directly calls their native platform subroutine that creates these components. To simply put it, a software program that was made using AWT would look like a Windows type of application if it was executed on Windows, but the same application would look like a Linux program if it ran on an UNIX operating system.
+Java AWT (Abstract Window Toolkit) is an API made for developing graphic user interfaces or window-based applications in Java. AWT was made with the intent to call the native platform, which refers to operating systems, subroutine for creating components such as text areas, buttons, drop downs etc. For instance, an AWT graphic user interface with a button and a text area would have a completely different look and feel across distinct platforms like Linux, Windows and Mac operating system. This happens because these platforms have different looks and feels for their native buttons and text areas, meaning that AWT directly calls their native platform subroutine that creates these components. To simply put it, a software program that was made using AWT would look like a Windows type of application if it was executed on Windows, but the same application would look like a Linux program if it ran on an UNIX operating system.
 
 Nowadays, because of its platform depended nature AWT is rarely used. Its components are all constructed by the operating system on which the application runs. The hierarchy of Java AWT classes are given below in Figure~\ref{fig:awt}.
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=10cm,height=10cm]{pics/awthierarchy.jpg}
-	\caption{The hierarchy of Java AWT classes}
+	\includegraphics[width=9cm,height=9cm]{pics/awthierarchy.jpg}
+	\caption{The hierarchy of Java AWT classes\protect\footnotemark}
 	\label{fig:awt}
 \end{figure}
+\footnotetext{\url{https://www.javatpoint.com/java-awt}}
 \newpage
 Containers are components from AWT API that incorporate other components like buttons, labels, check boxes etc. There are four types of containers available:
 \begin{itemize}
 	\item Window: it doesn't have borders, menu bars and a title.
-	\item Frame: as shown in the hierarchy above, the frame is a subclass of the window class, but it has everything that the window container is missing. It is the most used container when developing Java applications and it can have components like buttons, labels, text boxes etc.
+	\item Frame: as shown in the hierarchy above, the frame is a subclass of the window class, but it has everything that the window is missing. It is the most used container when developing Java applications and it can have components like buttons, labels, text boxes etc.
 	\item Panel: it doesn't have bars, a title or borders and it represents a generic container for holding other components.
 	\item Dialog: it has a border, a title and it is a subclass of the window class, but it cannot exist without an associated instance of a frame.   
 \end{itemize}
@@ -307,7 +309,7 @@ AWT has only two layouts available and are the following:
 \end{itemize}
 AWT is the foundation upon which Swing is made, meaning that Swing is an improvement in every way and it manages to be a platform independent GUI API.
 \subsection{Swing API}
-Swing API is a part of the Java Foundation Classes (JFC) that is used to ease a developer's life while creating front end/GUI applications using Java. As I said before, it is built on top of AWT API and it is platform independent. Swing API is based on a MVC architecture:
+Swing API is a part of the Java Foundation Classes (JFC) that is used to ease a developer's life while creating front end/GUI applications using Java. As I said before, it is built on top of AWT API and it is platform independent. Swing API is based on a MVC architecture as stated in \cite{swing}:
  \begin{itemize}
  	\item Model: it represents a component's data.  
  	\item View: it is the graphical illustration base on a component's data.
@@ -330,9 +332,10 @@ The hierarchy of java swing API is given below in Figure~\ref{fig:swing}.
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm,height=10cm]{pics/swing.jpg}
-	\caption{The hierarchy of Java Swing API}
+	\caption{The hierarchy of Java Swing API\protect\footnotemark}
 	\label{fig:swing}
 \end{figure}
+\footnotetext{\url{https://www.javatpoint.com/java-swing}}
 \newpage
 One of the most important things in a GUI is the user interface interaction. In Java, each user's interaction with a component is signaled by an event which describes that the state of the component has changed. As an example, clicking a button, typing a character in a text area or selecting an item from a drop down are all interactions that cause an event. There are two types of events:
 \begin{itemize}
@@ -369,13 +372,13 @@ The general flow of the application using XTB's API is presented in Figure~\ref{
 
 \section{Building the Interface}
 \subsection{Login window}
-To start making my autonomous trading program I had to make a clean and easy to understand interface. In achieving this I used Swing and AWT API. The login window contains two text fields, one for the account number and one for the password, a checkbox for saving the credentials and two buttons for selecting the type of the account which the user wants to authenticate on. In order to save the credentials I had to take the values from the two text fields and then save them into a file, so that at the next start up of the application the two text fields would have as default values the saved credentials. If the authentication isn't successful, then a message is displayed on the window for the purpose of warning the user. Once the credentials are valid, then the login window closes and the main window of the application opens up.
+To start making my autonomous trading program I had to make a clean and easy to understand interface. In achieving this I used Swing and AWT API. The login window contains two text fields, one for the account number and one for the password, a checkbox for saving the credentials and two buttons for selecting the type of account on which the user wants to authenticate on. In order to save the credentials I had to take the values from the two text fields and then save them into a file, so that at the next start up of the application the two text fields would have as default values the saved credentials. If the authentication isn't successful, then a message is displayed on the window for the purpose of warning the user. Once the credentials are valid, then the login window closes and the main window of the application opens up.
 
 \subsection{Main panel}
 Firstly, I had to consider how to arrange nine text fields and buttons in order to make it look good and not very cluttered. To pull this off, in a frame container, I made a main panel that used the Box Layout from Swing API and then created six other panels that would be contained by the main panel. The Box Layout made it that these panels would stack one on top of each other. These six panels are:
 \begin{itemize}
  	\item Header: which contains the MoneyTrade's logo and three buttons for saving the current user's configuration "Save Options", loading a saved configuration "Load Options" and one for resetting all the text fields "Reset Options". For this panel I used the Border Layout from AWT API, because I wanted my logo to be on the far left side of the main panel (LINE\_START) and the buttons to be on the far right of the screen (LINE\_END).   
- 	\item Simple order: it contains all the mandatory fields, all arranged on a row and in order to achieve such a placement I used the Flow Layout of which I changed it's default center alignment to a left alignment. Above each text field there are labels with tool tips which contain a short description of the fields. To pair the each label with its corresponding field I made small panels that used the Box Layout in which I introduced a label and a text field. After that I added these panels in the simple order panel, which automatically arranged the panels in a row.    
+ 	\item Simple order: it contains all the mandatory fields, all arranged on a row and in order to achieve such a placement I used the Flow Layout of which I changed its default center alignment to left. Above each text field there are labels with tool tips which contain a short description of the fields. To pair the each label with its corresponding field I made small panels that used the Box Layout in which I introduced a label and a text field. After that I added these panels in the simple order panel, which automatically arranged the panels in a row.    
  	\item Place order: it's made out of a toggleable button "Start placing orders" that starts the algorithm and a checkbox that opens the output window or not. For this I used the Flow Layout, but now I left the default alignment on.  
  	\item Advanced order: it contains all the optional fields and the layout is the same as the one from the simple order panel.
  	\item Activate optionals: this is made out of just a toggleable button that introduces the optional values into the algorithm. It doesn't have any layouts, it's just a simple panel.
@@ -414,7 +417,7 @@ To add a more personal touch to the application I decided to make a logo in Adob
 \end{figure}
 
 \subsection{Events}
-To make my interface user interactible, each button, text field, check box and drop down that I used has an event listener attached to it. Every handler has a different purpose, based on its connected component, and they vary from having some simple functionalities, like changing a label or a boolean variable or just calling a method, to holding a more complex and important block of code, like having to collect the input's user and starting a thread based on those values while also checking that the variables are valid.  
+To make my interface user interactive, each button, text field, check box and drop down that I used has an event listener attached to it. Every handler has a different purpose, based on its connected component, and they vary from having some simple functionalities, like changing a label or a boolean variable or just calling a method, to holding a more complex and important block of code, like having to collect the input's user and starting a thread based on those values while also checking that the variables are valid.  
 
 An example on how an event listener is linked to a component is shown below in Figure~\ref{fig:events}.
 
@@ -453,7 +456,7 @@ An example of using the Reentrant Lock is displayed below in Figure~\ref{fig:loc
 	\label{fig:lock}
 \end{figure}
 \\
-Of course, this wasn't enough to avoid the problem of having the connection dropped, because the lock would just make the trade requests become sequential and if a thread would finish processing a request and then another thread would send a request all in the 200ms time frame then the connection would be dropped. So, a small delay after each trade was surely needed to avoid this problem. In accomplishing this I used an Atomic Long value which is a variable that is written to memory, so that each change is visible to other threads. The scope of this value is to add a delay after each transaction which is verified by every thread before placing another order. Needless to say, this value needed to be updated, by a default delay of 250ms or by the user's time/transactions value, after each request before unlocking the synchronization mechanism.
+Of course, this wasn't enough to avoid the problem of having the connection dropped, because the lock would just make the trade requests become sequential and if a thread would finish processing a request and then another one would send an order all in the 200ms time frame then the connection would be dropped. So, a small delay after each trade was surely needed to avoid this problem. In accomplishing this I used an Atomic Long value which is a variable that is written to memory, so that each change is visible to other threads. The scope of this value is to add a delay after each transaction which is verified by every thread before placing another order. Needless to say, this value needed to be updated, by a default delay of 250ms or by the user's time/transactions value, after each request before unlocking the synchronization mechanism.
 Below, in Figure~\ref{fig:delay}, is an example of the atomic variable.
 \begin{figure}[!ht]
 	\centering
@@ -468,7 +471,13 @@ In order to count the number of opened orders for the max transactions field I w
 If the user runs out of funds while the algorithm is running then a new window will pop up to notify the consumer as seen in Figure~\ref{fig:nofunds}. When this frame opens up it generates a warning sound, making it more obvious. At the event of having no more funds then the buy and sell threads are stopped indefinitely until an algorithm restart is triggered by pressing again "Start placing orders".  
 
 \subsection{Choosing the right design pattern}
-Because the 
+Because three threads depended on the current index's price, I decided to take advantage of a design pattern that would benefit me the most. After reading \cite{patterns}, I considered that the Observer pattern would be the most suited for my situation, because at each change in the state of the main object (index's price), all of the other objects which depended on it will be notified. For using the design I made an interface called "Subject", in order to represent the price updates thread, respectively an interface "Observer" for the three threads. In Figure~\ref{fig:observer} can be seen the Observer pattern applied to my application.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=16cm,height=10cm]{pics/observer.png}
+	\caption{The Observer pattern}
+	\label{fig:observer}
+\end{figure}
 
 \chapter{Experimental Results}
 \section{Interface Screenshots}
@@ -502,61 +511,84 @@ Because the
 	\label{fig:saveload}
 \end{figure}
 
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.7]{pics/nofunds.png}
+	\caption{The no funds window}
+	\label{fig:nofunds}
+\end{figure}
+
+
 \newpage
 \section{Results}
-Acest capitol trebuie să răspundă, în principiu, la 2 întrebări și să se încheie cu o discuție a rezultatelor obținute. Cele doua întrebări la care trebuie sa se răspundă sunt:
-\begin{enumerate}
-	\item  \textbf{Merge corect?} (Conform specificațiilor extrase în capitolul 2); 
-Evaluarea dacă merge corect se face pe baza cerințelor identificate în capitolele anterioare. 
-
-	\item Cât de \textit{Bine} merge / cum se compară cu soluțiile existente? (pe baza unor metrici clare). 
-Evaluarea cât de \textit{Bine} merge trebuie să fie bazată pe procente, timpi, cantitate, numere, \textbf{comparativ cu soluțiile prezentate în capitolul 3}. Poate fi vorba de performanță, overhead, resurse consumate, scalabilitate etc. 
-\end{enumerate}
-
-În realizarea discuției, se vor utiliza tabele cu procente, rezultate numerice și grafice. În mod obișnuit, aici se fac comparații și teste comparative cu alte proiecte similare (dacă există) și se extrag puncte tari și puncte slabe. Se ține cont de avantajele menționate și se demonstrează viabilitatea abordării / aplicației, de dorit prin comparație cu alte abordări (dacă acest lucru este posibil). Cuvântul cheie la evaluare este ``metrică'': trebuie să aveți noțiuni măsurabile și cuantificabile. În cadrul procesului de evaluare, explicați datele, tabelele și graficele pe care le prezentați și insistați pe relevanța lor, în următorul stil: ``este de preferat ... deoarece …''; explicați cititorului nu doar datele ci și semnificația lor și cum sunt acestea interpretate. Din această interpretare trebuie să rezulte poziționarea proiectului vostru printre alternativele existente, precum și cum poate fi acesta îmbunătățit în continuare.
-
-Criterii pentru calificativul \textit{Ne\textit{Satisfăcător}}: 
+For testing my application I decided to run it on multiple markets with different values for a day or two on each market. The input that I used is presented in table~\ref{tab:markets}. The program was put under the following tests:
 \begin{itemize}
-	\item Aplicația este testată dar rulează pe calculatorul studentului, nu există posibilități de testare, nu a fost validată cu clienți / utilizatori;
-	\item Nu au fost realizate comparații cu alte sisteme similare.
+	\item A test with no optional values and with a low price difference, that would be met almost constantly at each price change, in order to check if the connection with the platform would be dropped or if the program would be overloaded.
+	\item A test on one market with a low price difference, but now with a small trailing stop value, just so that each opened transaction would have to be modified, for the purpose of pushing the algorithm limits even more.
+	\item A test on two markets at the same time, with no optional values, just to see if the threads are all working well.
+	\item A test on three indexes at the same time, with all low price differences to see if transactions overlap.
+	\item Same as the one above, but now with added low trailing stop values just to see if the program throws any exceptions.
 \end{itemize}
+The application handled the tests above with no errors and so I tried to start the algorithm on six different markets at the same time. Again, it worked flawlessly, but it did start to take quite a lot of the computer's resources as it can be seen in Figure~\ref{fig:threads}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.6]{pics/threads.png}
+	\caption{Consumed resources}
+	\label{fig:threads}
+\end{figure}
+\newpage
+In the end, the results were quite profitable as it can be seen below in Figure~\ref{fig:profit}.
 
-Criterii pentru calificativul \textit{Satisfăcător}: 
-\begin{itemize}
-	\item \dezvoltare  Există teste unitare și de integrare, există o strategie de punere în funcțiune (deployment), există validare minimală cu clienții / utilizatorii.
-	\item \cercetare Principalele componente și soluția în ansamblu au fost evaluate din punct de vedere al performanței, însă nu sunt folosite seturi de date standard, există unele erori de interpretare a datelor.
-	\item \ambele Discuție minimală asupra relevanței rezultatelor prezentate, comparație minimală cu alte sisteme similare.
-\end{itemize}
+\begin{figure}[!ht]
+	\centering
+	\subfloat[][\centering]{\includegraphics[width=16cm, height=4cm]{pics/profit1.png} }
+	\qquad
+	\subfloat[][\centering]{\includegraphics[width=16cm, height=2.5cm]{pics/profit2.png} }
+	\caption{Profit made}
+	\label{fig:profit}
+\end{figure}
 
-Criterii pentru calificativul \textit{Bine}: 
-\begin{itemize}
-	\item \dezvoltare Teste unitare și de integrare, instrumente de punere in funcțiune (deployment) utilizate și care arată lucru constant de-a lungul semestrului, lucrare validată cu clienții / utilizatorii, produs în producție.
-	\item \cercetare Componentele și soluția în ansamblu au fost evaluate din punct de vedere al performanței, folosind seturi de date standard și cu o interpretare corectă a rezultatelor.
-	\item \ambele Discuție cu prezentarea calitativă și cantitativă a rezultatelor, precum și a relevanței acestor rezultate printr-o comparație complexă cu alte sisteme similare.
-\end{itemize}
 
 \chapter{Conclusion and Future Work}
-În acest capitol este sumarizat întreg proiectul, de la obiective, la implementare, si la relevanta rezultatelor obținute. În finalul capitolului poate exista o subsecțiune de ``Dezvoltări ulterioare''.
+In conclusion, MoneyTrading offers to an investor, that is interested in using the xStation trading platform, a way of automatically executing trades without having to constantly pay attention to changes in market prices. Simply put, my project is a bot that does the trading for you. With a little bit of knowledge in online trading the user can personalize his buy and sell orders for the purpose of obtaining as much profit as possible. 
 
-Criterii pentru calificativul \textit{Ne\textit{Satisfăcător}}: 
+The application has a pleasing and easy to understand interface which was implemented using Java technologies dedicated for producing simple and clean graphical user interfaces. MoneyTrading allows the investors to login on two types of accounts using their credentials and then they can fully customize the values for each new trade request that the program will make. The main algorithm can run on multiple markets at the same time without any problems due to the fact that this autonomous program is built using multiple threads and synchronization mechanisms. The main purpose of this bot is to relieve the consumer of all the tedious elements involved in trading, therefore giving the user a lot of free time while they're also making money.
+
+To further make MoneyTrading even better for the consumer I thought of the following improvements and functionalities:
 \begin{itemize}
-	\item	Concluziile nu sunt corelate cu conținutul lucrării;
+	\item A more complex user interface for displaying all of the information available in order to make checking the trading platform as redundant as possible. New UI elements would consist in:
+	\begin{itemize}
+		\item Graphs representing the changes in prices for every selected market in the application.
+		\item A live profit number for all trades.
+		\item More customization to each opened transaction's information, offering the user to ability of adding extra columns like net profit, margin, purchase value, etc.
+	\end{itemize}
+	\item The functionality of loading another user's saved configuration. This new feature would especially be good for beginners because it would offer them to copy and use the configuration made by an experienced investor. Adding more to this functionality would be a star rating system to each configuration.
+	\item A new customizable trading strategy, giving the user another option from which to choose from.
 \end{itemize}
 
-Criterii pentru calificativul \textit{Satisfăcător}: 
-\begin{itemize}
-	\item	Concluziile sunt corelate cu conținutul lucrării, însă nu se oferă o imagine asupra calității și relevantei rezultatelor obținute;
-\end{itemize}
 
-Criterii pentru calificativul \textit{Bine}: 
-\begin{itemize}
-	\item	Concluziile sunt corelate cu conținutul lucrării, și se oferă o imagine precisa asupra relevantei și calității rezultatelor obținute în cadrul proiectului. 
-\end{itemize}
-
-% Asa se specifica folosirea unui fisier cu referinte bibliografice:
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{bibliography}
 
+\chapter*{APPENDICES}
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[th]\small\linespread{1}
+	\begin{tabular}{l >{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{2.5cm}}
+		\textbf{Index} & \textbf{Volume(Price Difference)} & \textbf{Time(s)} &\textbf{S/L} & \textbf{T/P}\\ [0.5cm]\hline
+		\textbf{Tesla, Inc. (TSLA)} & 4 & 40 & 2 & 4\\[0.5cm]\hline
+		\textbf{S\&P 500 (\^GSPC)} & 3 & 40 & 1.5 & 3\\ [0.5cm]\hline
+		\textbf{Microsoft Corporation (MSFT)} & 0.4 & 40 & 0.2 & 0.4\\ [0.5cm]\hline
+		\textbf{Amazon.com, Inc. (AMZN)} & 3.5 & 40 & 1.75 & 3.5\\ [0.5cm]\hline
+		\textbf{Gold} & 1.2 & 40 & 0.6 & 1.2\\ [0.5cm]\hline
+		\textbf{Twitter, Inc. (TWTR)} & 0.1 & 40 & 0.05 & 0.1\\ [0.5cm]\hline
+		\textbf{Bitcoin} & 10 & 40 & 500 & 1000\\ [0.5cm]\hline
+		\textbf{Alphabet Inc. (GOOGC)} & 2.6 & 40 & 1.3 & 2.6\\ [0.5cm]\hline
+		\textbf{EUR/USD (EURUSD)} & 0.004 & 40 & 0.002 & 0.004\\ [0.5cm]\hline
+		\textbf{Crude Oil} & 0.12 & 40 & 0.06 & 0.12\\ [0.5cm]\hline
+	\end{tabular}
+	\caption{Used values for testing}
+	\label{tab:markets}
+\end{table} 
 
 
 \end{document}

@@ -1,46 +1,48 @@
 This is BibTeX, Version 0.99d (TeX Live 2021/W32TeX)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: diploma-proiect.aux
-The style file: plain.bst
+The style file: unsrt.bst
 Database file #1: bibliography.bib
-You've used 4 entries,
-            2118 wiz_defined-function locations,
-            517 strings with 4653 characters,
-and the built_in function-call counts, 847 in all, are:
-= -- 76
-> -- 28
-< -- 0
-+ -- 12
-- -- 8
-* -- 25
-:= -- 149
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 15
+Warning--empty journal in patterns
+You've used 10 entries,
+            1791 wiz_defined-function locations,
+            497 strings with 4888 characters,
+and the built_in function-call counts, 1578 in all, are:
+= -- 136
+> -- 48
+< -- 1
++ -- 22
+- -- 12
+* -- 42
+:= -- 253
+add.period$ -- 30
+call.type$ -- 10
+change.case$ -- 7
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 33
-empty$ -- 89
-format.name$ -- 8
-if$ -- 182
+cite$ -- 11
+duplicate$ -- 81
+empty$ -- 190
+format.name$ -- 12
+if$ -- 365
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 2
-newline$ -- 23
-num.names$ -- 8
-pop$ -- 32
+int.to.str$ -- 10
+missing$ -- 9
+newline$ -- 53
+num.names$ -- 10
+pop$ -- 50
 preamble$ -- 1
-purify$ -- 12
+purify$ -- 0
 quote$ -- 0
-skip$ -- 30
+skip$ -- 42
 stack$ -- 0
-substring$ -- 20
-swap$ -- 4
-text.length$ -- 0
+substring$ -- 41
+swap$ -- 14
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 14
-warning$ -- 0
-while$ -- 8
-width$ -- 5
-write$ -- 39
+type$ -- 0
+warning$ -- 1
+while$ -- 15
+width$ -- 12
+write$ -- 99
+(There was 1 warning)

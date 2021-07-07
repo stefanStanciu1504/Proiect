@@ -55,7 +55,7 @@ public class LoadFrame extends JFrame {
 
     public void run() throws IOException {
         frame = new JFrame("Load file");
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/logo.png");
         frame.setIconImage(icon);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel();
@@ -83,7 +83,7 @@ public class LoadFrame extends JFrame {
 
         close.addActionListener(e -> frame.dispose());
         load.addActionListener(e -> {
-            String aux = "./src/Saves/" + comboBox.getEditor().getItem() + ".txt";
+            String aux = "../../../src/Saves/" + comboBox.getEditor().getItem() + ".txt";
             File file = new File(aux);
             Scanner myReader;
             try {
@@ -112,7 +112,7 @@ public class LoadFrame extends JFrame {
 
         LinkedList<String> loadOptions = new LinkedList<>();
         loadOptions.add("");
-        loadOptions.addAll(listFiles("./src/Saves"));
+        loadOptions.addAll(listFiles("../../../src/Saves"));
         comboBox = new JComboBox<>(loadOptions.toArray(new String[0]));
         comboBox.setMaximumRowCount(10);
         comboBox.setPreferredSize(new Dimension(180, 25));

@@ -16,13 +16,13 @@ public class NoFundsFrame extends Frame {
     }
 
     public void run() {
-        JFrame frame = new JFrame();
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
+        JFrame frame = new JFrame("No funds left");
+        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/logo.png");
         frame.setIconImage(icon);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         try {
-            File soundFile = new File("./src/Media/theetone.wav");
+            File soundFile = new File("../../../src/Media/theetone.wav");
 
             AudioInputStream sampleStream = AudioSystem.getAudioInputStream(soundFile);
 
@@ -70,7 +70,7 @@ public class NoFundsFrame extends Frame {
 
         frame.getContentPane().add(box);
         frame.getContentPane().setBackground(Color.white);
-        frame.setSize(200, 120);
+        frame.setSize(300, 120);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);

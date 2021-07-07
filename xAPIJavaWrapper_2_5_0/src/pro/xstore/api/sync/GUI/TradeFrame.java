@@ -5,13 +5,16 @@ import pro.xstore.api.sync.SyncAPIConnector;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class TradeFrame extends JFrame {
     private final SyncAPIConnector connector;
-//    public AtomicLong atomicDelay = new AtomicLong(0);
+    public AtomicLong atomicDelay = new AtomicLong(0);
+    public ReentrantLock lock = new ReentrantLock();
     private final JTabbedPane tabs = new JTabbedPane();
 
     public TradeFrame(SyncAPIConnector aux_connector) {
@@ -36,7 +39,7 @@ public class TradeFrame extends JFrame {
             }
         });
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/logo.png");
         frame.setIconImage(icon);
 
         UIManager.put("TabbedPane.contentAreaColor", Color.white);
@@ -44,7 +47,7 @@ public class TradeFrame extends JFrame {
         this.tabs.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 
 
-        MainPanel defaultTab = new MainPanel(connector);
+        MainPanel defaultTab = new MainPanel(connector, this);
         this.tabs.addTab("Tab 0", null, defaultTab.buildMainPanel(), null);
         this.tabs.addTab(" + ", null, new JPanel(), null);
 
@@ -54,7 +57,7 @@ public class TradeFrame extends JFrame {
             if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(" + ")) {
                 int index = tabbedPane.getSelectedIndex();
                 try {
-                    MainPanel newTab = new MainPanel(connector);
+                    MainPanel newTab = new MainPanel(connector, this);
                     tabbedPane.remove(index);
                     tabbedPane.addTab("Tab " + index, null, newTab.buildMainPanel(), null);
                     tabbedPane.setSelectedIndex(index);

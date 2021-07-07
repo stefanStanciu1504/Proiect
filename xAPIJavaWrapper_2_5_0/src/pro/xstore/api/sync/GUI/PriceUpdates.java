@@ -85,6 +85,7 @@ public class PriceUpdates implements Subject, Runnable {
                 (this.maxTransactions != 0) && (this.maxTransactions != Double.MIN_VALUE)) {
             if ((mainThread.bigMoneyTime.get()) && (!mainThread.blockTransactions.get())) {
                 mainThread.blockTransactions.set(true);
+            } else if ((mainThread.bigMoneyTime.get()) && (mainThread.blockTransactions.get())) {
                 if ((!mainThread.messagePrinted.get()) && (this.outputFrame != null)) {
                     mainThread.messagePrinted.set(true);
                     this.outputFrame.updateOutput("Maximum transactions reached!");
@@ -122,7 +123,7 @@ public class PriceUpdates implements Subject, Runnable {
             if (curr != null && prev != null && !curr.getAsk().equals(prev.getAsk()) && curr.getSymbol().equals(market)) {
                 postPrice(curr);
                 if (outputFrame != null) {
-                    outputFrame.updateOutput(curr);
+                    outputFrame.updateOutput("The market's ask price is " + curr.getAsk() + " and the bid price is: " + curr.getBid());
                 }
             }
         }

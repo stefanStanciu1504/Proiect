@@ -1,4 +1,35 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{past}
+Michael~Siegel Jennifer~Wu and Joshua Manion.
+\newblock Online trading: An internet revolution.
+\newblock {\em Massachusetts Institute of Technology}, pages 4--5, 1999.
+
+\bibitem{currencyfordummies}
+Brian Dolan.
+\newblock {\em Currency Trading For Dummies}.
+\newblock For Dummies, July 5, 2011.
+
+\bibitem{centralBank}
+Triennial Central~Bank Survey.
+\newblock Foreign exchange turnover in april 2019.
+\newblock \url{https://www.bis.org/statistics/rpfx19_fx.pdf}.
+
+\bibitem{marketWizards}
+Jack~D. Schwager.
+\newblock {\em Stock market wizards}.
+\newblock HarperCollins, April 15, 2003.
+
+\bibitem{tutorial}
+J.~Moriaco.
+\newblock {\em How to make a Full Time Income Trading Stocks Online}.
+\newblock CreateSpace Independent Publishing Platform, November 5, 2017.
+
+\bibitem{time}
+Jean Folger.
+\newblock A day in the life of a day trader.
+\newblock
+  \url{https://www.investopedia.com/articles/professionals/052113/day-life-day-trader.asp}.
 
 \bibitem{timeIsMoney}
 Benjamin Franklin.
@@ -12,14 +43,15 @@ Ibeth Rivero.
 \newblock
   \url{https://www.dailyforex.com/forex-articles/2020/09/forex-industry-statistics-2020/150275#:~:text=The%20global%20Forex%20trading%20market,%28that%20is%20%242.4%20quadrillion%29}.
 
-\bibitem{marketWizards}
-Jack~D. Schwager.
-\newblock {\em Stock market wizards}.
-\newblock HarperCollins, April 15, 2003.
+\bibitem{swing}
+Ankush~Saini Jaideep~Verma, Inderjeet Singh~Behl.
+\newblock Research paper on swings.
+\newblock {\em International Journal Of Scientific Research And Education},
+  1:173--186, 2013.
 
-\bibitem{centralBank}
-Triennial Central~Bank Survey.
-\newblock Foreign exchange turnover in april 2019.
-\newblock \url{https://www.bis.org/statistics/rpfx19_fx.pdf}.
+\bibitem{patterns}
+MU~Huaxin and JIANG Shuai.
+\newblock Design patterns in software development.
+\newblock 2007.
 
 \end{thebibliography}

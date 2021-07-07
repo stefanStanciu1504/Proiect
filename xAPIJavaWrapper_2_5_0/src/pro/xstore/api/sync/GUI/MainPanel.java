@@ -31,6 +31,8 @@ public class MainPanel {
     private final JTextField maxTransactions = new JTextField("", 5);
     private final JTextField trailingStop = new JTextField("", 5);
     private final JTextField timeTransaction = new JTextField("", 5);
+    private JToggleButton button;
+    private JCheckBox checkBox;
     private final HashMap<String, String> marketMap = new HashMap<>();
     private JLabel market_label;
     private JLabel priceDiff_label;
@@ -56,13 +58,14 @@ public class MainPanel {
     private double maxTransactions_value = Double.MIN_VALUE;
     private double trailingStop_value = Double.MIN_VALUE;
     private double timeTransaction_value = Double.MIN_VALUE;
-    private final MainThread trader = new MainThread();
+    private final MainThread trader;
     private final SyncAPIConnector connector;
     private boolean showOutput = false;
     private String aux = null;
 
-    public MainPanel(SyncAPIConnector conn) {
+    public MainPanel(SyncAPIConnector conn, TradeFrame tradeFrame) {
         this.connector = conn;
+        trader = new MainThread(conn, tradeFrame);
     }
 
     /* sets the values from the textfields */
@@ -266,6 +269,29 @@ public class MainPanel {
         }
     }
 
+    /* resets to mandatory the optional labels */
+    private void defaultMandatoryLabels() {
+        if (market_label.getText().equals("Choose a valid market!")) {
+            market_label.setForeground(Color.black);
+            market_label.setText("*Market");
+        }
+        if (priceDiff_label.getText().equals("Insert a number") ||
+                (priceDiff_label.getText().equals("Can't be 0"))) {
+            priceDiff_label.setForeground(Color.black);
+            priceDiff_label.setText("*Price Difference");
+        }
+        if (timeInterval_label.getText().equals("Insert a number") ||
+                (timeInterval_label.getText().equals("Can't be 0"))) {
+            timeInterval_label.setForeground(Color.black);
+            timeInterval_label.setText("*Time Interval");
+        }
+        if (tradeVolume_label.getText().equals("Insert a number") ||
+                (tradeVolume_label.getText().equals("Can't be 0"))) {
+            tradeVolume_label.setForeground(Color.black);
+            tradeVolume_label.setText("*Trade volume");
+        }
+    }
+
     /* checks if the optional values have been changed */
     private boolean checkOptionalValues() {
         return (stopLoss_value != Double.MIN_VALUE) ||
@@ -328,7 +354,7 @@ public class MainPanel {
         setValues(trailingStop);
         setValues(timeTransaction);
         if (trailingStop_value != Double.MIN_VALUE) {
-            return stopLoss_value != Double.MIN_VALUE || takeProfit_value != Double.MIN_VALUE;
+            return stopLoss_value != Double.MIN_VALUE && takeProfit_value != Double.MIN_VALUE;
         }
         return true;
     }
@@ -390,11 +416,18 @@ public class MainPanel {
         timeInterval.setText("");
         tradeVolume.setText("");
         comboBox.getEditor().setItem("");
+        checkBox.setSelected(false);
+        defaultMandatoryLabels();
+        defaultOptionalLabels();
+        if (!subtitle.getText().equals("Optional Values")) {
+            subtitle.setText("Optional Values");
+            subtitle.setForeground(Color.black);
+        }
     }
 
     public JPanel buildMainPanel() throws APIErrorResponse, APICommunicationException, APIReplyParseException, APICommandConstructionException {
-        ImageIcon logo = new ImageIcon(new ImageIcon("./src/Media/logo.png").getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH));
-        ImageIcon info = new ImageIcon(new ImageIcon("./src/Media/info.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+        ImageIcon logo = new ImageIcon(new ImageIcon("../../../src/Media/logo.png").getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH));
+        ImageIcon info = new ImageIcon(new ImageIcon("../../../src/Media/info.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
         JLabel label = new JLabel(logo);
         simpleOrderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 80, 20));
         advancedOrderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 55, 20));
@@ -477,7 +510,7 @@ public class MainPanel {
         takeProfit_label.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         takeProfit_label.setForeground(Color.BLACK);
         takeProfit_label.setHorizontalTextPosition(JLabel.LEFT);
-        takeProfit_label.setToolTipText("<html><p>Take Profit</p>this field represents a value that is either subtracted or added to the price<br/>" +
+        takeProfit_label.setToolTipText("<html><p>Take Profit</p>This field represents a value that is either subtracted or added to the price<br/>" +
                                         "of each transaction and its result can be defined as a price point where the opened position will be closed.<br/>" +
                                         "This field is used to maximize the profits.</html>");
 
@@ -623,7 +656,7 @@ public class MainPanel {
             }
         });
 
-        JCheckBox checkBox = new JCheckBox("Show output");
+        checkBox = new JCheckBox("Show output");
         checkBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         checkBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         checkBox.addItemListener(e -> {
@@ -634,13 +667,12 @@ public class MainPanel {
         checkBox.setBackground(Color.white);
 
         /* button for starting doing transactions */
-        JToggleButton button = new JToggleButton("Start placing orders");
+        button = new JToggleButton("Start placing orders");
         button.setToolTipText("Starts making transactions with the chosen options.");
         button.setFocusPainted(false);
         button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         ItemListener itemListener2 = itemEvent -> {
             int state = itemEvent.getStateChange();
-            trader.setConnector(connector);
             if (state == ItemEvent.SELECTED) {
                 setMarket();
                 if (getNecessaryValues()) {
@@ -651,7 +683,7 @@ public class MainPanel {
                     }
                     OutputFrame outFrame;
                     if (showOutput) {
-                        outFrame = new OutputFrame();
+                        outFrame = new OutputFrame(aux);
                         outFrame.reset();
                         outFrame.run();
                     } else {
@@ -663,6 +695,7 @@ public class MainPanel {
                     disableSimpleFields();
                     loadButton.setEnabled(false);
                     resetButton.setEnabled(false);
+                    trader.setButton(button);
                     trader.start();
                 } else {
                     aux = null;

@@ -10,6 +10,7 @@ import pro.xstore.api.message.response.TradeTransactionResponse;
 import pro.xstore.api.message.response.TradeTransactionStatusResponse;
 import pro.xstore.api.sync.SyncAPIConnector;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +33,8 @@ public class SellThread implements Runnable, Observer {
     private String market;
     private double maxTransactions = Double.MIN_VALUE;
     private STickRecord currentPrice = null;
+    private TradeFrame tradeFrame;
+    private JToggleButton button;
 
     public SellThread(MainThread mainThread) {
         this.mainThread = mainThread;
@@ -50,8 +53,13 @@ public class SellThread implements Runnable, Observer {
         this.updates = (PriceUpdates) sub;
     }
 
+    public void setButton(JToggleButton button) {
+        this.button = button;
+    }
+
     public void setMandatoryValues(SyncAPIConnector new_connector, OutputFrame new_outFrame, PriceUpdates new_updates,
-                   double new_time, double new_diff, double new_tradeVolume, String market) {
+                   double new_time, double new_diff, double new_tradeVolume, String market, TradeFrame tradeFrame) {
+        this.tradeFrame = tradeFrame;
         this.connector = new_connector;
         this.outputFrame = new_outFrame;
         this.updates = new_updates;
@@ -147,9 +155,9 @@ public class SellThread implements Runnable, Observer {
                     if (value <= System.currentTimeMillis()) {
                         this.deleteSellPrices.add(key);
                     } else if (!mainThread.blockTransactions.get()) {
-                        if (System.currentTimeMillis() >= mainThread.atomicDelay.get()) {
+                        if (System.currentTimeMillis() >= tradeFrame.atomicDelay.get()) {
                             if (key - this.currentPrice.getBid() >= this.diff) {
-                                boolean isLockAcquired = mainThread.lock.tryLock();
+                                boolean isLockAcquired = tradeFrame.lock.tryLock();
                                 if (isLockAcquired) {
                                     try {
                                         this.deleteSellPrices.add(key);
@@ -161,6 +169,7 @@ public class SellThread implements Runnable, Observer {
                                         }
 
                                         if (tradeResponse != null) {
+                                            mainThread.messagePrinted.set(true);
                                             TradeTransactionStatusResponse tradeStatus = null;
                                             try {
                                                 tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(this.connector,
@@ -174,39 +183,46 @@ public class SellThread implements Runnable, Observer {
                                                         NoFundsFrame warning = new NoFundsFrame(this.market);
                                                         warning.run();
                                                         if (this.outputFrame != null) {
-                                                            this.outputFrame.updateOutput("No funds left.");
+                                                            this.outputFrame.updateOutput("No funds left on the market " + this.market + "!");
                                                         }
-                                                        mainThread.stopTransactions();
+                                                        button.setSelected(false);
                                                         break;
                                                     }
                                                 } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
                                                     int temp = mainThread.currTransactions.get();
                                                     if (this.outputFrame != null) {
-                                                        String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder() + ".";
+                                                        String transactionInfo = "A sell order was opened with the number " + tradeStatus.getOrder() + ".";
                                                         this.outputFrame.updateOutput(transactionInfo);
+                                                        mainThread.messagePrinted.set(false);
                                                     }
-                                                    mainThread.currTransactions.set(temp + 1);
-                                                    checkTransactionsLimit();
+
+//                                                    mainThread.currTransactions.set(temp + 1);
+//                                                    checkTransactionsLimit();
                                                 } else if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.PENDING)) {
                                                     try {
                                                         tradeStatus = APICommandFactory.executeTradeTransactionStatusCommand(connector,
                                                                 tradeResponse.getOrder());
                                                     } catch (Exception ignore) {
                                                     }
-                                                    int temp = mainThread.currTransactions.get();
-                                                    if (this.outputFrame != null) {
-                                                        String transactionInfo = "A sell position was opened with the number " + tradeStatus.getOrder() + ".";
-                                                        this.outputFrame.updateOutput(transactionInfo);
+
+                                                    if (tradeStatus.getRequestStatus().equals(REQUEST_STATUS.ACCEPTED)) {
+                                                        int temp = mainThread.currTransactions.get();
+                                                        if (this.outputFrame != null) {
+                                                            String transactionInfo = "A sell order was opened with the number " + tradeStatus.getOrder() + ".";
+                                                            this.outputFrame.updateOutput(transactionInfo);
+                                                            mainThread.messagePrinted.set(false);
+                                                        }
+//                                                    mainThread.currTransactions.set(temp + 1);
+//                                                    checkTransactionsLimit();
                                                     }
-                                                    mainThread.currTransactions.set(temp + 1);
-                                                    checkTransactionsLimit();
+
                                                 }
                                             }
                                         }
                                     } finally {
                                         long curr_t = System.currentTimeMillis();
-                                        mainThread.atomicDelay.set((long) (curr_t + (this.delay * 1000)));
-                                        mainThread.lock.unlock();
+                                        tradeFrame.atomicDelay.set((long) (curr_t + (this.delay * 1000)));
+                                        tradeFrame.lock.unlock();
                                     }
                                 }
                             }

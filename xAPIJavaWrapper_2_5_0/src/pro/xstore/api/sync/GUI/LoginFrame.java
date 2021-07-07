@@ -35,11 +35,11 @@ public class LoginFrame extends JFrame implements ActionListener {
         frame = new JFrame("Login");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/logo.png");
         frame.setIconImage(icon);
         button = new JButton("Login");
-        ImageIcon lower_left = new ImageIcon(new ImageIcon("./src/Media/circlesDown.png").getImage().getScaledInstance(63, 60, Image.SCALE_SMOOTH));
-        ImageIcon upper_right = new ImageIcon(new ImageIcon("./src/Media/circlesUp.png").getImage().getScaledInstance(63, 60, Image.SCALE_SMOOTH));
+        ImageIcon lower_left = new ImageIcon(new ImageIcon("../../../src/Media/circlesDown.png").getImage().getScaledInstance(63, 60, Image.SCALE_SMOOTH));
+        ImageIcon upper_right = new ImageIcon(new ImageIcon("../../../src/Media/circlesUp.png").getImage().getScaledInstance(63, 60, Image.SCALE_SMOOTH));
         JLabel left = new JLabel(lower_left);
         JLabel right = new JLabel(upper_right);
 
@@ -140,7 +140,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         try {
-            credentials = new File("./src/Saves/Creds/credentials.txt");
+            credentials = new File("../../../src/Saves/Creds/credentials.txt");
             if (!credentials.createNewFile()) {
                 Scanner myReader = new Scanner(credentials);
                 while (myReader.hasNextLine()) {
@@ -243,7 +243,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                 } else {
                     if (saveCredentials) {
                         try {
-                            FileWriter myFile = new FileWriter("./src/Saves/Creds/credentials.txt");
+                            FileWriter myFile = new FileWriter("../../../src/Saves/Creds/credentials.txt");
                             myFile.write(username.getText() + "\n");
                             myFile.write(password.getText() + "\n");
                             myFile.close();

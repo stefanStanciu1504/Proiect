@@ -71,7 +71,7 @@ public class SaveFrame extends JFrame {
     public void run() {
         frame = new JFrame("Save file");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        Image icon = Toolkit.getDefaultToolkit().getImage("./src/Media/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("../../../src/Media/logo.png");
         frame.setIconImage(icon);
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -103,7 +103,7 @@ public class SaveFrame extends JFrame {
         save.addActionListener(e -> {
             if (!fileName.getText().equals("")) {
                 try {
-                    String aux = "./src/Saves/" + fileName.getText() + ".txt";
+                    String aux = "../../../src/Saves/" + fileName.getText() + ".txt";
                     file = new File(aux);
                     file.createNewFile();
                     FileWriter myFile = new FileWriter(file);

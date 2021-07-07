@@ -2,35 +2,32 @@ package pro.xstore.api.sync.GUI;
 
 import pro.xstore.api.sync.SyncAPIConnector;
 
+import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class MainThread implements Runnable {
-    public ReentrantLock lock = new ReentrantLock();
     private final AtomicBoolean running = new AtomicBoolean(false);
     public AtomicBoolean bigMoneyTime = new AtomicBoolean(false);
-    public AtomicLong atomicDelay = new AtomicLong(0);
     public AtomicBoolean blockTransactions = new AtomicBoolean(false);
-    public AtomicInteger currTransactions = new AtomicInteger();
+    public AtomicInteger currTransactions = new AtomicInteger(0);
     private OutputFrame outputFrame;
     private final PriceUpdates updates = new PriceUpdates(this);
     private final BuyThread buyThread = new BuyThread(this);
     private final SellThread sellThread = new SellThread(this);
     private final TsThread tsThread = new TsThread(this);
     public AtomicBoolean messagePrinted =  new AtomicBoolean(false);
-    private SyncAPIConnector connector;
+    private final SyncAPIConnector connector;
     private String market;
     private double time;
     private double diff;
     private double tradeVolume;
+    private final TradeFrame tradeFrame;
+    private JToggleButton button;
 
-    public MainThread() {
-    }
-
-    public void setConnector(SyncAPIConnector connector) {
+    public MainThread(SyncAPIConnector connector, TradeFrame tradeFrame) {
         this.connector = connector;
+        this.tradeFrame = tradeFrame;
     }
 
     public void setEssentials(String new_market, double new_time,
@@ -47,6 +44,10 @@ public class MainThread implements Runnable {
         worker.start();
     }
 
+    public void setButton(JToggleButton button) {
+        this.button = button;
+    }
+
     public void stop() {
         buyThread.stop();
         sellThread.stop();
@@ -58,18 +59,14 @@ public class MainThread implements Runnable {
         running.set(false);
     }
 
-    public void stopTransactions() {
-        buyThread.stop();
-        sellThread.stop();
-    }
-
     public void setBigMoney(double stopLoss, double takeProfit,
                             double maxTransactions, double trailingStop, double delay) {
-        bigMoneyTime.set(true);
+
         updates.setMaxTransactions(maxTransactions);
         buyThread.setOptionals(stopLoss, takeProfit, delay, maxTransactions);
         sellThread.setOptionals(stopLoss, takeProfit, delay, maxTransactions);
         tsThread.setOptionals(stopLoss, takeProfit, trailingStop);
+        bigMoneyTime.set(true);
         if (running.get()) {
             tsThread.start();
         }
@@ -98,9 +95,11 @@ public class MainThread implements Runnable {
         tsThread.setSubject(updates);
 
         updates.start();
-        buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
-        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market);
-        tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume, market);
+        buyThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market, tradeFrame);
+        buyThread.setButton(this.button);
+        sellThread.setMandatoryValues(connector, outputFrame, updates, time, diff, tradeVolume, market, tradeFrame);
+        sellThread.setButton(this.button);
+        tsThread.setMandatoryValues(connector, outputFrame, updates, time, tradeVolume, market, tradeFrame);
 
         buyThread.start();
         sellThread.start();
